@@ -34,7 +34,7 @@ import "./styles/index.css";
 
 import { rtdb } from "./firebase/config";
 import { ref, onValue } from "firebase/database";
-import { subscribeDefaultTheme, incrementVisitorCount } from "./firebase/services";
+import { incrementVisitorCount, subscribeDefaultTheme, applyThemeToCssVars } from "./firebase/services";
 
 // Component to wrap routes and handle scroll to top
 const AppContent: React.FC = () => {
@@ -146,20 +146,10 @@ const AppContent: React.FC = () => {
     return () => unsubscribe();
   }, []);
 
-  /* ── Subscribe to Admin Default Theme Setting ── */
+  /* ── Subscribe to Admin Default Theme Setting & Apply CSS Variables ── */
   React.useEffect(() => {
     const unsub = subscribeDefaultTheme((theme) => {
-      document.body.classList.remove(
-        "theme-roots", "theme-collective", "theme-harmony",
-        "theme-empower", "theme-editorial", "theme-peach",
-        "theme-brown", "theme-pink", "theme-cream", "theme-teal",
-        "theme-organic", "classic-ngo", "theme-premium-ngo",
-        "theme-pride", "theme-silver", "theme-gold", "theme-gray",
-        "theme-purple", "theme-red", "theme-white", "theme-blue",
-        "theme-neon", "theme-future"
-      );
-      document.body.classList.add(`theme-${theme}`);
-      localStorage.setItem("day_design_theme", theme);
+      applyThemeToCssVars(theme);
     });
     return () => unsub();
   }, []);

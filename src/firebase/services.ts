@@ -1489,29 +1489,83 @@ export const lookupDonation = async (
   });
 };
 
-/* ─── Global Default Theme Setting ─── */
-export const subscribeDefaultTheme = (callback: (theme: string) => void) => {
-  if (isMockEnabled || !rtdb) {
-    // Fallback to localStorage if Firebase is not available
-    const theme = localStorage.getItem("day_default_theme") || "organic";
-    callback(theme);
-    return () => {};
-  }
+/* ─── Global Default Website Theme (CSS variable overrides) ─── */
+export interface WebsiteTheme {
+  colorPrimary: string;
+  colorSecondary: string;
+  colorAccent: string;
+  colorBgWhite: string;
+  colorBgCream: string;
+  colorTextDark: string;
+  colorTextMuted: string;
+}
 
-  const themeRef = ref(rtdb, "settings/default_theme");
-  return onValue(themeRef, (snapshot) => {
-    const val = snapshot.val();
-    callback(val || "organic");
+export const DEFAULT_THEME: WebsiteTheme = {
+  colorPrimary: "#D9854E",
+  colorSecondary: "#DCFBA6",
+  colorAccent: "#F7BC6E",
+  colorBgWhite: "#FFFBF5",
+  colorBgCream: "#F8F3EA",
+  colorTextDark: "#034356",
+  colorTextMuted: "#68696B",
+};
+
+export const subscribeDefaultTheme = (callback: (theme: WebsiteTheme) => void): (() => void) => {
+  const docRef = doc(db, "settings", "website_theme");
+  return onSnapshot(docRef, (snap) => {
+    if (snap.exists()) {
+      callback(snap.data() as WebsiteTheme);
+    } else {
+      callback(DEFAULT_THEME);
+    }
+  }, () => {
+    callback(DEFAULT_THEME);
   });
 };
 
-export const setDefaultTheme = async (theme: string): Promise<void> => {
-  if (isMockEnabled || !rtdb) {
-    localStorage.setItem("day_default_theme", theme);
-    window.dispatchEvent(new Event("storage"));
-    return;
-  }
-  await set(ref(rtdb, "settings/default_theme"), theme);
+export const setDefaultTheme = async (theme: WebsiteTheme): Promise<void> => {
+  await setDoc(doc(db, "settings", "website_theme"), theme);
+};
+
+export const applyThemeToCssVars = (theme: WebsiteTheme) => {
+  const root = document.documentElement;
+  root.style.setProperty("--color-primary", theme.colorPrimary);
+  root.style.setProperty("--color-primary-dark", shadeColor(theme.colorPrimary, -20));
+  root.style.setProperty("--color-primary-light", shadeColor(theme.colorPrimary, 60));
+  root.style.setProperty("--color-secondary", theme.colorSecondary);
+  root.style.setProperty("--color-secondary-dark", shadeColor(theme.colorSecondary, -20));
+  root.style.setProperty("--color-secondary-light", shadeColor(theme.colorSecondary, 60));
+  root.style.setProperty("--color-accent", theme.colorAccent);
+  root.style.setProperty("--color-accent-dark", shadeColor(theme.colorAccent, -20));
+  root.style.setProperty("--color-accent-light", shadeColor(theme.colorAccent, 60));
+  root.style.setProperty("--color-bg-white", theme.colorBgWhite);
+  root.style.setProperty("--color-bg-gray", theme.colorBgWhite);
+  root.style.setProperty("--color-bg-cream", theme.colorBgCream);
+  root.style.setProperty("--color-text-dark", theme.colorTextDark);
+  root.style.setProperty("--color-text-muted", theme.colorTextMuted);
+};
+
+const shadeColor = (hex: string, amount: number): string => {
+  let color = hex.replace("#", "");
+  if (color.length === 3) color = color.split("").map(c => c + c).join("");
+  const r = Math.min(255, Math.max(0, parseInt(color.substring(0, 2), 16) + amount));
+  const g = Math.min(255, Math.max(0, parseInt(color.substring(2, 4), 16) + amount));
+  const b = Math.min(255, Math.max(0, parseInt(color.substring(4, 6), 16) + amount));
+  return `#${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
+};
+
+export const useTheme = () => {
+  const [theme, setTheme] = useState<WebsiteTheme>(DEFAULT_THEME);
+
+  useEffect(() => {
+    const unsub = subscribeDefaultTheme((t) => {
+      setTheme(t);
+      applyThemeToCssVars(t);
+    });
+    return () => unsub();
+  }, []);
+
+  return theme;
 };
 
 /* ─── Global Default Design Layout (classic / alternative) ─── */
@@ -2140,5 +2194,4 @@ export const useCardImages = () => {
 
   return { imagesMap, getCardImg };
 };
-
 

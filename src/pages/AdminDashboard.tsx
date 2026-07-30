@@ -21,6 +21,8 @@ import {
   subscribeTestimonials, createTestimonial, deleteTestimonial, updateTestimonial,
   setSeoSetting, subscribeSeoSettings,
   fileToCompressedBase64, saveCardImageToFirestore, subscribeCardImages,
+  DEFAULT_THEME,
+  type WebsiteTheme,
   type ContactMessage, type Complaint, type SeoPageSetting
 } from "../firebase/services";
 import type { Blog, Volunteer, Donation, GalleryItem, Event, TeamMember, Testimonial, CityMember, FlagshipCampaign } from "../data/mockData";
@@ -432,7 +434,7 @@ export const AdminDashboard: React.FC = () => {
   const [isPasswordFocused, setIsPasswordFocused] = useState<boolean>(false);
   const [isEmailFocused, setIsEmailFocused] = useState<boolean>(false);
 
-  type AdminTab = 'overview' | 'blogs' | 'gallery' | 'events' | 'teams' | 'city_members' | 'testimonials' | 'volunteers' | 'donations' | 'internships' | 'contacts' | 'complaints' | 'seo' | 'marketing' | 'users' | 'audit_logs' | 'settings' | 'broadcast' | 'recycle_bin' | 'card_images';
+  type AdminTab = 'overview' | 'blogs' | 'gallery' | 'events' | 'teams' | 'city_members' | 'testimonials' | 'volunteers' | 'donations' | 'internships' | 'contacts' | 'complaints' | 'seo' | 'marketing' | 'users' | 'audit_logs' | 'settings' | 'broadcast' | 'recycle_bin' | 'card_images' | 'theme';
   const [activeTab, setActiveTab] = useState<AdminTab>("overview");
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState<boolean>(false);
   const [isRecycleBinUnlocked, setIsRecycleBinUnlocked] = useState<boolean>(false);
@@ -508,6 +510,9 @@ export const AdminDashboard: React.FC = () => {
   const [seoSuccess, setSeoSuccess] = useState<string | null>(null);
   const [marketingConfig, setMarketingConfig] = useState({ googleAnalytics: import.meta.env.VITE_GOOGLE_ANALYTICS_ID || "G-Y7T2407MS3", clarityId: "cl-xxxxxx" });
   const [adminDefaultTheme, setAdminDefaultTheme] = useState<string>("organic");
+  const [websiteTheme, setWebsiteTheme] = useState<WebsiteTheme>(DEFAULT_THEME);
+  const [themeSaving, setThemeSaving] = useState(false);
+  const [themeSuccess, setThemeSuccess] = useState(false);
   const [visitorAnalytics, setVisitorAnalytics] = useState({ visitors: 1428, reach: 1115 });
   const [printReceiptData, setPrintReceiptData] = useState<any | null>(null);
 
@@ -857,7 +862,7 @@ export const AdminDashboard: React.FC = () => {
     });
 
     const unsubTheme = subscribeDefaultTheme((theme) => {
-      setAdminDefaultTheme(theme);
+      setWebsiteTheme(theme);
     });
 
 
@@ -2832,8 +2837,8 @@ export const AdminDashboard: React.FC = () => {
           </button>
         )}
         {canAccessTab("settings") && (
-          <button onClick={() => handleTabClick("settings")} className={`admin-sidebar-btn ${activeTab === "settings" ? "active" : ""}`}>
-            <Image size={16} /><span>Theme Settings</span>
+          <button onClick={() => handleTabClick("theme")} className={`admin-sidebar-btn ${activeTab === "theme" ? "active" : ""}`}>
+            <Image size={16} /><span>Theme Colors</span>
           </button>
         )}
         {canAccessTab("marketing") && (
@@ -4890,14 +4895,8 @@ export const AdminDashboard: React.FC = () => {
 
                 <button
                   className="btn btn-primary"
-                  onClick={async () => {
-                    try {
-                      await setDefaultTheme(adminDefaultTheme);
-                      alert(`✅ Default theme successfully updated to: ${adminDefaultTheme.toUpperCase()}`);
-                    } catch (err) {
-                      console.error("Failed to save default theme:", err);
-                      alert("Failed to save default theme settings.");
-                    }
+                  onClick={() => {
+                    alert(`Theme class "${adminDefaultTheme}" selected. Use the Theme Colors tab to customize CSS colors.`);
                   }}
                 >
                   Save Default Theme
@@ -5084,6 +5083,139 @@ export const AdminDashboard: React.FC = () => {
                         </table>
                       </div>
                     )}
+                  </div>
+                </motion.div>
+              );
+            })()}
+
+            {/* === GLOBAL WEBSITE THEME === */}
+            {activeTab === "theme" && (() => {
+              const colorFields: { key: keyof WebsiteTheme; label: string; desc: string }[] = [
+                { key: "colorPrimary",   label: "Primary Color",        desc: "Buttons, headings, highlights" },
+                { key: "colorSecondary", label: "Secondary / CTA",      desc: "CTA pills, lime green accents" },
+                { key: "colorAccent",    label: "Accent Color",         desc: "Badges, warm amber tones" },
+                { key: "colorBgWhite",   label: "Page Background",      desc: "Main page background color" },
+                { key: "colorBgCream",   label: "Section Background",   desc: "Alternate section / card background" },
+                { key: "colorTextDark",  label: "Primary Text Color",   desc: "Headings and body text" },
+                { key: "colorTextMuted", label: "Muted Text Color",     desc: "Captions and secondary labels" },
+              ];
+
+              const presets = [
+                { name: "Terracotta Cream (Default)", theme: { colorPrimary: "#D9854E", colorSecondary: "#DCFBA6", colorAccent: "#F7BC6E", colorBgWhite: "#FFFBF5", colorBgCream: "#F8F3EA", colorTextDark: "#034356", colorTextMuted: "#68696B" } },
+                { name: "Forest Green", theme: { colorPrimary: "#2D6A4F", colorSecondary: "#95D5B2", colorAccent: "#74C69D", colorBgWhite: "#F8FAF9", colorBgCream: "#EBF5F0", colorTextDark: "#1B4332", colorTextMuted: "#52796F" } },
+                { name: "Royal Blue", theme: { colorPrimary: "#1D4ED8", colorSecondary: "#BFDBFE", colorAccent: "#60A5FA", colorBgWhite: "#F8FAFF", colorBgCream: "#EFF6FF", colorTextDark: "#1E3A8A", colorTextMuted: "#64748B" } },
+                { name: "Rose Gold", theme: { colorPrimary: "#C97F7F", colorSecondary: "#FECACA", colorAccent: "#F9A8D4", colorBgWhite: "#FFF5F5", colorBgCream: "#FFF0F0", colorTextDark: "#7F1D1D", colorTextMuted: "#9CA3AF" } },
+                { name: "Slate Dark", theme: { colorPrimary: "#6366F1", colorSecondary: "#A5B4FC", colorAccent: "#818CF8", colorBgWhite: "#F1F5F9", colorBgCream: "#E2E8F0", colorTextDark: "#0F172A", colorTextMuted: "#64748B" } },
+              ];
+
+              return (
+                <motion.div key="theme" initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }} style={{ display: "flex", flexDirection: "column", gap: "1.5rem", width: "100%", maxWidth: "960px", margin: "0 auto" }}>
+
+                  {/* Header */}
+                  <div style={{ background: "var(--color-bg-white)", border: "1px solid var(--color-border-light)", borderRadius: "16px", padding: "2rem" }}>
+                    <h3 style={{ fontSize: "1.5rem", color: "var(--color-primary)", marginBottom: "0.5rem" }}>🎨 Global Default Website Theme</h3>
+                    <p style={{ fontSize: "0.875rem", color: "var(--color-text-muted)", marginBottom: 0 }}>
+                      Set the default color scheme for the entire public website. Changes are saved to Firestore and applied in real-time — no deployment needed.
+                    </p>
+                  </div>
+
+                  {/* Color Pickers */}
+                  <div style={{ background: "var(--color-bg-white)", border: "1px solid var(--color-border-light)", borderRadius: "16px", padding: "2rem" }}>
+                    <h4 style={{ fontSize: "1.05rem", color: "var(--color-text-dark)", marginBottom: "1.5rem", fontWeight: 700 }}>🖌️ Color Tokens</h4>
+                    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1.25rem" }}>
+                      {colorFields.map(({ key, label, desc }) => (
+                        <div key={key} style={{ display: "flex", alignItems: "center", gap: "1rem", padding: "1rem", background: "var(--color-bg-cream)", borderRadius: "12px", border: "1px solid var(--color-border-light)" }}>
+                          <div style={{ position: "relative", flexShrink: 0 }}>
+                            <input
+                              type="color"
+                              value={websiteTheme[key]}
+                              onChange={(e) => setWebsiteTheme(prev => ({ ...prev, [key]: e.target.value }))}
+                              style={{ width: "52px", height: "52px", border: "none", borderRadius: "10px", cursor: "pointer", padding: 0, background: "none" }}
+                            />
+                          </div>
+                          <div style={{ flex: 1, minWidth: 0 }}>
+                            <div style={{ fontWeight: 700, fontSize: "0.875rem", color: "var(--color-text-dark)" }}>{label}</div>
+                            <div style={{ fontSize: "0.75rem", color: "var(--color-text-muted)", marginBottom: "4px" }}>{desc}</div>
+                            <input
+                              type="text"
+                              value={websiteTheme[key]}
+                              onChange={(e) => {
+                                const v = e.target.value;
+                                if (/^#[0-9A-Fa-f]{0,6}$/.test(v)) setWebsiteTheme(prev => ({ ...prev, [key]: v }));
+                              }}
+                              style={{ fontFamily: "monospace", fontSize: "0.78rem", padding: "2px 8px", border: "1px solid var(--color-border)", borderRadius: "6px", width: "100%", color: "var(--color-text-dark)", background: "var(--color-bg-white)" }}
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Preview strip */}
+                    <div style={{ marginTop: "1.5rem", borderRadius: "12px", overflow: "hidden", height: "48px", display: "flex" }}>
+                      {[websiteTheme.colorPrimary, websiteTheme.colorSecondary, websiteTheme.colorAccent, websiteTheme.colorBgCream, websiteTheme.colorTextDark].map((c, i) => (
+                        <div key={i} style={{ flex: 1, background: c, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                          <span style={{ fontSize: "0.65rem", fontFamily: "monospace", color: i > 2 ? "#fff" : "#1a1a1a", fontWeight: 700, opacity: 0.8 }}>{c}</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Save Button */}
+                    <div style={{ marginTop: "1.5rem", display: "flex", gap: "1rem", alignItems: "center" }}>
+                      <button
+                        disabled={themeSaving}
+                        onClick={async () => {
+                          setThemeSaving(true);
+                          try {
+                            await setDefaultTheme(websiteTheme);
+                            setThemeSuccess(true);
+                            await recordAuditLog(user?.email || "unknown", `Updated global website theme colors`);
+                            setTimeout(() => setThemeSuccess(false), 3000);
+                          } catch (err) {
+                            alert("Failed to save theme: " + (err as any).message);
+                          } finally {
+                            setThemeSaving(false);
+                          }
+                        }}
+                        className="btn btn-primary"
+                        style={{ padding: "0.6rem 1.75rem", fontSize: "0.9rem", fontWeight: 700 }}
+                      >
+                        {themeSaving ? <Loader className="animate-spin" size={16} style={{ marginInline: "auto" }} /> : "💾 Save & Apply to Website"}
+                      </button>
+                      {themeSuccess && <span style={{ color: "#16a34a", fontWeight: 700, fontSize: "0.875rem" }}>✓ Theme applied live across the website!</span>}
+                    </div>
+                  </div>
+
+                  {/* Presets */}
+                  <div style={{ background: "var(--color-bg-white)", border: "1px solid var(--color-border-light)", borderRadius: "16px", padding: "2rem" }}>
+                    <h4 style={{ fontSize: "1.05rem", color: "var(--color-text-dark)", marginBottom: "1rem", fontWeight: 700 }}>⚡ Quick Presets</h4>
+                    <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+                      {presets.map((p) => (
+                        <button
+                          key={p.name}
+                          onClick={() => setWebsiteTheme(p.theme as WebsiteTheme)}
+                          style={{
+                            display: "flex", alignItems: "center", gap: "8px",
+                            padding: "0.5rem 1rem", border: "1px solid var(--color-border)",
+                            borderRadius: "999px", background: "var(--color-bg-cream)",
+                            cursor: "pointer", fontSize: "0.8rem", fontWeight: 600,
+                            color: "var(--color-text-dark)", transition: "all 0.2s"
+                          }}
+                        >
+                          <div style={{ display: "flex", gap: "3px" }}>
+                            {[p.theme.colorPrimary, p.theme.colorSecondary, p.theme.colorAccent].map((c, i) => (
+                              <div key={i} style={{ width: "14px", height: "14px", borderRadius: "50%", background: c, border: "1px solid rgba(0,0,0,0.12)" }} />
+                            ))}
+                          </div>
+                          {p.name}
+                        </button>
+                      ))}
+                      <button
+                        onClick={() => setWebsiteTheme(DEFAULT_THEME)}
+                        style={{ padding: "0.5rem 1rem", border: "1px dashed var(--color-border)", borderRadius: "999px", background: "transparent", cursor: "pointer", fontSize: "0.8rem", fontWeight: 600, color: "var(--color-text-muted)" }}
+                      >
+                        ↩ Reset to Default
+                      </button>
+                    </div>
                   </div>
                 </motion.div>
               );

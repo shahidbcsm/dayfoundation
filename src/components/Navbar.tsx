@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { Sun, Moon, Menu, X, Heart, ChevronDown } from "lucide-react";
 import "../styles/navbar.css";
-import { subscribeDefaultTheme } from "../firebase/services";
+
 
 export const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = useState<boolean>(false);
@@ -50,15 +50,6 @@ export const Navbar: React.FC = () => {
     localStorage.setItem("day_design_theme", activeTheme);
   }, [activeTheme]);
 
-  // Sync with Admin Default Theme in database
-  useEffect(() => {
-    const unsub = subscribeDefaultTheme((dbTheme) => {
-      if (dbTheme && dbTheme !== activeTheme) {
-        setActiveTheme(dbTheme);
-      }
-    });
-    return () => unsub();
-  }, [activeTheme]);
 
   useEffect(() => {
     const handleStorageChange = () => {
