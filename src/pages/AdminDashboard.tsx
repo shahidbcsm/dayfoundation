@@ -17,7 +17,7 @@ import {
   subscribeFlagshipCampaigns, createFlagshipCampaign, updateFlagshipCampaign, deleteFlagshipCampaign,
   createTeamMember, deleteTeamMember, updateTeamMember, subscribeTeam,
   createCityMember, deleteCityMember, updateCityMember, subscribeCityMembers,
-  subscribeDefaultTheme, setDefaultTheme, subscribeAnalytics,
+  subscribeDefaultTheme, setDefaultTheme, applyThemeToCssVars, subscribeAnalytics,
   subscribeTestimonials, createTestimonial, deleteTestimonial, updateTestimonial,
   setSeoSetting, subscribeSeoSettings,
   fileToCompressedBase64, saveCardImageToFirestore, subscribeCardImages,
@@ -4907,8 +4907,7 @@ export const AdminDashboard: React.FC = () => {
                   className="btn btn-primary"
                   onClick={async () => {
                     try {
-                      await setThemeClass(adminDefaultTheme);
-                      document.body.classList.remove(
+                      const ALL_THEME_CLASSES = [
                         "theme-roots", "theme-collective", "theme-harmony",
                         "theme-empower", "theme-editorial", "theme-peach",
                         "theme-brown", "theme-pink", "theme-cream", "theme-teal",
@@ -4916,9 +4915,43 @@ export const AdminDashboard: React.FC = () => {
                         "theme-pride", "theme-silver", "theme-gold", "theme-gray",
                         "theme-purple", "theme-red", "theme-white", "theme-blue",
                         "theme-neon", "theme-future"
-                      );
+                      ];
+
+                      // Apply class to body first so computed styles become available
+                      document.body.classList.remove(...ALL_THEME_CLASSES);
                       document.body.classList.add(`theme-${adminDefaultTheme}`);
-                      alert(`✅ Default theme updated to: ${adminDefaultTheme.toUpperCase()}\nThis CSS class theme is applied site-wide instantly.`);
+
+                      // Read the computed CSS variable values that the class just set
+                      const computed = getComputedStyle(document.body);
+                      const getVar = (name: string, fallback: string) => {
+                        const val = computed.getPropertyValue(name).trim();
+                        return val || fallback;
+                      };
+
+                      const extractedTheme: WebsiteTheme = {
+                        colorPrimary:   getVar("--color-primary",   "#D9854E"),
+                        colorSecondary: getVar("--color-secondary", "#DCFBA6"),
+                        colorAccent:    getVar("--color-accent",    "#F7BC6E"),
+                        colorBgWhite:   getVar("--color-bg-white",  "#FFFBF5"),
+                        colorBgCream:   getVar("--color-bg-cream",  "#F8F3EA"),
+                        colorTextDark:  getVar("--color-text-dark", "#034356"),
+                        colorTextMuted: getVar("--color-text-muted","#68696B"),
+                      };
+
+                      // Save to RTDB (class name) + Firestore (CSS vars) simultaneously
+                      await Promise.all([
+                        setThemeClass(adminDefaultTheme),
+                        setDefaultTheme(extractedTheme),
+                      ]);
+
+                      // Update color picker state to show the preset's colors
+                      setWebsiteTheme(extractedTheme);
+
+                      // Apply inline CSS vars immediately (overrides any stale inline values)
+                      applyThemeToCssVars(extractedTheme);
+
+                      await recordAuditLog(user?.email || "unknown", `Applied preset theme: ${adminDefaultTheme}`);
+                      alert(`✅ Theme preset "${adminDefaultTheme}" applied site-wide!\nColors synced to Theme Colors panel too.`);
                     } catch (err) {
                       console.error("Failed to save theme class:", err);
                       alert("Failed to save default theme.");
