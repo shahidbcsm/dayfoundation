@@ -34,7 +34,7 @@ import "./styles/index.css";
 
 import { rtdb } from "./firebase/config";
 import { ref, onValue } from "firebase/database";
-import { incrementVisitorCount, subscribeDefaultTheme, applyThemeToCssVars, subscribeThemeClass } from "./firebase/services";
+import { incrementVisitorCount } from "./firebase/services";
 
 // Component to wrap routes and handle scroll to top
 const AppContent: React.FC = () => {
@@ -146,32 +146,7 @@ const AppContent: React.FC = () => {
     return () => unsubscribe();
   }, []);
 
-  /* ── Subscribe to CSS Variable Theme (Color Picker) ── */
-  React.useEffect(() => {
-    const unsub = subscribeDefaultTheme((theme) => {
-      applyThemeToCssVars(theme);
-    });
-    return () => unsub();
-  }, []);
 
-  /* ── Subscribe to CSS Class Theme (Dropdown Preset) ── */
-  React.useEffect(() => {
-    const ALL_THEME_CLASSES = [
-      "theme-roots", "theme-collective", "theme-harmony",
-      "theme-empower", "theme-editorial", "theme-peach",
-      "theme-brown", "theme-pink", "theme-cream", "theme-teal",
-      "theme-organic", "classic-ngo", "theme-premium-ngo",
-      "theme-pride", "theme-silver", "theme-gold", "theme-gray",
-      "theme-purple", "theme-red", "theme-white", "theme-blue",
-      "theme-neon", "theme-future"
-    ];
-    const unsub = subscribeThemeClass((themeClass) => {
-      document.body.classList.remove(...ALL_THEME_CLASSES);
-      document.body.classList.add(`theme-${themeClass}`);
-      localStorage.setItem("day_design_theme", themeClass);
-    });
-    return () => unsub();
-  }, []);
 
   /* ── Glass Page Transition Variants ── */
   const pageVariants = {

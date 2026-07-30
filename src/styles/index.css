@@ -689,52 +689,7 @@ body.theme-collective .premium-card {
   border: 1px solid var(--color-border-light);
 }
 
-/* Footer alignment */
-body.theme-collective .footer-container {
-  background-color: var(--color-primary);
-  color: var(--color-bg-white);
-}
 
-/* Theme Peach Overrides */
-body.theme-peach {
-  font-family: var(--font-sans);
-}
-
-body.theme-peach h1, 
-body.theme-peach h2, 
-body.theme-peach h3, 
-body.theme-peach h4, 
-body.theme-peach .section-title {
-  font-family: var(--font-serif);
-  font-weight: 700;
-}
-
-body.theme-peach .badge-custom {
-  background-color: var(--color-primary-light);
-  color: var(--color-primary);
-}
-
-body.theme-peach .btn-primary {
-  background-color: var(--color-primary);
-  color: var(--color-text-white);
-  box-shadow: 0 4px 14px rgba(var(--color-primary-rgb), 0.25);
-}
-
-body.theme-peach .btn-primary:hover {
-  background-color: var(--color-primary-dark);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(var(--color-primary-rgb), 0.35);
-}
-
-body.theme-peach .btn-outline {
-  border: 2px solid var(--color-primary);
-  color: var(--color-primary);
-}
-
-body.theme-peach .btn-outline:hover {
-  background-color: var(--color-primary);
-  color: var(--color-text-white);
-}
 
 /* Mobile Responsive Overrides */
 @media (max-width: 640px) {
