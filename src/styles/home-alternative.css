@@ -46,15 +46,17 @@
   font-family: var(--font-serif) !important; /* Recoleta */
   font-size: clamp(2.5rem, 5vw, 64px);
   line-height: 1.1;
-  color: #8A8A8A;
+  color: #343537 !important;
   text-align: left;
   margin: 0;
 }
 .alt-h1 .regular {
   font-weight: 400;
+  color: #343537 !important;
 }
 .alt-h1 .bold {
   font-weight: 700;
+  color: #343537 !important;
 }
 .alt-h2 {
   font-family: var(--font-heading) !important; /* Other Page Heading -> Neue Montreal */
