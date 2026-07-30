@@ -21,6 +21,7 @@ import {
   subscribeTestimonials, createTestimonial, deleteTestimonial, updateTestimonial,
   setSeoSetting, subscribeSeoSettings,
   fileToCompressedBase64, saveCardImageToFirestore, subscribeCardImages,
+  setThemeClass, subscribeThemeClass,
   DEFAULT_THEME,
   type WebsiteTheme,
   type ContactMessage, type Complaint, type SeoPageSetting
@@ -865,6 +866,9 @@ export const AdminDashboard: React.FC = () => {
       setWebsiteTheme(theme);
     });
 
+    const unsubThemeClass = subscribeThemeClass((cls) => {
+      setAdminDefaultTheme(cls);
+    });
 
     const unsubAnalytics = subscribeAnalytics((data) => {
       setVisitorAnalytics(data);
@@ -900,6 +904,7 @@ export const AdminDashboard: React.FC = () => {
       unsubContacts();
       unsubComplaints();
       unsubTheme();
+      unsubThemeClass();
       unsubFlagship();
       unsubAnalytics();
       unsubSeo();
@@ -2834,6 +2839,11 @@ export const AdminDashboard: React.FC = () => {
         {canAccessTab("seo") && (
           <button onClick={() => handleTabClick("seo")} className={`admin-sidebar-btn ${activeTab === "seo" ? "active" : ""}`}>
             <Globe size={16} /><span>SEO Settings</span>
+          </button>
+        )}
+        {canAccessTab("settings") && (
+          <button onClick={() => handleTabClick("settings")} className={`admin-sidebar-btn ${activeTab === "settings" ? "active" : ""}`}>
+            <Sparkles size={16} /><span>Theme Preset</span>
           </button>
         )}
         {canAccessTab("settings") && (
@@ -4848,9 +4858,9 @@ export const AdminDashboard: React.FC = () => {
                 className="premium-card"
                 style={{ backgroundColor: "var(--color-bg-white)", border: "1px solid var(--color-border-light)", maxWidth: "600px", marginTop: "0" }}
               >
-                <h3 style={{ marginBottom: "1rem" }}>Global Default Website Theme</h3>
+                <h3 style={{ marginBottom: "1rem" }}>🎨 CSS Class Preset Theme</h3>
                 <p style={{ fontSize: "0.82rem", color: "var(--color-text-muted)", marginBottom: "1.5rem", lineHeight: 1.5 }}>
-                  Define the default visual theme for all new visitors landing on the site. Users can still manually override their selection via the footer theme switcher.
+                  Choose a pre-built visual theme from the dropdown. This applies CSS class overrides site-wide instantly. For custom hex colors, use the <strong>Theme Colors</strong> tab in the sidebar — both systems work together.
                 </p>
 
                 <div className="form-group" style={{ marginBottom: "1.25rem" }}>
@@ -4895,8 +4905,24 @@ export const AdminDashboard: React.FC = () => {
 
                 <button
                   className="btn btn-primary"
-                  onClick={() => {
-                    alert(`Theme class "${adminDefaultTheme}" selected. Use the Theme Colors tab to customize CSS colors.`);
+                  onClick={async () => {
+                    try {
+                      await setThemeClass(adminDefaultTheme);
+                      document.body.classList.remove(
+                        "theme-roots", "theme-collective", "theme-harmony",
+                        "theme-empower", "theme-editorial", "theme-peach",
+                        "theme-brown", "theme-pink", "theme-cream", "theme-teal",
+                        "theme-organic", "classic-ngo", "theme-premium-ngo",
+                        "theme-pride", "theme-silver", "theme-gold", "theme-gray",
+                        "theme-purple", "theme-red", "theme-white", "theme-blue",
+                        "theme-neon", "theme-future"
+                      );
+                      document.body.classList.add(`theme-${adminDefaultTheme}`);
+                      alert(`✅ Default theme updated to: ${adminDefaultTheme.toUpperCase()}\nThis CSS class theme is applied site-wide instantly.`);
+                    } catch (err) {
+                      console.error("Failed to save theme class:", err);
+                      alert("Failed to save default theme.");
+                    }
                   }}
                 >
                   Save Default Theme

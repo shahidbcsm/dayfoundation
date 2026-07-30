@@ -3,7 +3,6 @@ import { Link, NavLink } from "react-router-dom";
 import { Sun, Moon, Menu, X, Heart, ChevronDown } from "lucide-react";
 import "../styles/navbar.css";
 
-
 export const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = useState<boolean>(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
@@ -11,12 +10,10 @@ export const Navbar: React.FC = () => {
     return localStorage.getItem("day_dark_mode") === "true";
   });
 
-
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -29,38 +26,6 @@ export const Navbar: React.FC = () => {
     }
     localStorage.setItem("day_dark_mode", String(darkMode));
   }, [darkMode]);
-
-  const [activeTheme, setActiveTheme] = useState<string>(() => {
-    return localStorage.getItem("day_design_theme") || "organic";
-  });
-
-  useEffect(() => {
-    // Remove all possible theme classes
-    document.body.classList.remove(
-      "theme-roots", "theme-collective", "theme-harmony", 
-      "theme-empower", "theme-editorial", "theme-peach", 
-      "theme-brown", "theme-pink", "theme-cream", "theme-teal",
-      "theme-organic", "classic-ngo", "theme-premium-ngo",
-      "theme-pride", "theme-silver", "theme-gold", "theme-gray",
-      "theme-purple", "theme-red", "theme-white", "theme-blue",
-      "theme-neon", "theme-future"
-    );
-    // Add current theme class
-    document.body.classList.add(`theme-${activeTheme}`);
-    localStorage.setItem("day_design_theme", activeTheme);
-  }, [activeTheme]);
-
-
-  useEffect(() => {
-    const handleStorageChange = () => {
-      const current = localStorage.getItem("day_design_theme") || "organic";
-      if (current !== activeTheme) {
-        setActiveTheme(current);
-      }
-    };
-    window.addEventListener("storage", handleStorageChange);
-    return () => window.removeEventListener("storage", handleStorageChange);
-  }, [activeTheme]);
 
   // Prevent background scrolling when mobile menu drawer is open
   useEffect(() => {

@@ -1568,6 +1568,26 @@ export const useTheme = () => {
   return theme;
 };
 
+/* ─── CSS Class-based Theme Preset (Dropdown) ─── */
+export const subscribeThemeClass = (callback: (themeClass: string) => void): (() => void) => {
+  if (isMockEnabled || !rtdb) {
+    callback(localStorage.getItem("day_default_theme") || "organic");
+    return () => {};
+  }
+  const themeRef = ref(rtdb, "settings/default_theme");
+  return onValue(themeRef, (snapshot) => {
+    callback(snapshot.val() || "organic");
+  });
+};
+
+export const setThemeClass = async (themeClass: string): Promise<void> => {
+  localStorage.setItem("day_default_theme", themeClass);
+  if (!isMockEnabled && rtdb) {
+    await set(ref(rtdb, "settings/default_theme"), themeClass);
+  }
+  window.dispatchEvent(new Event("storage"));
+};
+
 /* ─── Global Default Design Layout (classic / alternative) ─── */
 export const subscribeDefaultDesignLayout = (callback: (layout: string) => void) => {
   if (isMockEnabled || !rtdb) {
