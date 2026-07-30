@@ -34,8 +34,9 @@ const HeroStatItem: React.FC<{ value: number; suffix?: string; label: string }> 
       <div style={{
         fontSize: "0.77rem",
         fontWeight: 600,
-        color: "#405A6F",
-        opacity: 0.85,
+        color: "#68696B",
+        fontFamily: "'Garet', 'Outfit', 'Inter', sans-serif",
+        opacity: 0.9,
         marginTop: "0.25rem",
         whiteSpace: "nowrap"
       }}>
@@ -47,10 +48,10 @@ const HeroStatItem: React.FC<{ value: number; suffix?: string; label: string }> 
 
 export const Hero: React.FC = () => {
   return (
-    <div style={{ backgroundColor: "var(--color-bg-gray)", minHeight: "100vh", paddingTop: "80px" }}>
+    <div style={{ backgroundColor: "#FFFBF5", minHeight: "100vh", paddingTop: "80px" }}>
 
       {/* ══ HERO SECTION ══ */}
-      <section style={{ backgroundColor: "var(--color-bg-gray)", padding: "3.5rem 0 2.5rem" }}>
+      <section style={{ backgroundColor: "#FFFBF5", padding: "3.5rem 0 2.5rem" }}>
         <div className="container-custom">
           <div className="hero-grid" style={{
             display: "grid",
@@ -70,6 +71,7 @@ export const Hero: React.FC = () => {
                 display: "inline-block",
                 backgroundColor: "#F5C4D1",
                 color: "#68696B",
+                fontFamily: "'Garet', 'Outfit', 'Inter', sans-serif",
                 fontSize: "0.75rem",
                 fontWeight: 700,
                 letterSpacing: "0.08em",
@@ -86,13 +88,13 @@ export const Hero: React.FC = () => {
                 fontFamily: "'Recoleta', serif",
                 fontSize: "clamp(2.5rem, 5vw, 64px)",
                 lineHeight: 1.1,
-                color: "#8A8A8A",
+                color: "#343537",
                 marginBottom: "1.4rem",
                 textAlign: "left",
               }}>
-                <div className="regular" style={{ fontWeight: 400 }}>Empowering</div>
-                <div className="bold" style={{ fontWeight: 700 }}>communities,</div>
-                <div className="regular" style={{ fontWeight: 400 }}>inspiring changes</div>
+                <div className="regular" style={{ fontWeight: 400, color: "#343537" }}>Empowering</div>
+                <div className="bold" style={{ fontWeight: 700, color: "#343537" }}>communities,</div>
+                <div className="regular" style={{ fontWeight: 400, color: "#343537" }}>inspiring changes</div>
               </h1>
 
               {/* Body text */}
@@ -100,16 +102,16 @@ export const Hero: React.FC = () => {
                 fontFamily: "'Garet', 'Inter', sans-serif",
                 fontSize: "0.9rem",
                 lineHeight: 1.75,
-                color: "#034356",
+                color: "#343537",
                 marginBottom: "0.6rem",
                 maxWidth: "430px"
               }}>
-                Founded on <strong style={{ color: "#034356" }}>12th April 2022</strong>, DAY Foundation is a
+                Founded on <strong style={{ color: "#343537" }}>12th April 2022</strong>, DAY Foundation is a
                 youth-led organization dedicated to empowering underserved communities through
                 Education, Aid, Youth, and Care. Active across multiple cities in India.
               </p>
 
-              <p style={{ fontSize: "0.86rem", color: "#68696B", marginBottom: "0.3rem" }}>
+              <p style={{ fontSize: "0.86rem", color: "#68696B", fontFamily: "'Garet', 'Inter', sans-serif", marginBottom: "0.3rem" }}>
                 Guided by our motto
               </p>
               <p className="motto" style={{
@@ -135,6 +137,7 @@ export const Hero: React.FC = () => {
                     borderRadius: "9999px",
                     backgroundColor: "#DCFBA6",
                     color: "#68696B",
+                    fontFamily: "'Garet', 'Outfit', 'Inter', sans-serif",
                     fontSize: "0.88rem",
                     fontWeight: 700,
                     textDecoration: "none",
@@ -155,6 +158,7 @@ export const Hero: React.FC = () => {
                     borderRadius: "9999px",
                     backgroundColor: "#DCFBA6",
                     color: "#68696B",
+                    fontFamily: "'Garet', 'Outfit', 'Inter', sans-serif",
                     fontSize: "0.88rem",
                     fontWeight: 700,
                     textDecoration: "none",

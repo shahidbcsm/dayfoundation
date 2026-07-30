@@ -95,9 +95,10 @@ body.dark-mode .nav-logo {
 }
 
 .nav-link {
+  font-family: var(--font-sans);
   font-size: var(--fs-sm);
   font-weight: 700;
-  color: #034356;
+  color: #343537;
   position: relative;
   padding: var(--space-2) 0;
 }
@@ -155,6 +156,22 @@ body.dark-mode .theme-toggle-btn {
   background-color: var(--color-primary-light);
   border-color: var(--color-border);
   color: var(--color-text-white);
+}
+
+.nav-donate-desktop {
+  background-color: #DCFBA6 !important;
+  color: #68696B !important;
+  font-family: var(--font-sans) !important;
+  font-weight: 700 !important;
+  border-radius: 9999px !important;
+  border: none !important;
+  padding: 0.55rem 1.3rem !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+}
+
+.nav-donate-desktop:hover {
+  filter: brightness(0.96) !important;
+  transform: translateY(-1px) !important;
 }
 
 .mobile-nav-toggle {
