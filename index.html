@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Security & Anti-Phishing Meta Tags -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta http-equiv="X-Frame-Options" content="DENY" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    
+    <!-- SEO Meta Tags -->
+    <title>DAY Foundation — Rooted in Compassion, Built for Impact</title>
+    <meta name="description" content="DAY Foundation (BHTDAY Welfare Foundation) is a Section 8, NITI Aayog-registered NGO empowering underprivileged communities across India through Education, Aid, Youth, and Care since 2022." />
+    <meta name="author" content="DAY Foundation" />
+    <meta name="keywords" content="NGO India, DAY Foundation, BHTDAY Welfare, community development, healthcare drives, slum education, youth empowerment, Rojgar livelihood, donate, volunteer, social impact" />
+    <meta name="robots" content="index, follow" />
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y7T2407MS3"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-Y7T2407MS3');
+    </script>
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://www.dayfoundation.in/" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.dayfoundation.in/" />
+    <meta property="og:title" content="DAY Foundation — Rooted in Compassion, Built for Impact" />
+    <meta property="og:description" content="Empowering underprivileged communities across India through Education, Aid, Youth, and Care since 2022. Join our youth-driven movements." />
+    <meta property="og:image" content="https://www.dayfoundation.in/logo.png" />
+    <meta property="og:site_name" content="DAY Foundation" />
+    <meta property="og:locale" content="en_IN" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://www.dayfoundation.in/" />
+    <meta property="twitter:title" content="DAY Foundation — Rooted in Compassion, Built for Impact" />
+    <meta property="twitter:description" content="Empowering underprivileged communities through Education, Aid, Youth, and Care since 2022." />
+    <meta property="twitter:image" content="https://www.dayfoundation.in/logo.png" />
+
+    <!-- JSON-LD Structured Data — NGO Organization Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "NGO",
+      "name": "DAY Foundation",
+      "alternateName": "BHTDAY Welfare Foundation",
+      "url": "https://www.dayfoundation.in",
+      "logo": "https://www.dayfoundation.in/logo.png",
+      "description": "DAY Foundation (BHTDAY Welfare Foundation) is a Section 8, NITI Aayog-registered NGO empowering underprivileged communities across India through Education, Aid, Youth, and Care since 2022.",
+      "foundingDate": "2022",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "IN"
+      },
+      "sameAs": [
+        "https://www.dayfoundation.in"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "Customer Service",
+        "email": "info@dayfoundation.in"
+      }
+    }
+    </script>
+
+    <!-- Google Font Preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Fonts for both classic and alternative designs -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <!-- Admin Panel Fonts: Hanken Grotesk + Noto Sans + Space Mono -->
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=Noto+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Razorpay Checkout SDK -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <!-- html2pdf.js for client-side PDF downloading -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  </head>
+  <body>
+    <!-- Anti-FOUC: apply design layout & theme synchronously before React renders -->
+    <script>
+      (function() {
+        try {
+          var layout = localStorage.getItem('day_default_design_layout') || 'classic';
+          var theme  = localStorage.getItem('day_design_theme') || 'organic';
+          if (layout === 'alternative') {
+            document.body.classList.add('layout-alternative');
+          }
+          document.body.classList.add('theme-' + theme);
+        } catch(e) {}
+      })();
+    </script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

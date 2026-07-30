@@ -1,0 +1,603 @@
+/* ═══════════════════════════════════════════════════════════════
+   ALTERNATIVE DESIGN SYSTEM — Earthy Warmth Theme
+   Activated when body has class: .layout-alternative
+═══════════════════════════════════════════════════════════════ */
+
+/* ── Root CSS Variable Overrides ── */
+body.layout-alternative {
+  --color-primary: #E68952 !important;
+  --color-primary-dark: #c4643a !important;
+  --color-primary-light: #F3D5BA !important;
+
+  --color-secondary: #834a68 !important;
+  --color-accent: #D9F99D !important;
+
+  --color-bg-white: #fff8f5 !important;
+  --color-bg-gray: #ffeada !important;
+  --color-bg-cream: #ffeada !important;
+  --color-bg-sand: #F3D5BA !important;
+
+  --color-text-dark: #281808 !important;
+  --color-text-muted: rgba(40, 24, 8, 0.8) !important;
+  --color-text-light: rgba(40, 24, 8, 0.6) !important;
+
+  --font-sans: 'Garet', 'Outfit', 'Inter', sans-serif !important;
+  --font-heading: 'Neue Montreal', 'Plus Jakarta Sans', 'Inter', sans-serif !important;
+  --font-serif: 'Recoleta', 'Fraunces', 'Playfair Display', serif !important;
+
+  --color-gradient-primary: linear-gradient(135deg, #D9F99D, #abd196) !important;
+  --color-gradient-card: linear-gradient(135deg, #ffeada, #F3D5BA) !important;
+  --color-gradient-text: linear-gradient(135deg, #281808, #E68952) !important;
+
+  background-color: #fff8f5 !important;
+  color: #281808 !important;
+}
+
+/* ── Global Typography ── */
+body.layout-alternative h1,
+body.layout-alternative h2,
+body.layout-alternative h3,
+body.layout-alternative h4,
+body.layout-alternative h5,
+body.layout-alternative h6,
+body.layout-alternative .section-title,
+body.layout-alternative .card-title,
+body.layout-alternative .subpage-hero-title,
+body.layout-alternative .font-serif-heading {
+  font-family: 'Neue Montreal', 'Plus Jakarta Sans', 'Inter', sans-serif !important;
+}
+
+body.layout-alternative p,
+body.layout-alternative span,
+body.layout-alternative a,
+body.layout-alternative li,
+body.layout-alternative label,
+body.layout-alternative button,
+body.layout-alternative .section-subtitle,
+body.layout-alternative .card-subtitle {
+  font-family: 'Garet', 'Outfit', 'Inter', sans-serif !important;
+}
+
+/* Cover Page (Hero) Overrides */
+body.layout-alternative .alt-hero h1,
+body.layout-alternative .alt-h1,
+body.layout-alternative .alt-hero-content h1,
+body.layout-alternative .alt-hero-content .alt-h1,
+body.layout-alternative .hero-section h1 {
+  font-family: 'Recoleta', 'Fraunces', 'Playfair Display', serif !important;
+  font-weight: 700 !important;
+}
+
+body.layout-alternative .alt-hero p,
+body.layout-alternative .alt-lead,
+body.layout-alternative .alt-hero-content p,
+body.layout-alternative .alt-hero-content .alt-lead,
+body.layout-alternative .hero-section p {
+  font-family: 'Neue Montreal', 'Plus Jakarta Sans', 'Inter', sans-serif !important;
+}
+
+/* ── Navbar / Header ── */
+body.layout-alternative .header-nav,
+body.layout-alternative header.header-nav {
+  background: #fff8f5 !important;
+  box-shadow: none !important;
+  border-bottom: 1px solid rgba(40, 24, 8, 0.08) !important;
+  backdrop-filter: none !important;
+}
+
+body.layout-alternative .header-nav.scrolled {
+  background: rgba(255, 248, 245, 0.97) !important;
+  box-shadow: 0 2px 12px rgba(40, 24, 8, 0.06) !important;
+}
+
+body.layout-alternative .nav-logo-text,
+body.layout-alternative .header-nav .nav-links a,
+body.layout-alternative .header-nav a {
+  color: #281808 !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
+}
+
+body.layout-alternative .header-nav .nav-links a:hover,
+body.layout-alternative .header-nav a:hover {
+  color: #E68952 !important;
+}
+
+body.layout-alternative .header-nav .nav-links a.active {
+  color: #E68952 !important;
+}
+
+body.layout-alternative .btn-donate,
+body.layout-alternative .nav-donate-btn {
+  background: #D9F99D !important;
+  color: #281808 !important;
+  border-radius: 9999px !important;
+  border: none !important;
+  font-weight: 700 !important;
+}
+
+/* ── Buttons ── */
+body.layout-alternative .btn-primary,
+body.layout-alternative .btn-cta {
+  background: #D9F99D !important;
+  color: #281808 !important;
+  font-weight: 700 !important;
+  border-radius: 9999px !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+body.layout-alternative .btn-primary:hover,
+body.layout-alternative .btn-cta:hover {
+  opacity: 0.9 !important;
+  transform: scale(1.02) !important;
+}
+
+body.layout-alternative .btn-secondary {
+  background: transparent !important;
+  border: 2px solid #281808 !important;
+  color: #281808 !important;
+  border-radius: 9999px !important;
+  font-weight: 700 !important;
+}
+
+/* ── Cards ── */
+body.layout-alternative .premium-card,
+body.layout-alternative .card,
+body.layout-alternative .about-intro-card,
+body.layout-alternative .value-card,
+body.layout-alternative .milestone-card,
+body.layout-alternative .governance-card,
+body.layout-alternative .team-member-card,
+body.layout-alternative .blog-card,
+body.layout-alternative .event-card,
+body.layout-alternative .program-card,
+body.layout-alternative .gallery-card,
+body.layout-alternative .stat-card,
+body.layout-alternative .focus-card {
+  background: #fff8f5 !important;
+  border: 1px solid rgba(40, 24, 8, 0.08) !important;
+  box-shadow: none !important;
+  border-radius: 30px !important;
+}
+
+body.layout-alternative .premium-card:hover,
+body.layout-alternative .card:hover,
+body.layout-alternative .blog-card:hover,
+body.layout-alternative .event-card:hover {
+  box-shadow: 0 8px 32px rgba(40, 24, 8, 0.08) !important;
+  transform: translateY(-4px) !important;
+}
+
+/* ── Section Backgrounds ── */
+body.layout-alternative .section-bg-gray,
+body.layout-alternative .bg-section-alt,
+body.layout-alternative .programs-section,
+body.layout-alternative .events-section {
+  background: #ffeada !important;
+}
+
+body.layout-alternative .section-bg-primary {
+  background: #E68952 !important;
+}
+
+/* ── Hero Section Specific ── */
+body.layout-alternative .hero-section {
+  background: #fff8f5 !important;
+}
+
+body.layout-alternative .hero-section .hero-badge {
+  background: #F3D5BA !important;
+  color: #281808 !important;
+  border-radius: 9999px !important;
+  font-weight: 700 !important;
+}
+
+/* ── Mission Section ── */
+body.layout-alternative .mission-vision-card {
+  background: #E68952 !important;
+  border-radius: 40px !important;
+  color: white !important;
+}
+
+body.layout-alternative .mission-vision-card h2,
+body.layout-alternative .mission-vision-card h3 {
+  color: white !important;
+}
+
+/* ── Gallery ── */
+body.layout-alternative .gallery-filter-btn {
+  border-radius: 9999px !important;
+  border: 1px solid rgba(40, 24, 8, 0.15) !important;
+  background: white !important;
+  color: #281808 !important;
+}
+
+body.layout-alternative .gallery-filter-btn.active,
+body.layout-alternative .gallery-filter-btn:hover {
+  background: #D9F99D !important;
+  border-color: #281808 !important;
+  color: #281808 !important;
+}
+
+/* ── Forms ── */
+body.layout-alternative input,
+body.layout-alternative select,
+body.layout-alternative textarea,
+body.layout-alternative .form-input,
+body.layout-alternative .form-textarea,
+body.layout-alternative .form-select {
+  border-radius: 12px !important;
+  border: 1px solid rgba(40, 24, 8, 0.2) !important;
+  background: #ffffff;
+  color: #281808;
+}
+
+body.dark-mode input,
+body.dark-mode select,
+body.dark-mode textarea,
+body.dark-mode .form-input,
+body.dark-mode .form-textarea,
+body.dark-mode .form-select,
+body.layout-alternative.dark-mode input,
+body.layout-alternative.dark-mode select,
+body.layout-alternative.dark-mode textarea,
+body.layout-alternative.dark-mode .form-input,
+body.layout-alternative.dark-mode .form-textarea,
+body.layout-alternative.dark-mode .form-select {
+  background: #18120e !important;
+  background-color: #18120e !important;
+  border: 1px solid rgba(251, 245, 240, 0.18) !important;
+  color: #ffffff !important;
+}
+
+body.layout-alternative input:focus,
+body.layout-alternative select:focus,
+body.layout-alternative textarea:focus {
+  border-color: #E68952 !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(230, 137, 82, 0.15) !important;
+}
+
+body.dark-mode input:focus,
+body.dark-mode select:focus,
+body.dark-mode textarea:focus,
+body.dark-mode .form-input:focus,
+body.dark-mode .form-textarea:focus,
+body.dark-mode .form-select:focus,
+body.layout-alternative.dark-mode input:focus,
+body.layout-alternative.dark-mode select:focus,
+body.layout-alternative.dark-mode textarea:focus,
+body.layout-alternative.dark-mode .form-input:focus,
+body.layout-alternative.dark-mode .form-textarea:focus,
+body.layout-alternative.dark-mode .form-select:focus {
+  background: #120d0a !important;
+  background-color: #120d0a !important;
+  border-color: #E68952 !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 0 3px rgba(230, 137, 82, 0.25) !important;
+}
+
+/* ── Footer ── */
+body.layout-alternative footer,
+body.layout-alternative #footer,
+body.layout-alternative .site-footer {
+  background: #fff8f5;
+  color: #281808;
+  border-top: 1px solid rgba(40, 24, 8, 0.08);
+}
+
+body.dark-mode footer,
+body.dark-mode #footer,
+body.dark-mode .site-footer,
+body.layout-alternative.dark-mode footer,
+body.layout-alternative.dark-mode #footer,
+body.layout-alternative.dark-mode .site-footer {
+  background: #0b121f !important;
+  background-color: #0b121f !important;
+  color: #a5b1c2 !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+body.layout-alternative footer a,
+body.layout-alternative footer p,
+body.layout-alternative footer span,
+body.layout-alternative footer h3,
+body.layout-alternative footer h4,
+body.layout-alternative .footer-section-toggle h3 {
+  color: rgba(40, 24, 8, 0.75);
+}
+
+body.dark-mode footer a,
+body.dark-mode footer p,
+body.dark-mode footer span,
+body.dark-mode footer h3,
+body.dark-mode footer h4,
+body.dark-mode .footer-section-toggle h3,
+body.layout-alternative.dark-mode footer a,
+body.layout-alternative.dark-mode footer p,
+body.layout-alternative.dark-mode footer span,
+body.layout-alternative.dark-mode footer h3,
+body.layout-alternative.dark-mode footer h4,
+body.layout-alternative.dark-mode .footer-section-toggle h3 {
+  color: #a5b1c2 !important;
+}
+
+body.dark-mode footer h3,
+body.dark-mode footer h4,
+body.dark-mode footer strong,
+body.layout-alternative.dark-mode footer h3,
+body.layout-alternative.dark-mode footer h4,
+body.layout-alternative.dark-mode footer strong {
+  color: #ffffff !important;
+}
+
+body.layout-alternative footer a:hover {
+  color: #E68952 !important;
+}
+
+body.dark-mode footer a:hover,
+body.layout-alternative.dark-mode footer a:hover {
+  color: #E68952 !important;
+}
+
+body.layout-alternative .footer-social-link {
+  background: #F3D5BA !important;
+  color: #281808 !important;
+  border-radius: 50% !important;
+}
+
+body.layout-alternative .footer-social-link:hover {
+  background: #E68952 !important;
+  color: white !important;
+}
+
+/* ── Page-specific hero backgrounds ── */
+body.layout-alternative .about-hero,
+body.layout-alternative .mission-hero,
+body.layout-alternative .programs-hero,
+body.layout-alternative .gallery-hero,
+body.layout-alternative .contact-hero,
+body.layout-alternative .volunteer-hero,
+body.layout-alternative .internship-hero,
+body.layout-alternative .donate-hero,
+body.layout-alternative .blogs-hero,
+body.layout-alternative .events-hero {
+  background: linear-gradient(135deg, #F3D5BA 0%, #ffeada 100%) !important;
+  color: #281808 !important;
+}
+
+body.layout-alternative .about-hero h1,
+body.layout-alternative .mission-hero h1,
+body.layout-alternative .programs-hero h1,
+body.layout-alternative .gallery-hero h1,
+body.layout-alternative .contact-hero h1,
+body.layout-alternative .volunteer-hero h1,
+body.layout-alternative .internship-hero h1,
+body.layout-alternative .donate-hero h1,
+body.layout-alternative .blogs-hero h1,
+body.layout-alternative .events-hero h1 {
+  color: #281808 !important;
+}
+
+/* ── Pill / Badge ── */
+body.layout-alternative .badge,
+body.layout-alternative .tag,
+body.layout-alternative .pill {
+  background: #F3D5BA !important;
+  color: #281808 !important;
+  border-radius: 9999px !important;
+  font-weight: 700 !important;
+  font-size: 0.7rem !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+}
+
+/* ── Scroll Progress Bar ── */
+body.layout-alternative #scroll-progress-bar {
+  background: linear-gradient(90deg, #E68952, #D9F99D) !important;
+}
+
+/* ── Donation page ── */
+body.layout-alternative .donate-option-btn.selected,
+body.layout-alternative .donation-amount-btn.selected {
+  background: #D9F99D !important;
+  border-color: #281808 !important;
+  color: #281808 !important;
+}
+
+body.layout-alternative .razorpay-btn,
+body.layout-alternative .donate-submit-btn {
+  background: #D9F99D !important;
+  color: #281808 !important;
+  border-radius: 9999px !important;
+  font-weight: 700 !important;
+}
+
+/* ── Mobile menu / overlay ── */
+body.layout-alternative .mobile-menu-drawer {
+  background: #fff8f5 !important;
+}
+
+body.layout-alternative .mobile-menu-drawer a {
+  color: #281808 !important;
+}
+
+body.layout-alternative .mobile-menu-drawer a:hover {
+  color: #E68952 !important;
+}
+
+/* ── Dropdown ── */
+body.layout-alternative .nav-dropdown {
+  background: #fff8f5 !important;
+  border: 1px solid rgba(40, 24, 8, 0.08) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 8px 24px rgba(40, 24, 8, 0.06) !important;
+}
+
+body.layout-alternative .nav-dropdown a {
+  color: #281808 !important;
+}
+
+body.layout-alternative .nav-dropdown a:hover {
+  background: #F3D5BA !important;
+  color: #281808 !important;
+}
+
+/* ── Table ── */
+body.layout-alternative table,
+body.layout-alternative .data-table {
+  border-radius: 20px !important;
+  overflow: hidden !important;
+}
+
+body.layout-alternative th {
+  background: #F3D5BA !important;
+  color: #281808 !important;
+}
+
+body.layout-alternative tr:nth-child(even) {
+  background: #ffeada !important;
+}
+
+/* ── Accordion / FAQ ── */
+body.layout-alternative .faq-item,
+body.layout-alternative .accordion-item {
+  border-radius: 20px !important;
+  border: 1px solid rgba(40, 24, 8, 0.08) !important;
+  overflow: hidden !important;
+  background: white !important;
+  margin-bottom: 8px !important;
+}
+
+/* ── WhatsApp Float Button ── */
+body.layout-alternative .whatsapp-float {
+  background: #25d366 !important;
+}
+
+/* ── Internship Status ── */
+body.layout-alternative .status-badge-active {
+  background: #D9F99D !important;
+  color: #052100 !important;
+  border-radius: 9999px !important;
+}
+
+body.layout-alternative .status-badge-pending {
+  background: #F3D5BA !important;
+  color: #281808 !important;
+  border-radius: 9999px !important;
+}
+
+/* ── ALTERNATIVE DARK MODE SUPPORT ── */
+body.layout-alternative.dark-mode {
+  --color-primary: #F2A172 !important;
+  --color-primary-dark: #FFA066 !important;
+  --color-primary-light: #27272a !important;
+
+  --color-secondary: #C58CA9 !important;
+  --color-accent: #D9F99D !important;
+
+  --color-bg-white: #1c1d22 !important;
+  --color-bg-gray: #121316 !important;
+  --color-bg-cream: #1c1d22 !important;
+  --color-bg-sand: #27272a !important;
+
+  --color-text-dark: #f4f4f5 !important;
+  --color-text-muted: rgba(244, 244, 245, 0.75) !important;
+  --color-text-light: rgba(244, 244, 245, 0.55) !important;
+
+  --color-gradient-primary: linear-gradient(135deg, #27272a, #1c1d22) !important;
+  --color-gradient-card: linear-gradient(135deg, #1c1d22, #27272a) !important;
+  --color-gradient-text: linear-gradient(135deg, #f4f4f5, #F2A172) !important;
+
+  background-color: #121316 !important;
+  color: #f4f4f5 !important;
+}
+
+/* Header & Nav */
+body.layout-alternative.dark-mode .header-nav,
+body.layout-alternative.dark-mode header.header-nav {
+  background: #121316 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+body.layout-alternative.dark-mode .header-nav.scrolled {
+  background: rgba(18, 19, 22, 0.97) !important;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4) !important;
+}
+body.layout-alternative.dark-mode .nav-logo-text,
+body.layout-alternative.dark-mode .header-nav .nav-links a,
+body.layout-alternative.dark-mode .header-nav a {
+  color: #f4f4f5 !important;
+}
+body.layout-alternative.dark-mode .header-nav .nav-links a:hover,
+body.layout-alternative.dark-mode .header-nav a:hover,
+body.layout-alternative.dark-mode .header-nav .nav-links a.active {
+  color: #F2A172 !important;
+}
+
+/* Buttons */
+body.layout-alternative.dark-mode .btn-donate,
+body.layout-alternative.dark-mode .nav-donate-btn,
+body.layout-alternative.dark-mode .btn-primary,
+body.layout-alternative.dark-mode .btn-cta {
+  background: #D9F99D !important;
+  color: #121316 !important;
+}
+body.layout-alternative.dark-mode .btn-secondary {
+  background: transparent !important;
+  border: 2px solid #f4f4f5 !important;
+  color: #f4f4f5 !important;
+}
+
+/* Cards & Containers */
+body.layout-alternative.dark-mode .premium-card,
+body.layout-alternative.dark-mode .card,
+body.layout-alternative.dark-mode .about-intro-card,
+body.layout-alternative.dark-mode .value-card,
+body.layout-alternative.dark-mode .milestone-card,
+body.layout-alternative.dark-mode .governance-card,
+body.layout-alternative.dark-mode .team-member-card,
+body.layout-alternative.dark-mode .blog-card,
+body.layout-alternative.dark-mode .event-card,
+body.layout-alternative.dark-mode .program-card,
+body.layout-alternative.dark-mode .gallery-card,
+body.layout-alternative.dark-mode .stat-card,
+body.layout-alternative.dark-mode .focus-card,
+body.layout-alternative.dark-mode .faq-item,
+body.layout-alternative.dark-mode .accordion-item {
+  background: #1c1d22 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #f4f4f5 !important;
+}
+
+body.layout-alternative.dark-mode .premium-card:hover,
+body.layout-alternative.dark-mode .card:hover,
+body.layout-alternative.dark-mode .blog-card:hover,
+body.layout-alternative.dark-mode .event-card:hover {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Section Backgrounds */
+body.layout-alternative.dark-mode .section-bg-gray,
+body.layout-alternative.dark-mode .bg-section-alt,
+body.layout-alternative.dark-mode .programs-section,
+body.layout-alternative.dark-mode .events-section {
+  background: #16171b !important;
+}
+body.layout-alternative.dark-mode .section-bg-primary {
+  background: #C4643A !important;
+}
+body.layout-alternative.dark-mode .hero-section {
+  background: #121316 !important;
+}
+body.layout-alternative.dark-mode .hero-section .hero-badge {
+  background: #27272a !important;
+  color: #f4f4f5 !important;
+}
+
+/* Gallery Filters */
+body.layout-alternative.dark-mode .gallery-filter-btn {
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  background: #1c1d22 !important;
+  color: #f4f4f5 !important;
+}

@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
+  <!-- Definitions for mask -->
+  <defs>
+    <mask id="slice-mask">
+      <!-- Everything white stays, black is removed -->
+      <rect x="0" y="0" width="500" height="500" fill="#ffffff" />
+      <!-- Horizontal slice in the middle -->
+      <rect x="0" y="228" width="500" height="44" fill="#000000" />
+    </mask>
+  </defs>
+
+  <!-- Circular background -->
+  <circle cx="250" cy="250" r="240" fill="#FAF6F0" />
+
+  <!-- Sliced "DAY" text group -->
+  <g mask="url(#slice-mask)">
+    <!-- D path -->
+    <path d="M 95,140 V 360 M 95,140 H 135 C 175,140 190,170 190,250 C 190,330 175,360 135,360 H 95" 
+          fill="none" stroke="#111111" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" />
+    <!-- A path -->
+    <path d="M 205,360 L 250,140 L 295,360" 
+          fill="none" stroke="#111111" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" />
+    <!-- Y path -->
+    <path d="M 320,140 L 365,250 L 410,140 M 365,250 V 360" 
+          fill="none" stroke="#111111" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+
+  <!-- Middle text: DEVELOPMENT AND YOUTH -->
+  <text x="250" y="256" 
+        font-family="'Inter', 'Outfit', 'Helvetica Neue', system-ui, sans-serif" 
+        font-size="20" 
+        font-weight="600" 
+        letter-spacing="0.18em" 
+        text-anchor="middle" 
+        fill="#111111">DEVELOPMENT AND YOUTH</text>
+</svg>

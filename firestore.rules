@@ -1,0 +1,67 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /blogs/{document} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+    match /events/{document} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+    match /gallery/{document} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+    match /volunteers/{document} {
+      allow create: if true;
+      allow read, update, delete: if request.auth != null;
+    }
+    match /donations/{document} {
+      allow create: if true;
+      allow read, update, delete: if request.auth != null;
+    }
+    match /contacts/{document} {
+      allow create: if true;
+      allow read, update, delete: if request.auth != null;
+    }
+    match /team/{document} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+    match /city_team/{document} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+    match /complaints/{document} {
+      allow create: if true;
+      allow read, update, delete: if request.auth != null;
+    }
+    match /testimonials/{document} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+    match /admins/{document} {
+      allow read, write: if request.auth != null;
+    }
+    match /audit_logs/{document} {
+      allow read, write: if request.auth != null;
+    }
+    match /newsletter/{document} {
+      allow create: if true;
+      allow read, update, delete: if request.auth != null;
+    }
+    match /seo_settings/{document} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+    match /notification_tokens/{document} {
+      allow create, update: if true;
+      allow read, delete: if request.auth != null;
+    }
+    match /broadcasts/{document} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+  }
+}

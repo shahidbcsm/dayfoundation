@@ -1,0 +1,78 @@
+{
+  "rules": {
+    "blogs": {
+      ".read": "true",
+      ".write": "auth != null"
+    },
+    "events": {
+      ".read": "true",
+      ".write": "auth != null"
+    },
+    "gallery": {
+      ".read": "true",
+      ".write": "auth != null"
+    },
+    "team": {
+      ".read": "true",
+      ".write": "auth != null"
+    },
+    "volunteers": {
+      ".read": "auth != null",
+      "$id": {
+        ".write": "auth != null || !data.exists()"
+      }
+    },
+    "donations": {
+      ".read": "auth != null",
+      "$id": {
+        ".write": "auth != null || !data.exists()"
+      }
+    },
+    "contacts": {
+      ".read": "auth != null",
+      "$id": {
+        ".write": "auth != null || !data.exists()"
+      }
+    },
+    "admins": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
+    "audit_logs": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
+    "settings": {
+      ".read": "true",
+      ".write": "auth != null"
+    },
+    "analytics": {
+      ".read": "true",
+      ".write": "true"
+    },
+    "newsletter": {
+      ".read": "auth != null",
+      "$id": {
+        ".write": "true"
+      }
+    },
+    "city_team": {
+      ".read": "true",
+      ".write": "auth != null"
+    },
+    "complaints": {
+      ".read": "auth != null",
+      "$id": {
+        ".write": "true"
+      }
+    },
+    "testimonials": {
+      ".read": "true",
+      ".write": "auth != null"
+    },
+    "live_notification": {
+      ".read": "true",
+      ".write": "auth != null"
+    }
+  }
+}
