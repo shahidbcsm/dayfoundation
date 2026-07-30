@@ -91,10 +91,13 @@
   line-height: 1.5; 
   color: #343537; 
 }
-.motto, .alt-motto {
+.motto, .alt-motto, [class*="anek-devanagari"] {
   font-family: "Anek Devanagari", sans-serif !important;
-  font-size: clamp(1.4rem, 2.5vw, 34px);
+  font-optical-sizing: auto;
   font-weight: 700 !important;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+  font-size: clamp(1.4rem, 2.5vw, 34px);
   color: #D9854E !important;
   line-height: 1.2;
   margin: 0;
