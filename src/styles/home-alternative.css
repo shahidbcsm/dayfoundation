@@ -80,21 +80,21 @@
   margin: 0;
 }
 .alt-lead { 
-  font-family: var(--font-heading) !important; /* Cover Page desc -> Neue Montreal */
+  font-family: var(--font-sans) !important; /* Garet */
   font-size: 0.95rem; 
   line-height: 1.6; 
-  color: rgba(40,24,8,0.8); 
+  color: #343537 !important; 
 }
 .alt-sub { 
   font-family: var(--font-sans) !important; /* Subheading / description elsewhere -> Garet */
   font-size: 0.8rem; 
   line-height: 1.5; 
-  color: rgba(40,24,8,0.65); 
+  color: #343537; 
 }
 .motto, .alt-motto {
   font-family: "Anek Devanagari", sans-serif !important;
   font-size: clamp(1.4rem, 2.5vw, 34px);
-  font-weight: 700;
+  font-weight: 700 !important;
   color: #D9854E !important;
   line-height: 1.2;
   margin: 0;
