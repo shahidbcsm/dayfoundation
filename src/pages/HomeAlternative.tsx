@@ -212,7 +212,17 @@ const HomeAlternative: React.FC = () => {
                 <p className="alt-lead">Founded on <strong>12th April 2022</strong>, DAY Foundation is a youth-led organization dedicated to empowering underserved communities through Education, Aid, Youth, and Care. Active across multiple cities in India.</p>
                 <div>
                   <p className="motto-label" style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>Guided by our motto</p>
-                  <p className="motto hindi-motto">"शिक्षा से सशक्तिकरण, युवा से समर्थन"</p>
+                  <img 
+                    src="/tagline-hindi.png" 
+                    alt="शिक्षा से सशक्तिकरण, युवा से समर्थन" 
+                    style={{ 
+                      height: "auto", 
+                      maxHeight: "32px", 
+                      maxWidth: "100%", 
+                      display: "block",
+                      objectFit: "contain" 
+                    }} 
+                  />
                 </div>
                 <div className="alt-hero-btns">
                   <Link to="/volunteer" className="alt-btn alt-btn-primary">Join Our Mission</Link>

@@ -114,21 +114,19 @@ export const Hero: React.FC = () => {
               <p style={{ fontSize: "0.86rem", color: "#68696B", fontFamily: "'Garet', 'Inter', sans-serif", marginBottom: "0.3rem" }}>
                 Guided by our motto
               </p>
-              <p className="motto hindi-motto" style={{
-                fontFamily: "'Anek Devanagari', sans-serif",
-                fontSize: "clamp(1.05rem, 2.2vw, 32px)",
-                fontWeight: 800,
-                letterSpacing: "normal",
-                wordSpacing: "normal",
-                whiteSpace: "nowrap",
-                transform: "none",
-                color: "#D9854E",
-                lineHeight: 1.3,
-                margin: 0,
-                marginBottom: "2rem"
-              }}>
-                "शिक्षा से सशक्तिकरण, युवा से समर्थन"
-              </p>
+              <div style={{ display: "flex", justifyContent: "flex-start", marginBottom: "2rem" }}>
+                <img 
+                  src="/tagline-hindi.png" 
+                  alt="शिक्षा से सशक्तिकरण, युवा से समर्थन" 
+                  style={{ 
+                    height: "auto", 
+                    maxHeight: "38px", 
+                    maxWidth: "100%", 
+                    display: "block",
+                    objectFit: "contain" 
+                  }} 
+                />
+              </div>
 
               {/* CTA Buttons */}
               <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>

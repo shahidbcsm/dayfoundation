@@ -86,22 +86,20 @@ export const Mission: React.FC = () => {
             >
               <Sparkles size={24} />
             </div>
-            <h2 
-              className="hindi-motto"
-              style={{ 
-                fontFamily: "'Anek Devanagari', sans-serif", 
-                fontWeight: 800,
-                whiteSpace: "nowrap",
-                letterSpacing: "normal",
-                wordSpacing: "normal",
-                fontSize: "2rem", 
-                color: "var(--color-primary)",
-                lineHeight: "1.4",
-                marginBottom: "1.5rem" 
-              }}
-            >
-              “शिक्षा से सशक्तिकरण, युवा से समर्थन”
-            </h2>
+            <div style={{ display: "flex", justifyContent: "center", marginBottom: "1.5rem", width: "100%" }}>
+              <img 
+                src="/tagline-hindi.png" 
+                alt="शिक्षा से सशक्तिकरण, युवा से समर्थन" 
+                style={{ 
+                  height: "auto", 
+                  maxHeight: "38px", 
+                  maxWidth: "100%", 
+                  display: "block",
+                  marginInline: "auto",
+                  objectFit: "contain" 
+                }} 
+              />
+            </div>
             <p style={{ color: "var(--color-text-muted)", lineHeight: "1.8", fontSize: "1.05rem" }}>
               Our guiding motto bridges two of society's most powerful elements: **Education** and **Youth**. 
               We believe that true, scalable community welfare cannot happen simply through passive charity. 
