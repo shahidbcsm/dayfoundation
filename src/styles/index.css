@@ -1123,4 +1123,22 @@ body[class*="dark"] .footer-hr {
   border-top-color: rgba(255, 255, 255, 0.08) !important;
 }
 
+/* ═══════════════════════════════════════════
+   ANEK DEVANAGARI HINDI TAGLINE - SINGLE LINE, BOLD, NO STRETCH
+   ═══════════════════════════════════════════ */
+.motto,
+.hindi-motto,
+.hindi-font,
+.motto *,
+.hindi-motto *,
+.hindi-font * {
+  font-family: 'Anek Devanagari', sans-serif !important;
+  font-weight: 800 !important;
+  white-space: nowrap !important;
+  letter-spacing: normal !important;
+  word-spacing: normal !important;
+  transform: none !important;
+  display: inline-block !important;
+}
+
 

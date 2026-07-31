@@ -139,7 +139,7 @@ export const Blogs: React.FC = () => {
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="premium-card"
+                      className="premium-card featured-blog-card"
                       style={{ 
                         display: "flex", 
                         flexWrap: "wrap", 
@@ -158,7 +158,7 @@ export const Blogs: React.FC = () => {
                       </div>
                       <div style={{ flex: "1 1 350px" }}>
                         <span className="blog-card-category">{featuredBlog.category}</span>
-                        <h2 style={{ fontSize: "2rem", color: "var(--color-primary)", margin: "0.5rem 0 1rem 0", lineHeight: "1.25" }}>
+                        <h2 className="featured-blog-title" style={{ fontSize: "2rem", margin: "0.5rem 0 1rem 0", lineHeight: "1.25" }}>
                           <Link to={`/blogs/${featuredBlog.id}`} style={{ color: "inherit" }}>
                             {featuredBlog.title}
                           </Link>
@@ -178,7 +178,7 @@ export const Blogs: React.FC = () => {
                           </span>
                         </div>
 
-                        <Link to={`/blogs/${featuredBlog.id}`} className="btn btn-primary">
+                        <Link to={`/blogs/${featuredBlog.id}`} className="btn btn-primary featured-blog-btn">
                           <span>Read Full Story</span>
                           <ArrowRight size={16} />
                         </Link>

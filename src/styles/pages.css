@@ -3504,3 +3504,522 @@ body.dark-mode .nexus-stack-item.active {
   border-color: var(--color-primary, #A3C5A8) !important;
 }
 
+/* ═══════════════════════════════════════════════════════════════
+   GLOBAL ALTERNATING DARK THEME FOR ALL PAGES & SUBPAGES
+   1st Section: Black (#181716)
+   2nd Section: Warm Taupe (#9D9588)
+   3rd Section: Black (#181716)
+   4th Section: Warm Taupe (#9D9588)
+   ... and so on across the entire website
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── 1ST & ODD SECTIONS (BLACK #181716) ── */
+body.dark-mode section:nth-of-type(odd),
+body.dark-mode .subpage-hero {
+  background-color: #181716 !important;
+  color: #F5F2ED !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+body.dark-mode section:nth-of-type(odd) h1,
+body.dark-mode section:nth-of-type(odd) h2,
+body.dark-mode section:nth-of-type(odd) h3,
+body.dark-mode section:nth-of-type(odd) h4,
+body.dark-mode .subpage-hero-title,
+body.dark-mode section:nth-of-type(odd) .section-title {
+  color: #F5F2ED !important;
+}
+
+body.dark-mode section:nth-of-type(odd) p,
+body.dark-mode section:nth-of-type(odd) span,
+body.dark-mode section:nth-of-type(odd) li,
+body.dark-mode .subpage-hero-desc,
+body.dark-mode section:nth-of-type(odd) .section-subtitle {
+  color: #C5BEB3 !important;
+}
+
+/* ═════════════════════════════════════════════════════════════════════
+   GLOBAL PILL COLOR RULES: GRAY ON WHITE BG, WHITE ON GRAY/DARK BG
+   ═════════════════════════════════════════════════════════════════════ */
+
+/* 1. Default / White Background Sections -> GRAY PILL WITH GRAY TEXT */
+.badge-custom,
+.alt-pill {
+  background-color: #E2E8F0 !important;
+  color: #4B5563 !important; /* Gray text */
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  font-weight: 700 !important;
+}
+
+/* 2. Gray & Dark Background Sections (including GOVERNANCE & STRUCTURE) -> WHITE PILL WITH GRAY TEXT */
+section#foundation .badge-custom,
+section#foundation .alt-pill,
+section.subpage-hero .badge-custom,
+body.dark-mode .badge-custom,
+body.dark-mode .alt-pill,
+body.dark-mode section .badge-custom,
+body.dark-mode section .alt-pill,
+body.dark-mode section:nth-of-type(odd) .badge-custom,
+body.dark-mode section:nth-of-type(odd) .alt-pill,
+body.dark-mode section:nth-of-type(even) .badge-custom,
+body.dark-mode section:nth-of-type(even) .alt-pill {
+  background-color: #FFFFFF !important;
+  color: #68696B !important; /* Gray text for GOVERNANCE & STRUCTURE */
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  font-weight: 700 !important;
+}
+
+body.dark-mode section:nth-of-type(even) .premium-card,
+body.dark-mode section:nth-of-type(even) .kpi-card,
+body.dark-mode section:nth-of-type(even) .blog-card,
+body.dark-mode section:nth-of-type(even) .event-card,
+body.dark-mode section:nth-of-type(even) .gallery-card,
+body.dark-mode section:nth-of-type(even) .team-member-card,
+body.dark-mode section:nth-of-type(even) .milestone-card {
+  background: #ECE7DF !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  color: #1C1A18 !important;
+}
+
+body.dark-mode section:nth-of-type(even) .premium-card h3,
+body.dark-mode section:nth-of-type(even) .premium-card h4,
+body.dark-mode section:nth-of-type(even) .premium-card p[style*="fontWeight"],
+body.dark-mode section:nth-of-type(even) .blog-card h3,
+body.dark-mode section:nth-of-type(even) .event-card h3,
+body.dark-mode section:nth-of-type(even) .team-member-card h3 {
+  color: #1C1A18 !important;
+}
+
+body.dark-mode section:nth-of-type(even) .premium-card p,
+body.dark-mode section:nth-of-type(even) .blog-card p,
+body.dark-mode section:nth-of-type(even) .event-card p,
+body.dark-mode section:nth-of-type(even) .team-member-card p {
+  color: #2B2824 !important;
+}
+
+body.dark-mode section:nth-of-type(even) .btn-primary,
+body.dark-mode section:nth-of-type(even) .btn-donate {
+  background-color: #ECE7DF !important;
+  color: #181716 !important;
+  border: none !important;
+}
+
+/* ═════════════════════════════════════════════════════════════════════
+   EXPLICIT OFF-WHITE TEXT & DARK CARD OVERRIDES FOR ALL DARK CARDS & FORMS
+   ═════════════════════════════════════════════════════════════════════ */
+
+/* Foundation Section & Governance Tabs Container */
+body.dark-mode section#foundation,
+body.dark-mode #foundation,
+body.dark-mode #foundation .section-padding {
+  background-color: #181716 !important;
+  color: #F5F2ED !important;
+}
+
+/* Off-white text for all headings, titles, subtext & paragraph content in #foundation */
+body.dark-mode #foundation h1,
+body.dark-mode #foundation h2,
+body.dark-mode #foundation h3,
+body.dark-mode #foundation h4,
+body.dark-mode #foundation p,
+body.dark-mode #foundation span,
+body.dark-mode #foundation li,
+body.dark-mode #foundation div,
+body.dark-mode #foundation strong,
+body.dark-mode #foundation blockquote {
+  color: #F5F2ED !important;
+}
+
+/* 1. Management Structure Header & Subtitle */
+body.dark-mode #foundation h2,
+body.dark-mode #foundation p {
+  color: #F5F2ED !important;
+}
+
+/* 2 & 3. Tier 1 Directors (Mr. Om Sen, Mr. Shantanu Sen) & MCA Details */
+body.dark-mode #foundation .premium-card {
+  background-color: #252422 !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  color: #F5F2ED !important;
+}
+
+body.dark-mode #foundation .premium-card div[style*="backgroundColor"],
+body.dark-mode #foundation .premium-card a[style*="backgroundColor"] {
+  background-color: #1E1D1B !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+body.dark-mode #foundation .premium-card div[style*="backgroundColor"] p,
+body.dark-mode #foundation .premium-card div[style*="backgroundColor"] span,
+body.dark-mode #foundation .premium-card a[style*="backgroundColor"] p,
+body.dark-mode #foundation .premium-card a[style*="backgroundColor"] span {
+  color: #F5F2ED !important;
+}
+
+/* 4. Tier 2 Central Management (Niharika, Aditi, Khushali, Radhika, Shubhra) */
+body.dark-mode #foundation div[style*="gridTemplateColumns"] > div {
+  background-color: #1E1D1B !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+body.dark-mode #foundation div[style*="gridTemplateColumns"] > div p,
+body.dark-mode #foundation div[style*="gridTemplateColumns"] > div span {
+  color: #F5F2ED !important;
+}
+
+/* 5. Resources & Communication (Contact Channels, Social Media, Internal Communication) */
+body.dark-mode #foundation a[href*="mailto"],
+body.dark-mode #foundation a[href*="tel"],
+body.dark-mode #foundation a[href*="instagram"],
+body.dark-mode #foundation a[href*="linkedin"],
+body.dark-mode #foundation a[href*="whatsapp"],
+body.dark-mode #foundation a[href*="linktr"] {
+  background-color: #1E1D1B !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+body.dark-mode #foundation a[href*="mailto"] p,
+body.dark-mode #foundation a[href*="tel"] p,
+body.dark-mode #foundation a p,
+body.dark-mode #foundation a span {
+  color: #F5F2ED !important;
+}
+
+/* 6. Key Responsibilities, Legal Governance Principles, Future Vision, Management Hiring, Working Model, Services & Programs */
+body.dark-mode .premium-card h2,
+body.dark-mode .premium-card h3,
+body.dark-mode .premium-card h4,
+body.dark-mode .premium-card p,
+body.dark-mode .premium-card span,
+body.dark-mode .premium-card li,
+body.dark-mode .premium-card strong,
+body.dark-mode .premium-card blockquote {
+  color: #F5F2ED !important;
+}
+
+/* Off-white text for Services & Programs item cards (Child Development, Youth, Community, Healthcare, Employment, Webinars, Events, Internships) */
+body.dark-mode div[style*="gridTemplateColumns"] > div[style*="borderRadius"],
+body.dark-mode div[style*="gridTemplateColumns"] > div {
+  background-color: #252422 !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  color: #F5F2ED !important;
+}
+
+body.dark-mode div[style*="gridTemplateColumns"] > div span,
+body.dark-mode div[style*="gridTemplateColumns"] > div p,
+body.dark-mode div[style*="gridTemplateColumns"] > div h4,
+body.dark-mode div[style*="gridTemplateColumns"] > div h3 {
+  color: #F5F2ED !important;
+}
+
+/* Felicitations & Recognition award cards in dark mode */
+body.dark-mode div[style*="gridTemplateColumns"] > div[style*="backgroundColor: var(--color-bg-white)"],
+body.dark-mode div[style*="backgroundColor: var(--color-bg-white)"] {
+  background-color: #252422 !important;
+  color: #F5F2ED !important;
+}
+
+body.dark-mode div[style*="backgroundColor: var(--color-bg-white)"] p {
+  color: #F5F2ED !important;
+}
+
+/* Form Labels & Checkbox Agreement Text in Dark Mode */
+body.dark-mode .form-label,
+body.dark-mode form label,
+body.dark-mode .bylaw-agree-label {
+  color: #F5F2ED !important;
+}
+
+/* Sticky tab bar in Governance section */
+body.dark-mode div[style*="sticky"] {
+  background-color: #181716 !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+body.dark-mode div[style*="sticky"] button {
+  color: #ECE7DF !important;
+}
+
+body.dark-mode div[style*="sticky"] button[style*="2px solid"] {
+  background-color: #4A453F !important;
+  color: #FFFFFF !important;
+  border-color: #ECE7DF !important;
+}
+
+/* Milestone Nexus timeline cards */
+body.dark-mode .nexus-spotlight-card,
+body.dark-mode .nexus-stack-item {
+  background: #252422 !important;
+  color: #F5F2ED !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+body.dark-mode .nexus-stack-item.active {
+  background: #4A453F !important;
+  border-color: #ECE7DF !important;
+}
+
+body.dark-mode .nexus-spotlight-title,
+body.dark-mode .nexus-stack-item-title {
+  color: #F5F2ED !important;
+}
+
+body.dark-mode .nexus-spotlight-desc,
+body.dark-mode .nexus-stack-item-year {
+  color: #F5F2ED !important;
+}
+
+/* Form controls in dark mode */
+body.dark-mode input,
+body.dark-mode textarea,
+body.dark-mode select {
+  background-color: #252422 !important;
+  color: #F5F2ED !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+}
+
+/* ═════════════════════════════════════════════════════════════════════
+   USER SPECIFIC TEXT COLOR OVERRIDES (HIGH PRIORITY)
+   ═════════════════════════════════════════════════════════════════════ */
+
+/* 1. About section - Pill label above "Our Foundation Overview" */
+.governance-pill,
+section#foundation .governance-pill,
+body.dark-mode section#foundation .governance-pill {
+  color: #68696B !important;
+}
+
+/* 2. Programmes section - Both buttons (Support & Volunteer) text color = Gray (#68696B) */
+.prog-btn,
+.prog-btn span,
+.prog-btn svg,
+body.dark-mode .prog-btn,
+body.dark-mode .prog-btn span,
+body.dark-mode .prog-btn svg {
+  color: #68696B !important;
+}
+
+/* 3. Blogs section - Featured blog title & button text color = Gray (#68696B) */
+.featured-blog-title,
+.featured-blog-title a,
+body.dark-mode .featured-blog-title,
+body.dark-mode .featured-blog-title a,
+.featured-blog-btn,
+.featured-blog-btn span,
+.featured-blog-btn svg,
+body.dark-mode .featured-blog-btn,
+body.dark-mode .featured-blog-btn span,
+body.dark-mode .featured-blog-btn svg {
+  color: #68696B !important;
+}
+
+/* 4. Internship & Volunteer - "Our Values" and "Professional Working Culture" cards content text = Gray (#68696B) */
+.values-culture-card,
+.values-culture-card h3,
+.values-culture-card p,
+.values-culture-card span,
+.values-culture-card li,
+body.dark-mode .values-culture-card,
+body.dark-mode .values-culture-card h3,
+body.dark-mode .values-culture-card p,
+body.dark-mode .values-culture-card span,
+body.dark-mode .values-culture-card li {
+  color: #68696B !important;
+}
+
+/* 5. Volunteer Registration Form - Title & Icon Orange, Entry Tags / Labels Black */
+.volunteer-form-gray-card,
+body.dark-mode .volunteer-form-gray-card {
+  background-color: #383532 !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+}
+
+.volunteer-form-gray-card h2,
+.volunteer-form-gray-card h2 span,
+.volunteer-form-gray-card h2 svg,
+body.dark-mode .volunteer-form-gray-card h2,
+body.dark-mode .volunteer-form-gray-card h2 span,
+body.dark-mode .volunteer-form-gray-card h2 svg {
+  color: #FC4E1E !important;
+  fill: #FC4E1E !important;
+}
+
+.volunteer-form-gray-card label,
+.volunteer-form-gray-card .form-label,
+.volunteer-form-gray-card .bylaw-agree-label,
+body.dark-mode .volunteer-form-gray-card label,
+body.dark-mode .volunteer-form-gray-card .form-label,
+body.dark-mode .volunteer-form-gray-card .bylaw-agree-label {
+  color: #000000 !important;
+  font-weight: 700 !important;
+}
+
+.volunteer-form-gray-card input,
+.volunteer-form-gray-card select,
+.volunteer-form-gray-card textarea,
+body.dark-mode .volunteer-form-gray-card input,
+body.dark-mode .volunteer-form-gray-card select,
+body.dark-mode .volunteer-form-gray-card textarea {
+  background-color: #FFFFFF !important;
+  color: #000000 !important;
+  border: 1px solid rgba(0, 0, 0, 0.25) !important;
+}
+
+/* Internship Registration Form - Title & Icon Orange, Entry Tags / Labels Black */
+.internship-form-gray-card,
+body.dark-mode .internship-form-gray-card {
+  background-color: #383532 !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+}
+
+.internship-form-gray-card h2,
+.internship-form-gray-card h2 span,
+.internship-form-gray-card h2 svg,
+body.dark-mode .internship-form-gray-card h2,
+body.dark-mode .internship-form-gray-card h2 span,
+body.dark-mode .internship-form-gray-card h2 svg {
+  color: #FC4E1E !important;
+  fill: #FC4E1E !important;
+}
+
+.internship-form-gray-card label,
+.internship-form-gray-card .form-label,
+.internship-form-gray-card .bylaw-agree-label,
+body.dark-mode .internship-form-gray-card label,
+body.dark-mode .internship-form-gray-card .form-label,
+body.dark-mode .internship-form-gray-card .bylaw-agree-label {
+  color: #000000 !important;
+  font-weight: 700 !important;
+}
+
+.internship-form-gray-card input,
+.internship-form-gray-card select,
+.internship-form-gray-card textarea,
+body.dark-mode .internship-form-gray-card input,
+body.dark-mode .internship-form-gray-card select,
+body.dark-mode .internship-form-gray-card textarea {
+  background-color: #FFFFFF !important;
+  color: #000000 !important;
+  border: 1px solid rgba(0, 0, 0, 0.25) !important;
+}
+
+/* ALL content text inside Program Parameters, Internship Tasks & Focus, Internship Protocol & Guidelines, and Contact Information cards = Gray (#68696B) */
+.gray-content-card p,
+.gray-content-card li,
+.gray-content-card strong,
+.gray-content-card span:not(.badge-custom),
+.gray-content-card div:not(.section-title),
+.contact-info-card p,
+.contact-info-card li,
+.contact-info-card strong,
+.contact-info-card span,
+.contact-info-card a,
+.contact-info-card div:not(h2):not(.section-title),
+body.dark-mode .gray-content-card p,
+body.dark-mode .gray-content-card li,
+body.dark-mode .gray-content-card strong,
+body.dark-mode .gray-content-card span:not(.badge-custom),
+body.dark-mode .gray-content-card div:not(.section-title),
+body.dark-mode .contact-info-card p,
+body.dark-mode .contact-info-card li,
+body.dark-mode .contact-info-card strong,
+body.dark-mode .contact-info-card span,
+body.dark-mode .contact-info-card a,
+body.dark-mode .contact-info-card div:not(h2):not(.section-title) {
+  color: #68696B !important;
+}
+
+/* Card headings & icons in Program Parameters, Internship Tasks & Focus, Internship Protocol & Guidelines, Contact Information */
+.gray-content-card h2,
+.gray-content-card h2 span,
+.gray-content-card h2 svg,
+.gray-content-card h3,
+.gray-content-card h3 span,
+.gray-content-card h3 svg,
+.contact-info-card h2,
+.contact-info-card h2 span,
+.contact-info-card h2 svg,
+body.dark-mode .gray-content-card h2,
+body.dark-mode .gray-content-card h2 span,
+body.dark-mode .gray-content-card h2 svg,
+body.dark-mode .gray-content-card h3,
+body.dark-mode .gray-content-card h3 span,
+body.dark-mode .gray-content-card h3 svg,
+body.dark-mode .contact-info-card h2,
+body.dark-mode .contact-info-card h2 span,
+body.dark-mode .contact-info-card h2 svg {
+  color: #FC4E1E !important;
+  fill: #FC4E1E !important;
+}
+
+/* Contact Page Form - Title & Icon Orange, Labels Black, Inputs White */
+.contact-form-gray-card,
+body.dark-mode .contact-form-gray-card {
+  background-color: #383532 !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+}
+
+.contact-form-gray-card h3,
+.contact-form-gray-card h3 span,
+.contact-form-gray-card h3 svg,
+body.dark-mode .contact-form-gray-card h3,
+body.dark-mode .contact-form-gray-card h3 span,
+body.dark-mode .contact-form-gray-card h3 svg {
+  color: #FC4E1E !important;
+  fill: #FC4E1E !important;
+}
+
+.contact-form-gray-card label,
+.contact-form-gray-card .form-label,
+body.dark-mode .contact-form-gray-card label,
+body.dark-mode .contact-form-gray-card .form-label {
+  color: #000000 !important;
+  font-weight: 700 !important;
+}
+
+.contact-form-gray-card input,
+.contact-form-gray-card select,
+.contact-form-gray-card textarea,
+body.dark-mode .contact-form-gray-card input,
+body.dark-mode .contact-form-gray-card select,
+body.dark-mode .contact-form-gray-card textarea {
+  background-color: #FFFFFF !important;
+  color: #000000 !important;
+  border: 1px solid rgba(0, 0, 0, 0.25) !important;
+}
+
+/* Match submit button color and text with donate button */
+.donate-submit-btn,
+button.donate-submit-btn,
+body.dark-mode .donate-submit-btn,
+body.dark-mode button.donate-submit-btn {
+  background-color: var(--color-secondary) !important;
+  color: #2d3748 !important;
+  border: none !important;
+  box-shadow: 0 4px 14px rgba(252, 78, 30, 0.35) !important;
+}
+
+.donate-submit-btn *,
+button.donate-submit-btn *,
+body.dark-mode .donate-submit-btn *,
+body.dark-mode button.donate-submit-btn * {
+  color: #2d3748 !important;
+  fill: #2d3748 !important;
+  stroke: #2d3748 !important;
+}
+
+.donate-submit-btn:hover,
+button.donate-submit-btn:hover,
+body.dark-mode .donate-submit-btn:hover,
+body.dark-mode button.donate-submit-btn:hover {
+  background-color: var(--color-secondary-dark) !important;
+  color: #1a202c !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(252, 78, 30, 0.45) !important;
+}
+
+
+
+
+
+

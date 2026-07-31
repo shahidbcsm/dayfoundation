@@ -165,10 +165,13 @@ export const Contact: React.FC = () => {
           <div className="grid-2" style={{ alignItems: "start" }}>
             
             {/* 1. Contact Information Card */}
-            <div className="premium-card" style={{ padding: "2.5rem", backgroundColor: "var(--color-bg-white)", border: "1px solid var(--color-border-light)", display: "flex", flexDirection: "column", gap: "2rem" }}>
-              <h2 style={{ fontSize: "1.5rem", color: "var(--color-primary)", borderBottom: "1px solid var(--color-border-light)", paddingBottom: "0.75rem" }}>
-                Contact Information
-              </h2>
+            <div className="premium-card contact-info-card gray-content-card" style={{ padding: "2.5rem", backgroundColor: "var(--color-bg-white)", border: "1px solid var(--color-border-light)", display: "flex", flexDirection: "column", gap: "2rem" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px", borderBottom: "1px solid var(--color-border-light)", paddingBottom: "0.75rem" }}>
+                <MapPin size={24} color="#FC4E1E" style={{ color: "#FC4E1E" }} />
+                <h2 style={{ fontSize: "1.5rem", color: "#FC4E1E", margin: 0, fontWeight: 700 }}>
+                  Contact Information
+                </h2>
+              </div>
 
               <div style={{ display: "flex", gap: "1rem" }}>
                 <div style={{ width: "40px", height: "40px", borderRadius: "10px", backgroundColor: "rgba(252, 78, 30, 0.08)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--color-secondary)", flexShrink: 0 }}>
@@ -176,13 +179,13 @@ export const Contact: React.FC = () => {
                 </div>
                 <div style={{ width: "100%" }}>
                   <h4 style={{ fontSize: "0.95rem", color: "var(--color-primary)", fontWeight: 800, marginBottom: "0.5rem" }}>Official Email Desk</h4>
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: "6px", fontSize: "0.85rem" }}>
-                    <div><strong>Official/General:</strong> <a href="mailto:info@dayfoundation.in" style={{ color: "var(--color-secondary)", textDecoration: "none" }}>info@dayfoundation.in</a></div>
-                    <div><strong>HR Department:</strong> <a href="mailto:hr@dayfoundation.in" style={{ color: "var(--color-secondary)", textDecoration: "none" }}>hr@dayfoundation.in</a></div>
-                    <div><strong>Legal & Communication:</strong> <a href="mailto:legal@dayfoundation.in" style={{ color: "var(--color-secondary)", textDecoration: "none" }}>legal@dayfoundation.in</a></div>
-                    <div><strong>Connect & PR:</strong> <a href="mailto:connect@dayfoundation.in" style={{ color: "var(--color-secondary)", textDecoration: "none" }}>connect@dayfoundation.in</a></div>
-                    <div><strong>Volunteer Support:</strong> <a href="mailto:volunteer@dayfoundation.in" style={{ color: "var(--color-secondary)", textDecoration: "none" }}>volunteer@dayfoundation.in</a></div>
-                    <div><strong>General Support:</strong> <a href="mailto:support@dayfoundation.in" style={{ color: "var(--color-secondary)", textDecoration: "none" }}>support@dayfoundation.in</a></div>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: "6px", fontSize: "0.85rem", color: "#68696B" }}>
+                    <div style={{ color: "#68696B" }}><strong style={{ color: "#68696B" }}>Official/General:</strong> <a href="mailto:info@dayfoundation.in" style={{ color: "#68696B", textDecoration: "none" }}>info@dayfoundation.in</a></div>
+                    <div style={{ color: "#68696B" }}><strong style={{ color: "#68696B" }}>HR Department:</strong> <a href="mailto:hr@dayfoundation.in" style={{ color: "#68696B", textDecoration: "none" }}>hr@dayfoundation.in</a></div>
+                    <div style={{ color: "#68696B" }}><strong style={{ color: "#68696B" }}>Legal &amp; Communication:</strong> <a href="mailto:legal@dayfoundation.in" style={{ color: "#68696B", textDecoration: "none" }}>legal@dayfoundation.in</a></div>
+                    <div style={{ color: "#68696B" }}><strong style={{ color: "#68696B" }}>Connect &amp; PR:</strong> <a href="mailto:connect@dayfoundation.in" style={{ color: "#68696B", textDecoration: "none" }}>connect@dayfoundation.in</a></div>
+                    <div style={{ color: "#68696B" }}><strong style={{ color: "#68696B" }}>Volunteer Support:</strong> <a href="mailto:volunteer@dayfoundation.in" style={{ color: "#68696B", textDecoration: "none" }}>volunteer@dayfoundation.in</a></div>
+                    <div style={{ color: "#68696B" }}><strong style={{ color: "#68696B" }}>General Support:</strong> <a href="mailto:support@dayfoundation.in" style={{ color: "#68696B", textDecoration: "none" }}>support@dayfoundation.in</a></div>
                   </div>
                 </div>
               </div>
@@ -192,10 +195,10 @@ export const Contact: React.FC = () => {
                   <Phone size={18} style={{ marginInline: "auto" }} />
                 </div>
                 <div>
-                  <h4 style={{ fontSize: "0.95rem", color: "var(--color-primary)", fontWeight: 800 }}>Support & Emergency Mobiles</h4>
-                  <div><strong>Contact Number:</strong> <a href="tel:+918982144416" style={{ fontSize: "0.9rem", color: "var(--color-text-muted)" }}>+91 89821 44416</a></div>
-                  <div><strong>Emergency Contact:</strong> <a href="tel:+916265114416" style={{ fontSize: "0.9rem", color: "var(--color-text-muted)" }}>+91 62651 14416</a></div>
-                  <p style={{ fontSize: "0.75rem", color: "var(--color-text-light)", marginTop: "0.25rem" }}>Monday - Saturday (10 AM to 6 PM)</p>
+                  <h4 style={{ fontSize: "0.95rem", color: "var(--color-primary)", fontWeight: 800 }}>Support &amp; Emergency Mobiles</h4>
+                  <div><strong style={{ color: "#68696B" }}>Contact Number:</strong> <a href="tel:+918982144416" style={{ fontSize: "0.9rem", color: "#68696B" }}>+91 89821 44416</a></div>
+                  <div><strong style={{ color: "#68696B" }}>Emergency Contact:</strong> <a href="tel:+916265114416" style={{ fontSize: "0.9rem", color: "#68696B" }}>+91 62651 14416</a></div>
+                  <p style={{ fontSize: "0.75rem", color: "#68696B", marginTop: "0.25rem" }}>Monday - Saturday (10 AM to 6 PM)</p>
                 </div>
               </div>
 
@@ -205,7 +208,7 @@ export const Contact: React.FC = () => {
                 </div>
                 <div>
                   <h4 style={{ fontSize: "0.95rem", color: "var(--color-primary)", fontWeight: 800 }}>Registered Address</h4>
-                  <p style={{ fontSize: "0.9rem", color: "var(--color-text-muted)", lineHeight: "1.5" }}>
+                  <p style={{ fontSize: "0.9rem", color: "#68696B", lineHeight: "1.5" }}>
                     C/O Maharajpur Adhartal, 2 Patel Nagar, Ankita Parisar, Jabalpur - 482004, Madhya Pradesh, India.
                   </p>
                 </div>
@@ -217,27 +220,30 @@ export const Contact: React.FC = () => {
                 </div>
                 <div style={{ width: "100%" }}>
                   <h4 style={{ fontSize: "0.95rem", color: "var(--color-primary)", fontWeight: 800, marginBottom: "0.5rem" }}>Official Social Channels</h4>
-                  <div style={{ display: "flex", flexDirection: "column", gap: "6px", fontSize: "0.85rem" }}>
-                    <div><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/company/day-foundation" target="_blank" rel="noopener noreferrer" style={{ color: "var(--color-secondary)", textDecoration: "none" }}>dayfoundation (LinkedIn)</a></div>
-                    <div><strong>WhatsApp Channel:</strong> <a href="https://www.whatsapp.com/channel/0029VaSrBkW4Y9lsGYcgPn0E" target="_blank" rel="noopener noreferrer" style={{ color: "var(--color-secondary)", textDecoration: "none" }}>Join WhatsApp Channel</a></div>
-                    <div><strong>Linktree Directory:</strong> <a href="https://linktr.ee/dayfoundation" target="_blank" rel="noopener noreferrer" style={{ color: "var(--color-secondary)", textDecoration: "none" }}>dayfoundation (Linktree)</a></div>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "6px", fontSize: "0.85rem", color: "#68696B" }}>
+                    <div style={{ color: "#68696B" }}><strong style={{ color: "#68696B" }}>LinkedIn:</strong> <a href="https://www.linkedin.com/company/day-foundation" target="_blank" rel="noopener noreferrer" style={{ color: "#68696B", textDecoration: "none" }}>dayfoundation (LinkedIn)</a></div>
+                    <div style={{ color: "#68696B" }}><strong style={{ color: "#68696B" }}>WhatsApp Channel:</strong> <a href="https://www.whatsapp.com/channel/0029VaSrBkW4Y9lsGYcgPn0E" target="_blank" rel="noopener noreferrer" style={{ color: "#68696B", textDecoration: "none" }}>Join WhatsApp Channel</a></div>
+                    <div style={{ color: "#68696B" }}><strong style={{ color: "#68696B" }}>Linktree Directory:</strong> <a href="https://linktr.ee/dayfoundation" target="_blank" rel="noopener noreferrer" style={{ color: "#68696B", textDecoration: "none" }}>dayfoundation (Linktree)</a></div>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* 2. Feedback Form Card */}
-            <div id="contact-form-card" className="premium-card" style={{ padding: "2.5rem", backgroundColor: "var(--color-bg-white)", border: "1px solid var(--color-border-light)" }}>
+            <div id="contact-form-card" className="premium-card contact-form-gray-card" style={{ padding: "2.5rem", backgroundColor: "#383532", border: "1px solid rgba(255,255,255,0.15)" }}>
 
               <AnimatePresence mode="wait">
                 {!submitted ? (
                   formType === 'contact' ? (
                     <motion.form key="form" onSubmit={handleSubmit}>
-                      <h3 style={{ fontSize: "1.25rem", color: "var(--color-primary)", marginBottom: "1.5rem" }}>Send A Direct Message</h3>
+                      <h3 style={{ fontSize: "1.25rem", color: "#FC4E1E", marginBottom: "1.5rem", display: "flex", alignItems: "center", gap: "8px" }}>
+                        <Send size={20} color="#FC4E1E" style={{ color: "#FC4E1E" }} />
+                        <span style={{ color: "#FC4E1E" }}>Send A Direct Message</span>
+                      </h3>
 
                       <div className="form-group-row">
                         <div className="form-group">
-                          <label className="form-label" htmlFor="name">Your Name *</label>
+                          <label className="form-label" htmlFor="name">Full Name / Detail Name *</label>
                           <input
                             type="text"
                             id="name"
@@ -295,7 +301,7 @@ export const Contact: React.FC = () => {
                       <button
                         type="submit"
                         disabled={loading}
-                        className="btn btn-primary"
+                        className="btn btn-primary donate-submit-btn"
                         style={{ width: "100%", marginTop: "1rem" }}
                       >
                         {loading ? (
@@ -314,7 +320,7 @@ export const Contact: React.FC = () => {
                   ) : (
                     <motion.form key="complaint-form" onSubmit={handleComplaintSubmit}>
                       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem", flexWrap: "wrap", gap: "8px" }}>
-                        <h3 style={{ fontSize: "1.25rem", color: "var(--color-primary)", margin: 0 }}>Register Complaint</h3>
+                        <h3 style={{ fontSize: "1.25rem", color: "#FC4E1E", margin: 0 }}>Register Complaint</h3>
                         <button
                           type="button"
                           onClick={() => { setFormType('contact'); setSubmitted(false); }}
@@ -326,7 +332,7 @@ export const Contact: React.FC = () => {
 
                       <div className="form-group-row">
                         <div className="form-group">
-                          <label className="form-label" htmlFor="comp-name">Your Name *</label>
+                          <label className="form-label" htmlFor="comp-name">Full Name / Detail Name *</label>
                           <input
                             type="text"
                             id="comp-name"

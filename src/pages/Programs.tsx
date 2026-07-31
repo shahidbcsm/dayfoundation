@@ -49,9 +49,9 @@ export const Programs: React.FC = () => {
       badge: "🏥 Medical Camp",
       description: "Our Healthcare Camps offer basic health check-ups, health awareness sessions, and guidance to improve the well-being of underserved communities.",
       image: "/assets/gallery/gallery-008.jpg",
-      ctaText: "Donate Health Kits",
+      ctaText: "Support Healthcare",
       ctaPath: "/donate",
-      secondaryCtaText: "Join Camp",
+      secondaryCtaText: "Volunteer",
       secondaryCtaPath: "/volunteer"
     },
     {
@@ -61,8 +61,8 @@ export const Programs: React.FC = () => {
       badge: "🌱 Skill & Leadership",
       description: "We organize Youth Activities that focus on leadership, volunteering, skill development, and empowering young people to become responsible changemakers.",
       image: "/assets/gallery/gallery-012.jpg",
-      ctaText: "Join Internships",
-      ctaPath: "/internship",
+      ctaText: "Support Youth",
+      ctaPath: "/donate",
       secondaryCtaText: "Volunteer",
       secondaryCtaPath: "/volunteer"
     },
@@ -73,7 +73,7 @@ export const Programs: React.FC = () => {
       badge: "🤝 Local Impact",
       description: "Through Community Engagement Events, we work closely with local communities to address social issues, encourage participation, and strengthen social bonds.",
       image: "/assets/gallery/gallery-016.jpg",
-      ctaText: "Support Drives",
+      ctaText: "Support Community",
       ctaPath: "/donate",
       secondaryCtaText: "Volunteer",
       secondaryCtaPath: "/volunteer"
@@ -85,9 +85,9 @@ export const Programs: React.FC = () => {
       badge: "💻 Online Sessions",
       description: "We host Online Webinars and Awareness Sessions featuring experts and professionals to educate the public on important social, health, educational, and legal topics.",
       image: "/assets/gallery/gallery-022.jpg",
-      ctaText: "Watch Webinars",
-      ctaPath: "/blogs",
-      secondaryCtaText: "Register to Join",
+      ctaText: "Support Webinars",
+      ctaPath: "/donate",
+      secondaryCtaText: "Volunteer",
       secondaryCtaPath: "/volunteer"
     },
     {
@@ -97,9 +97,9 @@ export const Programs: React.FC = () => {
       badge: "🎁 Aid Campaigns",
       description: "Our Distribution Drives provide essential items such as food, clothing, stationery, hygiene kits, and other necessities to individuals and families in need.",
       image: "/assets/gallery/gallery-028.jpg",
-      ctaText: "Donate Supplies",
+      ctaText: "Support Relief",
       ctaPath: "/donate",
-      secondaryCtaText: "Join Drives",
+      secondaryCtaText: "Volunteer",
       secondaryCtaPath: "/volunteer"
     },
     {
@@ -111,7 +111,7 @@ export const Programs: React.FC = () => {
       image: "/assets/gallery/gallery-033.jpg",
       ctaText: "Support Equality",
       ctaPath: "/donate",
-      secondaryCtaText: "Join Us",
+      secondaryCtaText: "Volunteer",
       secondaryCtaPath: "/volunteer"
     },
     {
@@ -121,7 +121,7 @@ export const Programs: React.FC = () => {
       badge: "🎉 Joy & Celebrations",
       description: "We celebrate birthdays, festivals, and special occasions with children through fun activities, games, gifts, and educational experiences, creating joyful memories and promoting emotional well-being.",
       image: "/assets/gallery/gallery-038.jpg",
-      ctaText: "Share Joy",
+      ctaText: "Support Happiness",
       ctaPath: "/donate",
       secondaryCtaText: "Volunteer",
       secondaryCtaPath: "/volunteer"
@@ -256,7 +256,7 @@ export const Programs: React.FC = () => {
                   <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap", marginTop: "auto", borderTop: "1px solid var(--color-border-light)", paddingTop: "1.25rem" }}>
                     <Link 
                       to={prog.ctaPath} 
-                      className="btn btn-primary" 
+                      className="btn btn-primary prog-btn" 
                       style={{ padding: "0.5rem 1.25rem", fontSize: "0.825rem", flexGrow: 1, display: "flex", justifyContent: "center", alignItems: "center", gap: "6px" }}
                     >
                       <Heart size={14} className="fill-current" />
@@ -265,7 +265,7 @@ export const Programs: React.FC = () => {
                     {prog.secondaryCtaText && (
                       <Link 
                         to={prog.secondaryCtaPath || "/"} 
-                        className="btn btn-outline" 
+                        className="btn btn-outline prog-btn" 
                         style={{ padding: "0.5rem 1.25rem", fontSize: "0.825rem", display: "flex", justifyContent: "center", alignItems: "center", gap: "6px" }}
                       >
                         <span>{prog.secondaryCtaText}</span>

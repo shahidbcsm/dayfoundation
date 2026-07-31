@@ -118,23 +118,23 @@
 
 /* ─── Dark Mode Theme ─── */
 body.dark-mode {
-  --color-bg-white: #121316;
-  --color-bg-gray: #18191c;
-  --color-bg-cream: #1e2024;
-  --color-bg-sand: #25282e;
-  --color-bg-dark: #0a0b0d;
+  --color-bg-white: #181716;
+  --color-bg-gray: #1E1D1B;
+  --color-bg-cream: #9D9588;
+  --color-bg-sand: #8A8275;
+  --color-bg-dark: #121110;
 
-  --color-text-dark: #f4f4f5;
-  --color-text-muted: #a1a1aa;
-  --color-text-light: #71717a;
+  --color-text-dark: #F5F2ED;
+  --color-text-muted: #C5BEB3;
+  --color-text-light: #ECE7DF;
 
   --color-border: rgba(255, 255, 255, 0.12);
   --color-border-light: rgba(255, 255, 255, 0.06);
-  --color-header-bg: rgba(18, 19, 22, 0.95);
+  --color-header-bg: rgba(24, 23, 22, 0.95);
 
-  --glass-bg: rgba(18, 19, 22, 0.88);
+  --glass-bg: rgba(24, 23, 22, 0.88);
   --glass-border: rgba(255, 255, 255, 0.1);
-  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
 /* ═══════════════════════════════════════════

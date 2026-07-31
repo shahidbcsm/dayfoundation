@@ -179,21 +179,21 @@ export const Volunteer: React.FC = () => {
             </div>
 
             {/* Our Values card */}
-            <div className="premium-card" style={{ padding: "2.5rem", backgroundColor: "var(--color-bg-white)" }}>
+            <div className="premium-card values-culture-card" style={{ padding: "2.5rem", backgroundColor: "var(--color-bg-white)" }}>
               <span className="badge-custom">OUR CULTURE</span>
-              <h3 style={{ fontSize: "1.75rem", color: "var(--color-primary)", marginTop: "0.5rem", marginBottom: "1rem" }}>Our Values</h3>
-              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "0.75rem", fontSize: "0.9rem", color: "var(--color-text-muted)" }}>
+              <h3 style={{ fontSize: "1.75rem", color: "#68696B", marginTop: "0.5rem", marginBottom: "1rem" }}>Our Values</h3>
+              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "0.75rem", fontSize: "0.9rem", color: "#68696B" }}>
                 <li style={{ display: "flex", gap: "8px", alignItems: "flex-start" }}>
-                  <span style={{ color: "var(--color-secondary)", fontWeight: 800 }}>•</span>
-                  <span>We respect all castes, religions, cultures, and sexual orientations.</span>
+                  <span style={{ color: "#68696B", fontWeight: 800 }}>•</span>
+                  <span style={{ color: "#68696B" }}>We respect all castes, religions, cultures, and sexual orientations.</span>
                 </li>
                 <li style={{ display: "flex", gap: "8px", alignItems: "flex-start" }}>
-                  <span style={{ color: "var(--color-secondary)", fontWeight: 800 }}>•</span>
-                  <span>We believe in creating an inclusive, safe, and welcoming environment for everyone.</span>
+                  <span style={{ color: "#68696B", fontWeight: 800 }}>•</span>
+                  <span style={{ color: "#68696B" }}>We believe in creating an inclusive, safe, and welcoming environment for everyone.</span>
                 </li>
                 <li style={{ display: "flex", gap: "8px", alignItems: "flex-start" }}>
-                  <span style={{ color: "var(--color-secondary)", fontWeight: 800 }}>•</span>
-                  <span>Every volunteer is treated with dignity and respect.</span>
+                  <span style={{ color: "#68696B", fontWeight: 800 }}>•</span>
+                  <span style={{ color: "#68696B" }}>Every volunteer is treated with dignity and respect.</span>
                 </li>
               </ul>
             </div>
@@ -266,27 +266,27 @@ export const Volunteer: React.FC = () => {
       {/* Professional Working Culture */}
       <section className="section-padding" style={{ backgroundColor: "var(--color-bg-cream)", borderBottom: "1px solid var(--color-border-light)" }}>
         <div className="container-custom">
-          <div className="premium-card" style={{ padding: "3rem", borderLeft: "4px solid var(--color-primary)", backgroundColor: "var(--color-bg-white)", maxWidth: "800px", margin: "0 auto" }}>
-            <h3 style={{ fontSize: "1.75rem", color: "var(--color-primary)", marginBottom: "1.5rem" }}>Professional Working Culture</h3>
+          <div className="premium-card values-culture-card" style={{ padding: "3rem", borderLeft: "4px solid #68696B", backgroundColor: "var(--color-bg-white)", maxWidth: "800px", margin: "0 auto" }}>
+            <h3 style={{ fontSize: "1.75rem", color: "#68696B", marginBottom: "1.5rem" }}>Professional Working Culture</h3>
             <div className="grid-2">
               <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-                <div style={{ display: "flex", gap: "10px", alignItems: "flex-start", fontSize: "0.875rem", color: "var(--color-text-dark)" }}>
-                  <span style={{ color: "var(--color-secondary)", fontWeight: "bold" }}>✔</span>
-                  <span>Volunteers work under a structured management system.</span>
+                <div style={{ display: "flex", gap: "10px", alignItems: "flex-start", fontSize: "0.875rem", color: "#68696B" }}>
+                  <span style={{ color: "#68696B", fontWeight: "bold" }}>✔</span>
+                  <span style={{ color: "#68696B" }}>Volunteers work under a structured management system.</span>
                 </div>
-                <div style={{ display: "flex", gap: "10px", alignItems: "flex-start", fontSize: "0.875rem", color: "var(--color-text-dark)" }}>
-                  <span style={{ color: "var(--color-secondary)", fontWeight: "bold" }}>✔</span>
-                  <span>Clear roles and responsibilities are assigned to every department.</span>
+                <div style={{ display: "flex", gap: "10px", alignItems: "flex-start", fontSize: "0.875rem", color: "#68696B" }}>
+                  <span style={{ color: "#68696B", fontWeight: "bold" }}>✔</span>
+                  <span style={{ color: "#68696B" }}>Clear roles and responsibilities are assigned to every department.</span>
                 </div>
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-                <div style={{ display: "flex", gap: "10px", alignItems: "flex-start", fontSize: "0.875rem", color: "var(--color-text-dark)" }}>
-                  <span style={{ color: "var(--color-secondary)", fontWeight: "bold" }}>✔</span>
-                  <span>Adherence to our bylaws, code of conduct, and organizational policies is essential.</span>
+                <div style={{ display: "flex", gap: "10px", alignItems: "flex-start", fontSize: "0.875rem", color: "#68696B" }}>
+                  <span style={{ color: "#68696B", fontWeight: "bold" }}>✔</span>
+                  <span style={{ color: "#68696B" }}>Adherence to our bylaws, code of conduct, and organizational policies is essential.</span>
                 </div>
-                <div style={{ display: "flex", gap: "10px", alignItems: "flex-start", fontSize: "0.875rem", color: "var(--color-text-dark)" }}>
-                  <span style={{ color: "var(--color-secondary)", fontWeight: "bold" }}>✔</span>
-                  <span>Discipline, accountability, and teamwork help us deliver better outcomes for the children and communities we serve.</span>
+                <div style={{ display: "flex", gap: "10px", alignItems: "flex-start", fontSize: "0.875rem", color: "#68696B" }}>
+                  <span style={{ color: "#68696B", fontWeight: "bold" }}>✔</span>
+                  <span style={{ color: "#68696B" }}>Discipline, accountability, and teamwork help us deliver better outcomes for the children and communities we serve.</span>
                 </div>
               </div>
             </div>
@@ -336,15 +336,15 @@ export const Volunteer: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
-                className="premium-card premium-form-card"
-                style={{ backgroundColor: "var(--color-bg-white)", border: "1px solid var(--color-border-light)", maxWidth: "680px", marginInline: "auto" }}
+                className="premium-card premium-form-card volunteer-form-gray-card"
+                style={{ backgroundColor: "#383532", border: "1px solid rgba(255,255,255,0.15)", color: "#FFFFFF", maxWidth: "800px", marginInline: "auto" }}
               >
-                <div style={{ marginBottom: "2rem", borderBottom: "1px solid var(--color-border-light)", paddingBottom: "1.5rem" }}>
-                  <h2 style={{ fontSize: "1.5rem", color: "var(--color-primary)", display: "flex", alignItems: "center", gap: "8px" }}>
-                    <Heart size={22} className="text-secondary fill-current" />
-                    <span>Volunteer Registration Form</span>
+                <div style={{ marginBottom: "2rem", borderBottom: "1px solid rgba(255,255,255,0.15)", paddingBottom: "1.5rem" }}>
+                  <h2 style={{ fontSize: "1.5rem", color: "#FC4E1E", display: "flex", alignItems: "center", gap: "8px" }}>
+                    <Heart size={22} color="#FC4E1E" style={{ color: "#FC4E1E" }} className="fill-current" />
+                    <span style={{ color: "#FC4E1E" }}>Volunteer Registration Form</span>
                   </h2>
-                  <p style={{ fontSize: "0.85rem", color: "var(--color-text-muted)", marginTop: "0.25rem" }}>
+                  <p style={{ fontSize: "0.85rem", color: "#ECE7DF", marginTop: "0.25rem" }}>
                     Please fill in your authentic details below. A coordinator from your selected city will contact you.
                   </p>
                 </div>
@@ -359,7 +359,7 @@ export const Volunteer: React.FC = () => {
                   {/* Row 1: Name & Email */}
                   <div className="form-group-row">
                     <div className="form-group">
-                      <label className="form-label" htmlFor="name">Full Name *</label>
+                      <label className="form-label" htmlFor="name">Full Name / Detail Name *</label>
                       <input 
                         type="text" 
                         id="name" 
@@ -540,14 +540,14 @@ export const Volunteer: React.FC = () => {
                     ></textarea>
                   </div>
 
-                  <div style={{ display: "flex", gap: "10px", alignItems: "flex-start", marginBottom: "1.5rem" }}>
+                  <div style={{ display: "flex", gap: "12px", alignItems: "center", marginBottom: "1.5rem", padding: "0.85rem 1.1rem", backgroundColor: "rgba(252, 78, 30, 0.06)", borderRadius: "12px", border: "1px solid rgba(252, 78, 30, 0.2)" }}>
                     <input 
                       type="checkbox" 
                       id="bylawAgree" 
                       required 
-                      style={{ marginTop: "4px", cursor: "pointer" }}
+                      style={{ cursor: "pointer", width: "18px", height: "18px", flexShrink: 0, accentColor: "var(--color-secondary)" }}
                     />
-                    <label htmlFor="bylawAgree" style={{ fontSize: "0.8rem", color: "var(--color-text-muted)", cursor: "pointer", lineHeight: "1.4" }}>
+                    <label htmlFor="bylawAgree" style={{ fontSize: "0.875rem", cursor: "pointer", lineHeight: "1.5", fontWeight: "600" }} className="bylaw-agree-label">
                       I agree to abide by the BHTDAY Welfare Foundation Bylaws, code of conduct, and volunteer guidelines.
                     </label>
                   </div>
@@ -555,7 +555,7 @@ export const Volunteer: React.FC = () => {
                   <button 
                     type="submit" 
                     disabled={loading}
-                    className="btn btn-primary"
+                    className="btn btn-primary donate-submit-btn"
                     style={{ width: "100%", marginTop: "1.5rem" }}
                   >
                     {loading ? (

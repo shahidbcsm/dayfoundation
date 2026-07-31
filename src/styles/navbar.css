@@ -28,12 +28,12 @@
 }
 
 body.dark-mode .header-nav {
-  background-color: var(--color-header-bg, rgba(15, 23, 42, 0.85));
-  border-bottom-color: var(--color-border-dark);
+  background-color: #181716 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
 }
 
 body.dark-mode .header-nav.scrolled {
-  background-color: var(--color-bg-white);
+  background-color: #181716 !important;
 }
 
 .nav-container {
@@ -95,7 +95,7 @@ body.dark-mode .nav-logo {
 }
 
 .nav-link {
-  font-family: var(--font-sans);
+  font-family: 'Garet', 'Outfit', 'Inter', sans-serif;
   font-size: var(--fs-sm);
   font-weight: 700;
   color: #343537;
@@ -161,7 +161,7 @@ body.dark-mode .theme-toggle-btn {
 .nav-donate-desktop {
   background-color: #DCFBA6 !important;
   color: #68696B !important;
-  font-family: var(--font-sans) !important;
+  font-family: 'Garet', 'Outfit', 'Inter', sans-serif !important;
   font-weight: 700 !important;
   border-radius: 9999px !important;
   border: none !important;

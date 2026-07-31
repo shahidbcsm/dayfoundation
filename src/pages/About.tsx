@@ -218,7 +218,7 @@ export const About: React.FC = () => {
                 Founded on <strong>12th April 2022</strong>, DAY Foundation (BHTDAY Welfare Foundation) began with a clear, radical goal: to bridge critical gaps in primary education, healthcare diagnostics, and employment options by transforming youth energy into standard social work.
               </p>
               <p style={{ color: "var(--color-text-muted)", lineHeight: "1.7", marginBottom: "1.5rem" }}>
-                Under our motto <strong>“शिक्षा से सशक्तिकरण, युवा से समर्थन”</strong>, we established local chapters where student interns manage on-ground crowdfunding, welfare distributions, and micro-business workshops, helping underprivileged clusters build self-reliance.
+                Under our motto <strong className="hindi-motto" style={{ fontFamily: "'Anek Devanagari', sans-serif", fontWeight: 800, whiteSpace: "nowrap" }}>“शिक्षा से सशक्तिकरण, युवा से समर्थन”</strong>, we established local chapters where student interns manage on-ground crowdfunding, welfare distributions, and micro-business workshops, helping underprivileged clusters build self-reliance.
               </p>
               <div style={{ display: "flex", gap: "2rem", flexWrap: "wrap" }}>
                 <div>
@@ -625,7 +625,7 @@ export const About: React.FC = () => {
         {/* Section Header */}
         <div className="container-custom section-padding" style={{ paddingBottom: "2rem" }}>
           <div style={{ textAlign: "center" }}>
-            <span className="badge-custom">GOVERNANCE & STRUCTURE</span>
+            <span className="badge-custom governance-pill">GOVERNANCE & STRUCTURE</span>
             <h2 className="section-title">Our Foundation Overview</h2>
             <p className="section-subtitle">
               Detailed guidelines, structure, and procedures that govern BHTDAY Welfare Foundation's daily operations and future plans.

@@ -464,7 +464,7 @@ export const Donate: React.FC = () => {
                 )}
 
                 <div className="form-group">
-                  <label className="form-label" htmlFor="name">Full Name *</label>
+                  <label className="form-label" htmlFor="name">Full Name / Detail Name *</label>
                   <input
                     type="text"
                     id="name"

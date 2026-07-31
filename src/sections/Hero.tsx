@@ -114,12 +114,16 @@ export const Hero: React.FC = () => {
               <p style={{ fontSize: "0.86rem", color: "#68696B", fontFamily: "'Garet', 'Inter', sans-serif", marginBottom: "0.3rem" }}>
                 Guided by our motto
               </p>
-              <p className="motto" style={{
+              <p className="motto hindi-motto" style={{
                 fontFamily: "'Anek Devanagari', sans-serif",
-                fontSize: "clamp(1.4rem, 2.5vw, 34px)",
-                fontWeight: 700,
+                fontSize: "clamp(1.05rem, 2.2vw, 32px)",
+                fontWeight: 800,
+                letterSpacing: "normal",
+                wordSpacing: "normal",
+                whiteSpace: "nowrap",
+                transform: "none",
                 color: "#D9854E",
-                lineHeight: 1.2,
+                lineHeight: 1.3,
                 margin: 0,
                 marginBottom: "2rem"
               }}>

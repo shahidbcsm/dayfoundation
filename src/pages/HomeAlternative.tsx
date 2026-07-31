@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowRight, Heart, Users, GraduationCap, HeartPulse, Handshake, MapPin, Quote, Star, ChevronLeft, ChevronRight, ShieldCheck, Award, Calendar, CheckCircle } from "lucide-react";
+import { ArrowRight, Heart, Users, GraduationCap, HeartPulse, Handshake, MapPin, Quote, Star, ChevronLeft, ChevronRight } from "lucide-react";
 import { subscribeTestimonials, useCardImages } from "../firebase/services";
 import "../styles/home-alternative.css";
 
@@ -197,79 +197,94 @@ const HomeAlternative: React.FC = () => {
   return (
     <div className="alt-page">
 
-      {/* ── HERO ── */}
-      <div className="alt-container">
-        <div className="alt-hero">
-          <div className="alt-hero-text">
-            <div className="gap">
-              <span className="alt-pill">Our Legacy Since 2022</span>
-              <h1 className="alt-h1">
-                <div className="regular">Empowering</div>
-                <div className="bold">communities,</div>
-                <div className="regular">inspiring changes</div>
-              </h1>
-              <p className="alt-lead">Founded on <strong>12th April 2022</strong>, DAY Foundation is a youth-led organization dedicated to empowering underserved communities through Education, Aid, Youth, and Care.</p>
-              <div>
-                <p style={{ fontSize: 10, fontWeight: 700, color: "rgba(40,24,8,0.5)", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>Guided by our motto</p>
-                <p className="motto">"शिक्षा से सशक्तिकरण, युवा से समर्थन"</p>
-              </div>
-              <div className="alt-hero-btns">
-                <Link to="/volunteer" className="alt-btn alt-btn-primary">Join Our Mission</Link>
-                <Link to="/donate" className="alt-btn alt-btn-orange">Donate Now</Link>
+      {/* ── HERO SECTION WRAPPER ── */}
+      <div className="alt-hero-wrapper">
+        <div className="alt-container">
+          <div className="alt-hero">
+            <div className="alt-hero-text">
+              <div className="gap">
+                <span className="alt-pill">OUR LEGACY</span>
+                <h1 className="alt-h1">
+                  <div className="regular">Empowering</div>
+                  <div className="bold">communities,</div>
+                  <div className="regular">inspiring changes.</div>
+                </h1>
+                <p className="alt-lead">Founded on <strong>12th April 2022</strong>, DAY Foundation is a youth-led organization dedicated to empowering underserved communities through Education, Aid, Youth, and Care. Active across multiple cities in India.</p>
+                <div>
+                  <p className="motto-label" style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>Guided by our motto</p>
+                  <p className="motto hindi-motto">"शिक्षा से सशक्तिकरण, युवा से समर्थन"</p>
+                </div>
+                <div className="alt-hero-btns">
+                  <Link to="/volunteer" className="alt-btn alt-btn-primary">Join Our Mission</Link>
+                  <Link to="/donate" className="alt-btn alt-btn-orange">Donate Now</Link>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="alt-hero-img-wrap">
-            <div className="alt-hero-img-frame">
-              <img src={getCardImg("hero_image", "/assets/gallery/gallery-020.jpg")} alt="Children drawing" />
-              <div className="alt-hero-logo-badge">
-                <img src="/logo.png" alt="DAY Foundation Logo" />
+            <div className="alt-hero-img-wrap">
+              <div className="alt-hero-img-frame">
+                <img src={getCardImg("hero_image", "/assets/gallery/gallery-020.jpg")} alt="Children drawing" />
+                <div className="alt-hero-logo-badge">
+                  <img src="/logo.png" alt="DAY Foundation Logo" />
+                </div>
+                <div className="alt-hero-year-badge">
+                  <p>Active Since</p>
+                  <p>April 2022</p>
+                </div>
               </div>
-              <div className="alt-hero-year-badge">
-                <p>Active Since</p>
-                <p>April 2022</p>
-              </div>
+              <div className="alt-hero-blob" />
             </div>
-            <div className="alt-hero-blob" />
           </div>
         </div>
       </div>
 
-      {/* ── STATS BAR ── */}
-      <div className="alt-container" style={{ marginBottom: 64 }}>
-        <div className="alt-stats-bar">
-          <div className="alt-stats-grid">
-            <StatItem value={320} label="Active Volunteers" />
-            <StatItem value={1200} label="Interns Trained" />
-            <StatItem value={800} label="Certificates Issued" />
-            <StatItem value={3} suffix="" label="Active Cities" />
+      {/* ── MIDDLE TAUPE SECTION WRAPPER (STATS + CREDENTIALS + MISSION) ── */}
+      <div className="alt-taupe-wrapper">
+        {/* ── STATS BAR ── */}
+        <div className="alt-container" style={{ paddingBottom: 0 }}>
+          <div className="alt-stats-bar">
+            <div className="alt-stats-grid">
+              <StatItem value={320} label="Active Volunteers" />
+              <StatItem value={1200} label="Interns Trained" />
+              <StatItem value={800} label="Certificates Issued" />
+              <StatItem value={3} suffix="" label="Active Cities" />
+            </div>
           </div>
         </div>
-        <div className="alt-stats-badges" style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "10px", alignItems: "center" }}>
-          <span style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}><ShieldCheck size={14} /> Section 8 Registered</span>
-          <span className="sep">|</span>
-          <span style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}><Award size={14} /> NITI Aayog Verified</span>
-          <span className="sep">|</span>
-          <span style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}><CheckCircle size={14} /> 12A &amp; 80G Certified</span>
-          <span className="sep">|</span>
-          <span style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}><Calendar size={14} /> Founded April 2022</span>
-        </div>
-      </div>
 
-      {/* ── MISSION ── */}
-      <div className="alt-container alt-section" style={{ borderTop: "1px solid rgba(40,24,8,0.05)" }}>
-        <div className="alt-mission-grid">
-          <div className="alt-mission-text">
-            <span className="alt-pill">Who We Are</span>
-            <h2 className="alt-h2">Our Mission</h2>
-            <p className="alt-lead">To empower underprivileged communities across India through Education, Aid, Youth, and Care. We focus on providing education to slum children, organizing healthcare and welfare drives, engaging youth through internships and volunteer programs, and creating employment opportunities via innovative projects like <strong>Rojgar</strong>.</p>
-            <Link to="/mission" className="alt-read-link">Read Our Full Mission <ArrowRight size={14} /></Link>
-          </div>
-          <div className="alt-mission-img">
-            <img src={getCardImg("gallery_home_1", "/assets/gallery/gallery-015.jpg")} alt="Community gathering" />
+        {/* ── CREDENTIALS STRIP ── */}
+        <div className="alt-credentials-strip">
+          <div className="alt-container" style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "10px", alignItems: "center" }}>
+            <span>Section 8 Registered Entity</span>
+            <span className="sep">|</span>
+            <span>NITI Aayog Darpan Verified</span>
+            <span className="sep">|</span>
+            <span>Established April 2022</span>
+            <span className="sep">|</span>
+            <span>80G Tax Exemption</span>
           </div>
         </div>
+
+        {/* ── MISSION ── */}
+        <div className="alt-container alt-section">
+          <div className="alt-mission-grid">
+            <div className="alt-mission-text">
+              <div className="alt-mission-badge-header" style={{ position: "relative", display: "flex", flexDirection: "column", alignItems: "center", marginBottom: "1rem" }}>
+                {/* Sun Illustration graphic */}
+                <svg className="alt-sun-doodle" width="84" height="84" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="50" cy="50" r="22" fill="#E8B849" />
+                  <path d="M50 8 L50 20 M50 80 L50 92 M8 50 L20 50 M80 50 L92 50 M20 20 L29 29 M71 71 L80 80 M20 80 L29 71 M71 29 L80 20" stroke="#E8B849" strokeWidth="4.5" strokeLinecap="round" />
+                </svg>
+                <span className="alt-pill alt-pill-who-we-are">WHO WE ARE</span>
+                <h2 className="alt-h2 alt-mission-h2" style={{ marginTop: "0.5rem" }}>Our Mission</h2>
+              </div>
+              <p className="alt-lead alt-mission-lead">To empower underprivileged communities across India through Education, Aid, Youth, and Care. We focus on providing education to slum children, organizing healthcare and welfare drives, engaging youth through internships and volunteer programs, and creating employment opportunities via innovative projects like Rojgar.</p>
+              <Link to="/mission" className="alt-read-link">Read Our Full Mission <ArrowRight size={14} /></Link>
+            </div>
+            <div className="alt-mission-img">
+              <img src={getCardImg("gallery_home_1", "/assets/gallery/gallery-015.jpg")} alt="Community gathering" />
+            </div>
+          </div>
 
         <div className="alt-vision-grid">
           <div className="alt-vision-card-orange">
@@ -288,6 +303,7 @@ const HomeAlternative: React.FC = () => {
           </div>
         </div>
       </div>
+    </div>
 
       {/* ── FOCUS AREAS ── */}
       <div className="alt-focus-bg">
@@ -314,48 +330,50 @@ const HomeAlternative: React.FC = () => {
       </div>
 
       {/* ── IMPACT STORIES ── */}
-      <div className="alt-container alt-section">
-        <div className="alt-section-header">
-          <span className="alt-pill">Impact Stories</span>
-          <h2 className="alt-h2">Voices from the Field</h2>
-          <p className="alt-sub">Every program tells a story. These are the real experiences of communities we serve.</p>
-        </div>
-        <div className="alt-stories-grid">
-          <div className="alt-story-main">
-            <img src={getCardImg("story_card_1", "/assets/gallery/gallery-025.jpg")} alt="Featured Story" />
-            <div className="alt-story-overlay" />
-            <div className="alt-story-content">
-              <span className="alt-story-tag">Education</span>
-              <h3 className="alt-h3" style={{ color: "#fff", fontSize: "1.5rem" }}>Learning Circles in Jabalpur</h3>
-              <p>Children in community learning groups are building daily reading habits, confidence, and curiosity with support from volunteer mentors.</p>
-              <Link to="/programs" className="alt-story-link">Read Full Story <ArrowRight size={13} /></Link>
-            </div>
+      <div className="alt-stories-wrapper">
+        <div className="alt-container alt-section">
+          <div className="alt-section-header">
+            <span className="alt-pill">Impact Stories</span>
+            <h2 className="alt-h2">Voices from the Field</h2>
+            <p className="alt-sub">Every program tells a story. These are the real experiences of communities we serve.</p>
           </div>
-          <div className="alt-side-stories">
-            <div className="alt-side-card">
-              <span className="alt-side-tag alt-side-tag-blue">Healthcare</span>
-              <h4 className="alt-h4">Care Camps Reach Families Early</h4>
-              <p className="alt-sub">Monthly awareness camps help underserved families access preventive health information and welfare guidance.</p>
-              <Link to="/programs" className="alt-side-link">Read More <ArrowRight size={11} /></Link>
+          <div className="alt-stories-grid">
+            <div className="alt-story-main">
+              <img src={getCardImg("story_card_1", "/assets/gallery/gallery-025.jpg")} alt="Featured Story" />
+              <div className="alt-story-overlay" />
+              <div className="alt-story-content">
+                <span className="alt-story-tag">Education</span>
+                <h3 className="alt-h3" style={{ color: "#fff", fontSize: "1.5rem" }}>Learning Circles in Jabalpur</h3>
+                <p>Children in community learning groups are building daily reading habits, confidence, and curiosity with support from volunteer mentors.</p>
+                <Link to="/programs" className="alt-story-link">Read Full Story <ArrowRight size={13} /></Link>
+              </div>
             </div>
-            <div className="alt-side-card">
-              <span className="alt-side-tag alt-side-tag-blue">Volunteer Stories</span>
-              <h4 className="alt-h4">Youth Turning Weekends Into Service</h4>
-              <p className="alt-sub">Students and young professionals contribute time, planning, and on-ground energy to strengthen drives.</p>
-              <Link to="/volunteer" className="alt-side-link">Read More <ArrowRight size={11} /></Link>
-            </div>
-            <div className="alt-side-card">
-              <span className="alt-side-tag alt-side-tag-green">Internship</span>
-              <h4 className="alt-h4">15-Day Immersive Social Internships</h4>
-              <p className="alt-sub">Real-world work in campaigns, PR, legal aid, and education alongside field practitioners.</p>
-              <Link to="/internship" className="alt-side-link">Apply Now <ArrowRight size={11} /></Link>
+            <div className="alt-side-stories">
+              <div className="alt-side-card">
+                <span className="alt-side-tag alt-side-tag-blue">Healthcare</span>
+                <h4 className="alt-h4">Care Camps Reach Families Early</h4>
+                <p className="alt-sub">Monthly awareness camps help underserved families access preventive health information and welfare guidance.</p>
+                <Link to="/programs" className="alt-side-link">Read More <ArrowRight size={11} /></Link>
+              </div>
+              <div className="alt-side-card">
+                <span className="alt-side-tag alt-side-tag-blue">Volunteer Stories</span>
+                <h4 className="alt-h4">Youth Turning Weekends Into Service</h4>
+                <p className="alt-sub">Students and young professionals contribute time, planning, and on-ground energy to strengthen drives.</p>
+                <Link to="/volunteer" className="alt-side-link">Read More <ArrowRight size={11} /></Link>
+              </div>
+              <div className="alt-side-card">
+                <span className="alt-side-tag alt-side-tag-green">Internship</span>
+                <h4 className="alt-h4">15-Day Immersive Social Internships</h4>
+                <p className="alt-sub">Real-world work in campaigns, PR, legal aid, and education alongside field practitioners.</p>
+                <Link to="/internship" className="alt-side-link">Apply Now <ArrowRight size={11} /></Link>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       {/* ── CITIES ── */}
-      <div style={{ borderTop: "1px solid rgba(40,24,8,0.05)" }}>
+      <div className="alt-cities-wrapper">
         <div className="alt-container alt-section">
           <div className="alt-section-header">
             <span className="alt-pill">Where We Work</span>
@@ -471,31 +489,33 @@ const HomeAlternative: React.FC = () => {
       </div>
 
       {/* ── DONATE ── */}
-      <div className="alt-container alt-section">
-        <div className="alt-donate-wrap">
-          <div className="alt-donate-left">
-            <span className="alt-donate-badge">Make a Difference</span>
-            <h2 className="alt-h2">Every contribution creates ripples.</h2>
-            <p>Your contribution directly funds sewing machines, digital tablets, and mobile diagnostic camps. Join us in making a tangible difference.</p>
-            <ul className="alt-donate-benefits">
-              <li>✅ 80G Tax Exemption Available</li>
-              <li>✅ Secure Razorpay Gateway</li>
-              <li>✅ Certificate of Donation Provided</li>
-            </ul>
-          </div>
-          <div className="alt-donate-box">
-            <p className="alt-donate-label">Select Donation Amount (INR)</p>
-            <div className="alt-amount-grid">
-              {amts.map(amt => (
-                <button key={amt} className={`alt-amt-btn${donationAmt === amt ? " selected" : ""}`} onClick={() => setDonationAmt(amt)}>₹{amt}</button>
-              ))}
-              <button className={`alt-amt-btn${!amts.includes(donationAmt) ? " selected" : ""}`} onClick={() => setDonationAmt("")}>Other</button>
+      <div className="alt-donate-wrapper">
+        <div className="alt-container alt-section">
+          <div className="alt-donate-wrap">
+            <div className="alt-donate-left">
+              <span className="alt-donate-badge">Make a Difference</span>
+              <h2 className="alt-h2">Every contribution creates ripples.</h2>
+              <p>Your contribution directly funds sewing machines, digital tablets, and mobile diagnostic camps. Join us in making a tangible difference.</p>
+              <ul className="alt-donate-benefits">
+                <li>✅ 80G Tax Exemption Available</li>
+                <li>✅ Secure Razorpay Gateway</li>
+                <li>✅ Certificate of Donation Provided</li>
+              </ul>
             </div>
-            {!amts.includes(donationAmt) && (
-              <input className="alt-amt-input" type="number" placeholder="Enter custom amount" value={donationAmt} onChange={e => setDonationAmt(e.target.value)} />
-            )}
-            <p className="alt-donate-hint">*A ₹{donationAmt || "1000"} donation supplies learning materials for slum circles or health camp diagnostics.</p>
-            <Link to="/donate" className="alt-donate-cta"><Heart size={15} fill="currentColor" /> Donate Securely</Link>
+            <div className="alt-donate-box">
+              <p className="alt-donate-label">Select Donation Amount (INR)</p>
+              <div className="alt-amount-grid">
+                {amts.map(amt => (
+                  <button key={amt} className={`alt-amt-btn${donationAmt === amt ? " selected" : ""}`} onClick={() => setDonationAmt(amt)}>₹{amt}</button>
+                ))}
+                <button className={`alt-amt-btn${!amts.includes(donationAmt) ? " selected" : ""}`} onClick={() => setDonationAmt("")}>Other</button>
+              </div>
+              {!amts.includes(donationAmt) && (
+                <input className="alt-amt-input" type="number" placeholder="Enter custom amount" value={donationAmt} onChange={e => setDonationAmt(e.target.value)} />
+              )}
+              <p className="alt-donate-hint">*A ₹{donationAmt || "1000"} donation supplies learning materials for slum circles or health camp diagnostics.</p>
+              <Link to="/donate" className="alt-donate-cta"><Heart size={15} fill="currentColor" /> Donate Securely</Link>
+            </div>
           </div>
         </div>
       </div>
@@ -520,31 +540,33 @@ const HomeAlternative: React.FC = () => {
       </div>
 
       {/* ── FAQ ── */}
-      <div className="alt-container alt-section">
-        <div className="alt-section-header">
-          <span className="alt-pill">Common Questions</span>
-          <h2 className="alt-h2">Frequently Asked Questions</h2>
-          <p className="alt-sub">Answers to questions from prospective donors, interns, and community partners.</p>
-        </div>
-        <div className="alt-faq-list">
-          {faqs.map((faq, i) => (
-            <div key={i} className="alt-faq-item">
-              <button className={`alt-faq-btn${activeFAQ === i ? " open" : ""}`} onClick={() => setActiveFAQ(activeFAQ === i ? null : i)}>
-                <span>{faq.q}</span>
-                <span className="icon">+</span>
-              </button>
-              <AnimatePresence>
-                {activeFAQ === i && (
-                  <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.22, ease: "easeInOut" }} style={{ overflow: "hidden" }}>
-                    <p className="alt-faq-answer">{faq.a}</p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          ))}
-        </div>
-        <div className="alt-faq-footer">
-          <Link to="/contact" className="alt-faq-link">Still have questions? Contact our support unit <ArrowRight size={13} /></Link>
+      <div className="alt-faq-wrapper">
+        <div className="alt-container alt-section">
+          <div className="alt-section-header">
+            <span className="alt-pill">Common Questions</span>
+            <h2 className="alt-h2">Frequently Asked Questions</h2>
+            <p className="alt-sub">Answers to questions from prospective donors, interns, and community partners.</p>
+          </div>
+          <div className="alt-faq-list">
+            {faqs.map((faq, i) => (
+              <div key={i} className="alt-faq-item">
+                <button className={`alt-faq-btn${activeFAQ === i ? " open" : ""}`} onClick={() => setActiveFAQ(activeFAQ === i ? null : i)}>
+                  <span>{faq.q}</span>
+                  <span className="icon">+</span>
+                </button>
+                <AnimatePresence>
+                  {activeFAQ === i && (
+                    <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.22, ease: "easeInOut" }} style={{ overflow: "hidden" }}>
+                      <p className="alt-faq-answer">{faq.a}</p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            ))}
+          </div>
+          <div className="alt-faq-footer">
+            <Link to="/contact" className="alt-faq-link">Still have questions? Contact our support unit <ArrowRight size={13} /></Link>
+          </div>
         </div>
       </div>
 

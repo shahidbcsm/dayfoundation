@@ -87,8 +87,13 @@ export const Mission: React.FC = () => {
               <Sparkles size={24} />
             </div>
             <h2 
+              className="hindi-motto"
               style={{ 
-                fontFamily: "var(--font-serif)", 
+                fontFamily: "'Anek Devanagari', sans-serif", 
+                fontWeight: 800,
+                whiteSpace: "nowrap",
+                letterSpacing: "normal",
+                wordSpacing: "normal",
                 fontSize: "2rem", 
                 color: "var(--color-primary)",
                 lineHeight: "1.4",
