@@ -640,7 +640,13 @@ body.dark-mode .alt-donate-benefits li {
 body.dark-mode .alt-donate-box {
   background: #252422 !important;
   border: 1px solid rgba(255, 255, 255, 0.08) !important;
-  color: #F5F2ED !important;
+  color: #FFFFFF !important;
+}
+
+.alt-donate-label,
+body.dark-mode .alt-donate-label {
+  color: #000000 !important;
+  font-weight: 700 !important;
 }
 
 body.dark-mode .alt-donate-badge {
@@ -648,20 +654,60 @@ body.dark-mode .alt-donate-badge {
   color: #E6DFC5 !important;
 }
 
+.alt-amt-btn,
 body.dark-mode .alt-amt-btn {
-  background: #2A2826 !important;
-  border-color: rgba(255, 255, 255, 0.1) !important;
-  color: #F5F2ED !important;
+  background: #FFFFFF !important;
+  border: 1px solid rgba(0, 0, 0, 0.25) !important;
+  color: #000000 !important;
+  font-weight: 700 !important;
 }
 
+.alt-amt-btn.selected,
 body.dark-mode .alt-amt-btn.selected {
-  background: #ECE7DF !important;
-  color: #181716 !important;
+  background: var(--color-secondary) !important;
+  color: #000000 !important;
+  border-color: var(--color-secondary) !important;
+  font-weight: 800 !important;
 }
 
+.alt-amt-input,
+body.dark-mode .alt-amt-input {
+  background: #FFFFFF !important;
+  border: 1px solid rgba(0, 0, 0, 0.25) !important;
+  color: #000000 !important;
+  font-weight: 600 !important;
+}
+
+.alt-donate-hint,
+body.dark-mode .alt-donate-hint {
+  color: #000000 !important;
+  opacity: 1 !important;
+  font-weight: 700 !important;
+}
+
+.alt-donate-cta,
 body.dark-mode .alt-donate-cta {
-  background: #4A453F !important;
-  color: #E6DFC5 !important;
+  background-color: var(--color-secondary) !important;
+  background: var(--color-secondary) !important;
+  color: #2d3748 !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 14px rgba(252, 78, 30, 0.35) !important;
+  border: 1px solid var(--color-secondary) !important;
+}
+
+.alt-donate-cta *,
+body.dark-mode .alt-donate-cta * {
+  color: #2d3748 !important;
+  fill: #2d3748 !important;
+  stroke: #2d3748 !important;
+}
+
+.alt-donate-cta:hover,
+body.dark-mode .alt-donate-cta:hover {
+  background-color: var(--color-secondary-dark) !important;
+  color: #1a202c !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(252, 78, 30, 0.45) !important;
 }
 
 /* ── SECTION 8: COMING SOON (WARM TAUPE #9D9588) ── */
