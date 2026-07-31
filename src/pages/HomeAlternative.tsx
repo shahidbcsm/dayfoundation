@@ -192,7 +192,7 @@ const HomeAlternative: React.FC = () => {
     },
   ];
 
-  const amts = ["500", "1000", "5000"];
+  const amts = ["100", "500", "1000", "5000"];
 
   return (
     <div className="alt-page">

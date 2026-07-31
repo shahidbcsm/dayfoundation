@@ -4135,6 +4135,53 @@ body.dark-mode .nexus-spotlight-btn.nexus-join-us-btn * {
   stroke: #ffffff !important;
 }
 
+/* ═════════════════════════════════════════════════════════════════════
+   DONATION AMOUNT SELECTION & DONOR BILLING DETAILS - BOLD BLACK TEXT
+   ═════════════════════════════════════════════════════════════════════ */
+.alt-donate-box h3,
+.alt-donate-box p,
+.alt-donate-box label,
+.alt-donate-box span:not(.alt-donate-cta span),
+.alt-donate-label,
+.alt-donate-hint,
+.alt-amt-btn,
+.alt-amt-input,
+.premium-card form h3,
+.premium-card form label,
+.premium-card form span:not(.donate-submit-btn span),
+.premium-card form p,
+.premium-card form .filter-btn,
+.premium-card form .form-label,
+body.dark-mode .alt-donate-box h3,
+body.dark-mode .alt-donate-box p,
+body.dark-mode .alt-donate-box label,
+body.dark-mode .alt-donate-box span:not(.alt-donate-cta span),
+body.dark-mode .alt-donate-label,
+body.dark-mode .alt-donate-hint,
+body.dark-mode .alt-amt-btn,
+body.dark-mode .alt-amt-input,
+body.dark-mode .premium-card form h3,
+body.dark-mode .premium-card form label,
+body.dark-mode .premium-card form span:not(.donate-submit-btn span),
+body.dark-mode .premium-card form p,
+body.dark-mode .premium-card form .filter-btn,
+body.dark-mode .premium-card form .form-label {
+  color: #000000 !important;
+  font-weight: 700 !important;
+}
+
+.premium-card form input:not([type="radio"]):not([type="checkbox"]),
+.premium-card form select,
+.premium-card form textarea,
+body.dark-mode .premium-card form input:not([type="radio"]):not([type="checkbox"]),
+body.dark-mode .premium-card form select,
+body.dark-mode .premium-card form textarea {
+  background-color: #FFFFFF !important;
+  color: #000000 !important;
+  border: 1px solid rgba(0, 0, 0, 0.25) !important;
+  font-weight: 600 !important;
+}
+
 
 
 
