@@ -4105,18 +4105,18 @@ body.dark-mode .status-badge * {
 /* Restored original Milestones of Impact Spotlight buttons */
 .nexus-spotlight-btn.nexus-donate-btn,
 body.dark-mode .nexus-spotlight-btn.nexus-donate-btn {
-  background-color: var(--color-secondary) !important;
-  background: var(--color-secondary) !important;
-  color: #2d3748 !important;
-  border: 1px solid var(--color-secondary) !important;
+  background-color: var(--color-primary) !important;
+  background: var(--color-primary) !important;
+  color: #ffffff !important;
+  border: 1px solid var(--color-primary) !important;
   font-weight: 700 !important;
 }
 
 .nexus-spotlight-btn.nexus-donate-btn *,
 body.dark-mode .nexus-spotlight-btn.nexus-donate-btn * {
-  color: #2d3748 !important;
-  fill: #2d3748 !important;
-  stroke: #2d3748 !important;
+  color: #ffffff !important;
+  fill: #ffffff !important;
+  stroke: #ffffff !important;
 }
 
 .nexus-spotlight-btn.nexus-join-us-btn,
