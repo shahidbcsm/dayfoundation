@@ -279,12 +279,7 @@ const HomeAlternative: React.FC = () => {
         <div className="alt-container alt-section">
           <div className="alt-mission-grid">
             <div className="alt-mission-text">
-              <div className="alt-mission-badge-header" style={{ position: "relative", display: "flex", flexDirection: "column", alignItems: "center", marginBottom: "1rem" }}>
-                {/* Sun Illustration graphic */}
-                <svg className="alt-sun-doodle" width="84" height="84" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="50" cy="50" r="22" fill="#E8B849" />
-                  <path d="M50 8 L50 20 M50 80 L50 92 M8 50 L20 50 M80 50 L92 50 M20 20 L29 29 M71 71 L80 80 M20 80 L29 71 M71 29 L80 20" stroke="#E8B849" strokeWidth="4.5" strokeLinecap="round" />
-                </svg>
+              <div className="alt-mission-badge-header" style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", marginBottom: "1rem" }}>
                 <span className="alt-pill alt-pill-who-we-are">WHO WE ARE</span>
                 <h2 className="alt-h2 alt-mission-h2" style={{ marginTop: "0.5rem" }}>Our Mission</h2>
               </div>

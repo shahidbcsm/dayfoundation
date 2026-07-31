@@ -240,7 +240,7 @@ export const About: React.FC = () => {
       </section>
 
       {/* ══ INTERACTIVE MILESTONE TIMELINE SHOWCASE SECTION ══ */}
-      <section className="milestone-nexus-section" style={{ position: "relative", overflow: "hidden", padding: "5rem 0 6rem", backgroundColor: "var(--color-bg-cream)" }}>
+      <section className="milestone-nexus-section" style={{ position: "relative", overflow: "hidden", padding: "5rem 0 6rem" }}>
         
         {/* Background Decorative Ambient Glow Orbs */}
         <div className="nexus-bg-glow glow-1"></div>
@@ -383,11 +383,11 @@ export const About: React.FC = () => {
                     </div>
 
                     <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", alignItems: "center", marginTop: "1rem" }}>
-                      <Link to="/donate" className="nexus-spotlight-btn btn-donate" style={{ padding: "11px 24px", fontSize: "0.92rem" }}>
+                      <Link to="/donate" className="nexus-spotlight-btn nexus-donate-btn" style={{ padding: "11px 24px", fontSize: "0.92rem" }}>
                         <span>Donate</span>
                         <ArrowRight size={16} />
                       </Link>
-                      <Link to="/volunteer" className="nexus-spotlight-btn btn-donate" style={{ backgroundColor: "var(--color-primary)", borderColor: "var(--color-primary)", padding: "11px 24px", fontSize: "0.92rem" }}>
+                      <Link to="/volunteer" className="nexus-spotlight-btn nexus-join-us-btn" style={{ padding: "11px 24px", fontSize: "0.92rem" }}>
                         <span>Join Us</span>
                         <ArrowRight size={16} />
                       </Link>

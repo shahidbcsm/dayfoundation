@@ -1,5 +1,5 @@
 import React from "react";
-import { BookOpen, Users, Sparkles, HeartPulse, Sprout } from "lucide-react";
+import { BookOpen, Users, HeartPulse, Sprout } from "lucide-react";
 import { motion } from "framer-motion";
 import "../styles/pages.css";
 
@@ -71,21 +71,6 @@ export const Mission: React.FC = () => {
       <section className="section-padding" style={{ backgroundColor: "var(--color-bg-cream)" }}>
         <div className="container-custom">
           <div style={{ maxWidth: "800px", margin: "0 auto", textAlign: "center" }}>
-            <div 
-              style={{
-                width: "48px",
-                height: "48px",
-                borderRadius: "50%",
-                backgroundColor: "rgba(252, 78, 30, 0.1)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                margin: "0 auto 1.5rem auto",
-                color: "var(--color-secondary)"
-              }}
-            >
-              <Sparkles size={24} />
-            </div>
             <div style={{ display: "flex", justifyContent: "center", marginBottom: "1.5rem", width: "100%" }}>
               <img 
                 src="/tagline-hindi.png" 

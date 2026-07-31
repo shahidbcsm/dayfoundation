@@ -437,10 +437,11 @@ body.dark-mode .alt-credentials-strip {
 }
 
 body.dark-mode .alt-pill-who-we-are {
-  background: #ECE7DF !important;
-  color: #34312C !important;
+  background: #F5C4D1 !important;
+  color: #68696B !important;
+  font-family: 'Garet', 'Outfit', sans-serif !important;
   font-weight: 700 !important;
-  border: none !important;
+  border: 1px solid rgba(104, 105, 107, 0.15) !important;
   padding: 6px 20px !important;
   border-radius: 9999px !important;
 }
@@ -1060,4 +1061,26 @@ body.dark-mode .alt-testi-quote svg {
 }
 body.dark-mode .alt-faq-answer {
   color: rgba(247, 237, 230, 0.75) !important;
+}
+
+/* WHO WE ARE pill = same background (#ECE7DF) and text color (#34312C) as Impact Stories pill */
+.alt-pill-who-we-are,
+.alt-pill.alt-pill-who-we-are,
+body.dark-mode .alt-pill-who-we-are,
+body.dark-mode .alt-pill.alt-pill-who-we-are {
+  background-color: #ECE7DF !important;
+  background: #ECE7DF !important;
+  color: #34312C !important;
+  font-family: 'Garet', 'Outfit', 'Inter', sans-serif !important;
+  font-weight: 700 !important;
+  border: 1px solid rgba(52, 49, 44, 0.15) !important;
+}
+
+.alt-pill-who-we-are *,
+.alt-pill.alt-pill-who-we-are *,
+body.dark-mode .alt-pill-who-we-are *,
+body.dark-mode .alt-pill.alt-pill-who-we-are * {
+  color: #34312C !important;
+  fill: #34312C !important;
+  stroke: #34312C !important;
 }
