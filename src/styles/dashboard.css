@@ -176,7 +176,7 @@ html, body {
   width: calc(100% - 1.3rem);
   border: 1px solid transparent;
   background: transparent;
-  color: #ffffff;
+  color: #ffffff !important;
   font-family: var(--font-body);
   font-size: 0.9rem;
   font-weight: 600;
@@ -188,21 +188,33 @@ html, body {
   overflow: hidden;
   text-decoration: none !important;
 }
+.admin-sidebar-btn span,
+.admin-sidebar-btn svg {
+  color: #ffffff !important;
+}
 .admin-sidebar-btn:hover {
   background: rgba(197,160,89,0.2);
   border-color: rgba(197,160,89,0.4);
-  color: #ffe088;
+  color: #ffffff !important;
   transform: translateX(6px) scale(1.01);
   box-shadow: 0 4px 18px rgba(197,160,89,0.2);
+}
+.admin-sidebar-btn:hover span,
+.admin-sidebar-btn:hover svg {
+  color: #ffffff !important;
 }
 .admin-sidebar-btn.active {
   background: rgba(197,160,89,0.3);
   border-color: rgba(197,160,89,0.55);
-  color: #ffffff;
+  color: #ffffff !important;
   font-weight: 800;
   box-shadow: 0 6px 22px rgba(197,160,89,0.3);
   transform: translateX(4px);
   text-decoration: none !important;
+}
+.admin-sidebar-btn.active span,
+.admin-sidebar-btn.active svg {
+  color: #ffffff !important;
 }
 
 /* Promo Card Inside Sidebar */
