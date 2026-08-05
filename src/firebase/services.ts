@@ -1694,37 +1694,44 @@ export const subscribeTestimonials = (callback: (testimonials: Testimonial[]) =>
   });
 };
 
-export const subscribeNewsletter = async (email: string): Promise<void> => {
+export const subscribeNewsletter = async (email: string, source: string = "Website Subscription"): Promise<void> => {
   const cleanEmail = email.toLowerCase().trim();
+  if (!cleanEmail || !cleanEmail.includes('@')) return;
   const dateStr = new Date().toISOString();
 
   if (isMockEnabled) {
     await delay(300);
     const data = localStorage.getItem("day_newsletter");
     const list: any[] = data ? JSON.parse(data) : [];
-    if (list.some(x => x.email === cleanEmail)) {
-      throw new Error("Already subscribed!");
+    const existingIdx = list.findIndex(x => x.email === cleanEmail);
+    if (existingIdx >= 0) {
+      list[existingIdx] = { ...list[existingIdx], source: source || list[existingIdx].source };
+    } else {
+      list.push({ email: cleanEmail, source, createdAt: dateStr });
     }
-    list.push({ email: cleanEmail, createdAt: dateStr });
     localStorage.setItem("day_newsletter", JSON.stringify(list));
     return;
   }
 
-  // Check if subscriber already exists in Firestore
-  const docRef = doc(db, "newsletter", cleanEmail);
-  const docSnap = await getDoc(docRef);
-  if (docSnap.exists()) {
-    throw new Error("Already subscribed!");
+  const payload = { email: cleanEmail, source, createdAt: dateStr };
+  try {
+    const docRef = doc(db, "newsletter", cleanEmail);
+    await setDoc(docRef, payload, { merge: true });
+  } catch (err) {
+    console.error("Firestore newsletter save failed:", err);
   }
 
-  const payload = { email: cleanEmail, createdAt: dateStr };
-  await setDoc(docRef, payload);
-  await set(ref(rtdb, `newsletter/${cleanEmail.replace(/\./g, '_')}`), payload);
+  try {
+    await set(ref(rtdb, `newsletter/${cleanEmail.replace(/\./g, '_')}`), payload);
+  } catch (err) {
+    console.error("RTDB newsletter save failed:", err);
+  }
 };
 
 export interface NewsletterSubscriber {
   id?: string;
   email: string;
+  source?: string;
   createdAt: string;
 }
 
@@ -1732,8 +1739,8 @@ export const subscribeNewsletterList = (callback: (subscribers: NewsletterSubscr
   if (isMockEnabled) {
     const data = localStorage.getItem("day_newsletter");
     const list: NewsletterSubscriber[] = data ? JSON.parse(data) : [
-      { id: "sub_1", email: "support@dayfoundation.in", createdAt: new Date().toISOString() },
-      { id: "sub_2", email: "volunteer.lead@dayfoundation.in", createdAt: new Date().toISOString() }
+      { id: "sub_1", email: "support@dayfoundation.in", source: "Website Direct", createdAt: new Date().toISOString() },
+      { id: "sub_2", email: "volunteer.lead@dayfoundation.in", source: "Volunteer Form", createdAt: new Date().toISOString() }
     ];
     if (!data) localStorage.setItem("day_newsletter", JSON.stringify(list));
     callback(list);
@@ -1750,6 +1757,7 @@ export const subscribeNewsletterList = (callback: (subscribers: NewsletterSubscr
     const data = Object.entries(val).map(([key, item]: [string, any]) => ({
       id: key,
       email: item.email || key.replace(/_/g, '.'),
+      source: item.source || "Website Subscription",
       createdAt: item.createdAt || new Date().toISOString()
     }));
     callback(data);

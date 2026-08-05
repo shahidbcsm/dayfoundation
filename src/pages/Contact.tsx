@@ -79,7 +79,7 @@ export const Contact: React.FC = () => {
       if (subscribeNewsletterOptIn && sanitizedData.email) {
         try {
           const { subscribeNewsletter } = await import("../firebase/services");
-          await subscribeNewsletter(sanitizedData.email);
+          await subscribeNewsletter(sanitizedData.email, "Contact Form");
         } catch (subErr) {
           // Ignore if already subscribed
         }
@@ -144,7 +144,7 @@ export const Contact: React.FC = () => {
       if (subscribeNewsletterOptIn && sanitizedComplaint.email) {
         try {
           const { subscribeNewsletter } = await import("../firebase/services");
-          await subscribeNewsletter(sanitizedComplaint.email);
+          await subscribeNewsletter(sanitizedComplaint.email, "Complaint Form");
         } catch (subErr) {
           // Ignore if already subscribed
         }

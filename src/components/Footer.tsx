@@ -41,7 +41,7 @@ export const Footer: React.FC = () => {
     setNewsletterLoading(true);
     setNewsletterMsg("");
     try {
-      await subscribeNewsletter(newsletterEmail);
+      await subscribeNewsletter(newsletterEmail, "Footer Subscription");
       setNewsletterMsg("🎉 Subscribed successfully!");
       setNewsletterEmail("");
     } catch (err: any) {

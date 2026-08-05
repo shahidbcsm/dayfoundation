@@ -5039,7 +5039,7 @@ export const AdminDashboard: React.FC = () => {
 
                     <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
                       <button
-                        onClick={() => exportToCSV(newsletterSubscribers.map(s => ({ Email: s.email, SubscribedDate: new Date(s.createdAt).toLocaleDateString() })), "day_newsletter_subscribers.csv")}
+                        onClick={() => exportToCSV(newsletterSubscribers.map(s => ({ Email: s.email, Source: s.source || "Website Subscription", SubscribedDate: new Date(s.createdAt).toLocaleDateString() })), "day_newsletter_subscribers.csv")}
                         className="btn btn-outline"
                         style={{ fontSize: "0.8rem", padding: "6px 14px" }}
                         disabled={newsletterSubscribers.length === 0}
@@ -5072,6 +5072,7 @@ export const AdminDashboard: React.FC = () => {
                             <tr>
                               <th>#</th>
                               <th>Email Address</th>
+                              <th>Opt-In Source</th>
                               <th>Subscribed Date</th>
                               {hasWritePermission && <th style={{ textAlign: "right" }}>Actions</th>}
                             </tr>
@@ -5081,6 +5082,19 @@ export const AdminDashboard: React.FC = () => {
                               <tr key={sub.id || sub.email}>
                                 <td>{idx + 1}</td>
                                 <td style={{ fontWeight: 700, color: "var(--color-primary)" }}>{sub.email}</td>
+                                <td>
+                                  <span style={{ 
+                                    padding: "3px 9px", 
+                                    borderRadius: "999px", 
+                                    fontSize: "0.725rem", 
+                                    fontWeight: 700, 
+                                    backgroundColor: "rgba(252,78,30,0.1)", 
+                                    color: "#FC4E1E", 
+                                    border: "1px solid rgba(252,78,30,0.2)" 
+                                  }}>
+                                    {sub.source || "Website Subscription"}
+                                  </span>
+                                </td>
                                 <td>{new Date(sub.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}</td>
                                 {hasWritePermission && (
                                   <td style={{ textAlign: "right" }}>

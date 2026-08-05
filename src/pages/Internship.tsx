@@ -126,7 +126,7 @@ export const Internship: React.FC = () => {
       if (subscribeNewsletterOptIn && formData.email) {
         try {
           const { subscribeNewsletter } = await import("../firebase/services");
-          await subscribeNewsletter(formData.email);
+          await subscribeNewsletter(formData.email, "Internship Form");
         } catch (subErr) {
           // Ignore if already subscribed
         }

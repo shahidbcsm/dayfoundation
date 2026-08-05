@@ -115,7 +115,7 @@ export const Volunteer: React.FC = () => {
       if (subscribeNewsletterOptIn && sanitizedData.email) {
         try {
           const { subscribeNewsletter } = await import("../firebase/services");
-          await subscribeNewsletter(sanitizedData.email);
+          await subscribeNewsletter(sanitizedData.email, "Volunteer Form");
         } catch (subErr) {
           // Ignore if already subscribed
         }
