@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import { adminDb } from './firebase-admin';
+import { adminDb } from './firebase-admin.js';
 
 const app = express();
 app.use(cors({ origin: true }));
