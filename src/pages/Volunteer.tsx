@@ -28,6 +28,7 @@ export const Volunteer: React.FC = () => {
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [ticketNo, setTicketNo] = useState<string>("");
+  const [subscribeNewsletterOptIn, setSubscribeNewsletterOptIn] = useState<boolean>(true);
 
   const cities = ["Delhi", "Indore", "Jabalpur", "Others"];
 
@@ -108,7 +109,16 @@ export const Volunteer: React.FC = () => {
           ticketNo: generatedTicket
         });
       } catch (emailErr) {
-        console.error("Failed to send notification email:", emailErr);
+        console.error("Failed to send email notifications:", emailErr);
+      }
+
+      if (subscribeNewsletterOptIn && sanitizedData.email) {
+        try {
+          const { subscribeNewsletter } = await import("../firebase/services");
+          await subscribeNewsletter(sanitizedData.email);
+        } catch (subErr) {
+          // Ignore if already subscribed
+        }
       }
 
       setFormData({
@@ -548,7 +558,20 @@ export const Volunteer: React.FC = () => {
                       style={{ cursor: "pointer", width: "18px", height: "18px", flexShrink: 0, accentColor: "var(--color-secondary)" }}
                     />
                     <label htmlFor="bylawAgree" style={{ fontSize: "0.875rem", cursor: "pointer", lineHeight: "1.5", fontWeight: "600" }} className="bylaw-agree-label">
-                      I agree to abide by the BHTDAY Welfare Foundation Bylaws, code of conduct, and volunteer guidelines.
+                      I agree to abide by the BHTDAY Welfare Foundation <Link to="/terms" target="_blank" rel="noopener noreferrer" style={{ color: "#FC4E1E", textDecoration: "underline" }} onClick={(e) => e.stopPropagation()}>Terms &amp; Conditions</Link>, Bylaws, code of conduct, and volunteer guidelines.
+                    </label>
+                  </div>
+
+                  <div style={{ display: "flex", gap: "12px", alignItems: "center", marginBottom: "1.5rem", padding: "0.85rem 1.1rem", backgroundColor: "rgba(255, 255, 255, 0.05)", borderRadius: "12px", border: "1px solid rgba(255, 255, 255, 0.15)" }}>
+                    <input 
+                      type="checkbox" 
+                      id="newsletterOptIn" 
+                      checked={subscribeNewsletterOptIn}
+                      onChange={(e) => setSubscribeNewsletterOptIn(e.target.checked)}
+                      style={{ cursor: "pointer", width: "18px", height: "18px", flexShrink: 0, accentColor: "#FC4E1E" }}
+                    />
+                    <label htmlFor="newsletterOptIn" style={{ fontSize: "0.875rem", cursor: "pointer", lineHeight: "1.5", fontWeight: "500" }}>
+                      Subscribe to DAY Foundation Newsletter (Optional — receive updates on impact drives &amp; community campaigns)
                     </label>
                   </div>
 

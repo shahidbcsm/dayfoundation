@@ -38,6 +38,7 @@ export const Donate: React.FC = () => {
   const [amount, setAmount] = useState<number>(1000);
   const [customAmount, setCustomAmount] = useState<string>("");
   const [isCustom, setIsCustom] = useState<boolean>(false);
+  const [subscribeNewsletterOptIn, setSubscribeNewsletterOptIn] = useState<boolean>(true);
 
   const presets = [100, 500, 1000, 5000];
 
@@ -173,6 +174,15 @@ export const Donate: React.FC = () => {
           });
         } catch (err) {
           console.error("Failed to save donation log to database:", err);
+        }
+
+        if (subscribeNewsletterOptIn && sanitizedData.email) {
+          try {
+            const { subscribeNewsletter } = await import("../firebase/services");
+            await subscribeNewsletter(sanitizedData.email);
+          } catch (subErr) {
+            // Ignore if already subscribed
+          }
         }
 
         // Navigate to success page with query params
@@ -545,6 +555,20 @@ export const Donate: React.FC = () => {
                     placeholder="Write a message or notes (optional)"
                     className="form-textarea"
                   ></textarea>
+                </div>
+
+                {/* Optional Newsletter Subscription Checkbox */}
+                <div style={{ display: "flex", gap: "10px", alignItems: "flex-start", marginTop: "1.25rem", marginBottom: "1rem" }}>
+                  <input 
+                    type="checkbox" 
+                    id="newsletterOptIn" 
+                    checked={subscribeNewsletterOptIn}
+                    onChange={(e) => setSubscribeNewsletterOptIn(e.target.checked)}
+                    style={{ marginTop: "3px", cursor: "pointer", accentColor: "#FC4E1E" }}
+                  />
+                  <label htmlFor="newsletterOptIn" style={{ fontSize: "0.825rem", color: "var(--color-primary)", cursor: "pointer", lineHeight: "1.4", fontWeight: "600" }}>
+                    Subscribe to DAY Foundation Newsletter (Optional — receive updates on impact drives &amp; community campaigns)
+                  </label>
                 </div>
 
                 <button

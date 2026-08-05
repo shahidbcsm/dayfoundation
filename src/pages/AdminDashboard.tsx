@@ -21,7 +21,8 @@ import {
   subscribeTestimonials, createTestimonial, deleteTestimonial, updateTestimonial,
   setSeoSetting, subscribeSeoSettings,
   fileToCompressedBase64, saveCardImageToFirestore, subscribeCardImages,
-  type ContactMessage, type Complaint, type SeoPageSetting
+  subscribeNewsletterList, deleteNewsletterSubscriber,
+  type ContactMessage, type Complaint, type SeoPageSetting, type NewsletterSubscriber
 } from "../firebase/services";
 import type { Blog, Volunteer, Donation, GalleryItem, Event, TeamMember, Testimonial, CityMember, FlagshipCampaign } from "../data/mockData";
 import { defaultFlagshipCampaigns } from "../data/mockData";
@@ -432,7 +433,7 @@ export const AdminDashboard: React.FC = () => {
   const [isPasswordFocused, setIsPasswordFocused] = useState<boolean>(false);
   const [isEmailFocused, setIsEmailFocused] = useState<boolean>(false);
 
-  type AdminTab = 'overview' | 'blogs' | 'gallery' | 'events' | 'teams' | 'city_members' | 'testimonials' | 'volunteers' | 'donations' | 'internships' | 'contacts' | 'complaints' | 'seo' | 'marketing' | 'users' | 'audit_logs' | 'settings' | 'broadcast' | 'recycle_bin' | 'card_images' | 'theme';
+  type AdminTab = 'overview' | 'blogs' | 'gallery' | 'events' | 'teams' | 'city_members' | 'testimonials' | 'volunteers' | 'donations' | 'internships' | 'contacts' | 'complaints' | 'seo' | 'marketing' | 'users' | 'audit_logs' | 'settings' | 'broadcast' | 'recycle_bin' | 'card_images' | 'theme' | 'newsletter_subscribers';
   const [activeTab, setActiveTab] = useState<AdminTab>("overview");
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState<boolean>(false);
   const [isRecycleBinUnlocked, setIsRecycleBinUnlocked] = useState<boolean>(false);
@@ -488,6 +489,7 @@ export const AdminDashboard: React.FC = () => {
   const [donations, setDonations] = useState<Donation[]>([]);
   const [contactsList, setContactsList] = useState<ContactMessage[]>([]);
   const [complaintsList, setComplaintsList] = useState<Complaint[]>([]);
+  const [newsletterSubscribers, setNewsletterSubscribers] = useState<NewsletterSubscriber[]>([]);
   const [auditLogs, setAuditLogs] = useState<any[]>([]);
   const [adminsList, setAdminsList] = useState<any[]>([]);
   const [dbLoading, setDbLoading] = useState<boolean>(true);
@@ -871,6 +873,10 @@ export const AdminDashboard: React.FC = () => {
       setRecycleBinItems(items);
     });
 
+    const unsubNewsletter = subscribeNewsletterList((data) => {
+      setNewsletterSubscribers(data);
+    });
+
     // Dynamically inject noindex meta tag for search engines protection
     const robotsMeta = document.querySelector('meta[name="robots"]');
     if (robotsMeta) {
@@ -893,6 +899,7 @@ export const AdminDashboard: React.FC = () => {
       unsubSeo();
       unsubPushTokens();
       unsubRecycleBin();
+      unsubNewsletter();
     };
   }, [user]);
 
@@ -2803,6 +2810,16 @@ export const AdminDashboard: React.FC = () => {
         {canAccessTab("donations") && (
           <button onClick={() => handleTabClick("donations")} className={`admin-sidebar-btn ${activeTab === "donations" ? "active" : ""}`}>
             <DollarSign size={16} /><span>Donations Ledger</span>
+          </button>
+        )}
+        {canAccessTab("newsletter_subscribers") && (
+          <button onClick={() => handleTabClick("newsletter_subscribers")} className={`admin-sidebar-btn ${activeTab === "newsletter_subscribers" ? "active" : ""}`}>
+            <Mail size={16} /><span>Newsletter</span>
+            {newsletterSubscribers.length > 0 && (
+              <span style={{ marginLeft: "auto", background: "rgba(197,160,89,0.3)", color: "#ffe088", padding: "2px 7px", borderRadius: "999px", fontSize: "0.7rem", fontWeight: 800 }}>
+                {newsletterSubscribers.length}
+              </span>
+            )}
           </button>
         )}
 
@@ -5000,6 +5017,104 @@ export const AdminDashboard: React.FC = () => {
             })()}
 
 
+
+            {/* === NEWSLETTER SUBSCRIBERS === */}
+            {activeTab === "newsletter_subscribers" && (() => {
+              const filteredSubs = newsletterSubscribers.filter(sub => 
+                sub.email.toLowerCase().includes(globalSearch.toLowerCase().trim())
+              );
+
+              return (
+                <motion.div key="newsletter_subscribers" initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }} className="admin-table-card">
+                  <div style={{ padding: "1.5rem", borderBottom: "1px solid var(--color-border-light)", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem" }}>
+                    <div>
+                      <h3 style={{ fontSize: "1.25rem", color: "var(--color-primary)", display: "inline-flex", alignItems: "center", gap: "8px", margin: 0 }}>
+                        <Mail size={20} />
+                        <span>Newsletter Subscribers ({newsletterSubscribers.length})</span>
+                      </h3>
+                      <p style={{ fontSize: "0.82rem", color: "var(--color-text-muted)", margin: "4px 0 0 0" }}>
+                        Manage collected email subscriptions from website footer and forms.
+                      </p>
+                    </div>
+
+                    <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+                      <button
+                        onClick={() => exportToCSV(newsletterSubscribers.map(s => ({ Email: s.email, SubscribedDate: new Date(s.createdAt).toLocaleDateString() })), "day_newsletter_subscribers.csv")}
+                        className="btn btn-outline"
+                        style={{ fontSize: "0.8rem", padding: "6px 14px" }}
+                        disabled={newsletterSubscribers.length === 0}
+                      >
+                        <Printer size={15} /> Export CSV
+                      </button>
+                      <button
+                        onClick={() => {
+                          setActiveTab("broadcast");
+                          setBroadcastAudience("newsletter");
+                        }}
+                        className="btn btn-primary"
+                        style={{ fontSize: "0.8rem", padding: "6px 14px" }}
+                      >
+                        <Megaphone size={15} /> Broadcast Announcement
+                      </button>
+                    </div>
+                  </div>
+
+                  <div style={{ padding: "1.5rem" }}>
+                    {filteredSubs.length === 0 ? (
+                      <div style={{ textAlign: "center", padding: "3rem 1rem", color: "var(--color-text-muted)" }}>
+                        <Mail size={40} style={{ opacity: 0.3, marginBottom: "0.5rem" }} />
+                        <p style={{ margin: 0, fontWeight: 600 }}>No newsletter subscribers found.</p>
+                      </div>
+                    ) : (
+                      <div className="admin-table-wrap">
+                        <table className="admin-table">
+                          <thead>
+                            <tr>
+                              <th>#</th>
+                              <th>Email Address</th>
+                              <th>Subscribed Date</th>
+                              {hasWritePermission && <th style={{ textAlign: "right" }}>Actions</th>}
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {filteredSubs.map((sub, idx) => (
+                              <tr key={sub.id || sub.email}>
+                                <td>{idx + 1}</td>
+                                <td style={{ fontWeight: 700, color: "var(--color-primary)" }}>{sub.email}</td>
+                                <td>{new Date(sub.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}</td>
+                                {hasWritePermission && (
+                                  <td style={{ textAlign: "right" }}>
+                                    <button
+                                      onClick={async () => {
+                                        if (window.confirm(`Remove ${sub.email} from newsletter subscribers?`)) {
+                                          try {
+                                            await deleteNewsletterSubscriber(sub.email);
+                                            setNewsletterSubscribers(prev => prev.filter(x => x.email !== sub.email));
+                                            await recordAuditLog(user?.email || "unknown", `Removed newsletter subscriber: ${sub.email}`);
+                                            alert("Subscriber removed successfully!");
+                                          } catch (err) {
+                                            console.error(err);
+                                            alert("Failed to remove subscriber.");
+                                          }
+                                        }
+                                      }}
+                                      style={{ background: "transparent", border: "none", color: "#ef4444", cursor: "pointer", padding: "4px 8px" }}
+                                      title="Remove subscriber"
+                                    >
+                                      <Trash2 size={16} />
+                                    </button>
+                                  </td>
+                                )}
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
+                  </div>
+                </motion.div>
+              );
+            })()}
 
             {/* === BROADCAST CENTER === */}
             {activeTab === "broadcast" && (

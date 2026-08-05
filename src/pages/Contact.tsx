@@ -28,6 +28,7 @@ export const Contact: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [ticketNo, setTicketNo] = useState<string>("");
+  const [subscribeNewsletterOptIn, setSubscribeNewsletterOptIn] = useState<boolean>(true);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -73,6 +74,15 @@ export const Contact: React.FC = () => {
         });
       } catch (adminEmailErr) {
         console.error("Failed to send admin notification email:", adminEmailErr);
+      }
+
+      if (subscribeNewsletterOptIn && sanitizedData.email) {
+        try {
+          const { subscribeNewsletter } = await import("../firebase/services");
+          await subscribeNewsletter(sanitizedData.email);
+        } catch (subErr) {
+          // Ignore if already subscribed
+        }
       }
 
       setFormData({ name: "", email: "", subject: "", message: "" });
@@ -129,6 +139,15 @@ export const Contact: React.FC = () => {
         });
       } catch (adminEmailErr) {
         console.error("Failed to send admin notification email:", adminEmailErr);
+      }
+
+      if (subscribeNewsletterOptIn && sanitizedComplaint.email) {
+        try {
+          const { subscribeNewsletter } = await import("../firebase/services");
+          await subscribeNewsletter(sanitizedComplaint.email);
+        } catch (subErr) {
+          // Ignore if already subscribed
+        }
       }
 
       setComplaintData({ name: "", email: "", phone: "", complaintType: "volunteer", membershipId: "", issue: "" });
@@ -298,6 +317,20 @@ export const Contact: React.FC = () => {
                         ></textarea>
                       </div>
 
+                      {/* Optional Newsletter Subscription Checkbox */}
+                      <div style={{ display: "flex", gap: "10px", alignItems: "flex-start", marginTop: "1.25rem", marginBottom: "1rem" }}>
+                        <input 
+                          type="checkbox" 
+                          id="contactNewsletterOptIn" 
+                          checked={subscribeNewsletterOptIn}
+                          onChange={(e) => setSubscribeNewsletterOptIn(e.target.checked)}
+                          style={{ marginTop: "3px", cursor: "pointer", accentColor: "#FC4E1E" }}
+                        />
+                        <label htmlFor="contactNewsletterOptIn" style={{ fontSize: "0.825rem", color: "var(--color-primary)", cursor: "pointer", lineHeight: "1.4", fontWeight: "600" }}>
+                          Subscribe to DAY Foundation Newsletter (Optional — receive updates on impact drives &amp; community campaigns)
+                        </label>
+                      </div>
+
                       <button
                         type="submit"
                         disabled={loading}
@@ -415,6 +448,20 @@ export const Contact: React.FC = () => {
                           placeholder="Please describe the issue or complaint in detail. The management board will review it."
                           className="form-textarea"
                         ></textarea>
+                      </div>
+
+                      {/* Optional Newsletter Subscription Checkbox */}
+                      <div style={{ display: "flex", gap: "10px", alignItems: "flex-start", marginTop: "1.25rem", marginBottom: "1rem" }}>
+                        <input 
+                          type="checkbox" 
+                          id="complaintNewsletterOptIn" 
+                          checked={subscribeNewsletterOptIn}
+                          onChange={(e) => setSubscribeNewsletterOptIn(e.target.checked)}
+                          style={{ marginTop: "3px", cursor: "pointer", accentColor: "#FC4E1E" }}
+                        />
+                        <label htmlFor="complaintNewsletterOptIn" style={{ fontSize: "0.825rem", color: "var(--color-primary)", cursor: "pointer", lineHeight: "1.4", fontWeight: "600" }}>
+                          Subscribe to DAY Foundation Newsletter (Optional — receive updates on impact drives &amp; community campaigns)
+                        </label>
                       </div>
 
                       <button

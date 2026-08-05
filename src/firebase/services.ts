@@ -9,6 +9,7 @@ import {
   query, 
   orderBy,
   setDoc,
+  deleteDoc,
   arrayUnion,
   onSnapshot
 } from "firebase/firestore";
@@ -1719,6 +1720,55 @@ export const subscribeNewsletter = async (email: string): Promise<void> => {
   const payload = { email: cleanEmail, createdAt: dateStr };
   await setDoc(docRef, payload);
   await set(ref(rtdb, `newsletter/${cleanEmail.replace(/\./g, '_')}`), payload);
+};
+
+export interface NewsletterSubscriber {
+  id?: string;
+  email: string;
+  createdAt: string;
+}
+
+export const subscribeNewsletterList = (callback: (subscribers: NewsletterSubscriber[]) => void) => {
+  if (isMockEnabled) {
+    const data = localStorage.getItem("day_newsletter");
+    const list: NewsletterSubscriber[] = data ? JSON.parse(data) : [
+      { id: "sub_1", email: "support@dayfoundation.in", createdAt: new Date().toISOString() },
+      { id: "sub_2", email: "volunteer.lead@dayfoundation.in", createdAt: new Date().toISOString() }
+    ];
+    if (!data) localStorage.setItem("day_newsletter", JSON.stringify(list));
+    callback(list);
+    return () => {};
+  }
+
+  const newsRef = ref(rtdb, "newsletter");
+  return onValue(newsRef, (snapshot) => {
+    if (!snapshot.exists()) {
+      callback([]);
+      return;
+    }
+    const val = snapshot.val();
+    const data = Object.entries(val).map(([key, item]: [string, any]) => ({
+      id: key,
+      email: item.email || key.replace(/_/g, '.'),
+      createdAt: item.createdAt || new Date().toISOString()
+    }));
+    callback(data);
+  });
+};
+
+export const deleteNewsletterSubscriber = async (email: string): Promise<void> => {
+  const cleanEmail = email.toLowerCase().trim();
+  if (isMockEnabled) {
+    const data = localStorage.getItem("day_newsletter");
+    const list: any[] = data ? JSON.parse(data) : [];
+    const filtered = list.filter(x => x.email !== cleanEmail);
+    localStorage.setItem("day_newsletter", JSON.stringify(filtered));
+    return;
+  }
+
+  const docRef = doc(db, "newsletter", cleanEmail);
+  await deleteDoc(docRef);
+  await set(ref(rtdb, `newsletter/${cleanEmail.replace(/\./g, '_')}`), null);
 };
 
 export const getNewsletterSubscribers = async (): Promise<string[]> => {

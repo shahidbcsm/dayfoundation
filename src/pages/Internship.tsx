@@ -33,6 +33,7 @@ export const Internship: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [tempId, setTempId] = useState<string>("");
   const [internId, setInternId] = useState<string>("");
+  const [subscribeNewsletterOptIn, setSubscribeNewsletterOptIn] = useState<boolean>(true);
 
   const cities = ["Delhi", "Indore", "Jabalpur", "Others"];
   const years = ["1st Year", "2nd Year", "3rd Year", "4th Year", "Post Graduate"];
@@ -120,6 +121,15 @@ export const Internship: React.FC = () => {
         });
       } catch (sheetErr) {
         console.error("Failed to sync with Google Sheets:", sheetErr);
+      }
+
+      if (subscribeNewsletterOptIn && formData.email) {
+        try {
+          const { subscribeNewsletter } = await import("../firebase/services");
+          await subscribeNewsletter(formData.email);
+        } catch (subErr) {
+          // Ignore if already subscribed
+        }
       }
 
       setFormData({
@@ -652,7 +662,7 @@ export const Internship: React.FC = () => {
                   </div>
 
                   {/* AI & Plagiarism check agreement checkbox */}
-                  <div style={{ display: "flex", gap: "10px", alignItems: "flex-start", marginBottom: "1.5rem" }}>
+                  <div style={{ display: "flex", gap: "10px", alignItems: "flex-start", marginBottom: "1.25rem" }}>
                     <input 
                       type="checkbox" 
                       id="guidelineAgree" 
@@ -660,7 +670,21 @@ export const Internship: React.FC = () => {
                       style={{ marginTop: "4px", cursor: "pointer" }}
                     />
                     <label htmlFor="guidelineAgree" style={{ fontSize: "0.8rem", color: "var(--color-text-muted)", cursor: "pointer", lineHeight: "1.4" }}>
-                      I agree to the BHTDAY Summer Internship protocol. I understand that utilizing AI-generated responses for tasks or duplicating screenshot submissions is strictly prohibited and will lead to termination.
+                      I agree to the BHTDAY Summer Internship protocol and <Link to="/terms" target="_blank" rel="noopener noreferrer" style={{ color: "var(--color-secondary)", textDecoration: "underline" }} onClick={(e) => e.stopPropagation()}>Terms &amp; Conditions</Link>. I understand that utilizing AI-generated responses for tasks or duplicating screenshot submissions is strictly prohibited and will lead to termination.
+                    </label>
+                  </div>
+
+                  {/* Optional Newsletter Subscription Checkbox */}
+                  <div style={{ display: "flex", gap: "10px", alignItems: "flex-start", marginBottom: "1.5rem" }}>
+                    <input 
+                      type="checkbox" 
+                      id="newsletterOptIn" 
+                      checked={subscribeNewsletterOptIn}
+                      onChange={(e) => setSubscribeNewsletterOptIn(e.target.checked)}
+                      style={{ marginTop: "4px", cursor: "pointer", accentColor: "var(--color-secondary)" }}
+                    />
+                    <label htmlFor="newsletterOptIn" style={{ fontSize: "0.825rem", color: "var(--color-primary)", cursor: "pointer", lineHeight: "1.4", fontWeight: "600" }}>
+                      Subscribe to DAY Foundation Newsletter (Optional — receive updates on impact drives &amp; community campaigns)
                     </label>
                   </div>
 
