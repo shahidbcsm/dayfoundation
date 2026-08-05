@@ -7,7 +7,7 @@ export const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = useState<boolean>(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const [darkMode, setDarkMode] = useState<boolean>(() => {
-    return localStorage.getItem("day_dark_mode") === "true";
+    return sessionStorage.getItem("day_dark_mode_session") === "true";
   });
 
   useEffect(() => {
@@ -21,8 +21,10 @@ export const Navbar: React.FC = () => {
   useEffect(() => {
     if (darkMode) {
       document.body.classList.add("dark-mode");
+      sessionStorage.setItem("day_dark_mode_session", "true");
     } else {
       document.body.classList.remove("dark-mode");
+      sessionStorage.setItem("day_dark_mode_session", "false");
     }
     localStorage.setItem("day_dark_mode", String(darkMode));
   }, [darkMode]);
