@@ -1,0 +1,8 @@
+# DAY Foundation Vulnerability Disclosure Policy (RFC 9116)
+Contact: mailto:info@dayfoundation.in
+Contact: mailto:security@dayfoundation.in
+Expires: 2027-12-31T23:59:59.000Z
+Preferred-Languages: en, hi
+Canonical: https://www.dayfoundation.in/.well-known/security.txt
+Policy: https://www.dayfoundation.in/privacy-policy
+Hiring: https://www.dayfoundation.in/volunteer

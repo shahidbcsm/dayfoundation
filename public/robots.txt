@@ -1,0 +1,32 @@
+# DAY Foundation — Robots Exclusion Standard File
+# Official Domain: https://www.dayfoundation.in
+
+User-agent: *
+Allow: /
+Allow: /about
+Allow: /mission
+Allow: /programs
+Allow: /events
+Allow: /gallery
+Allow: /blogs
+Allow: /volunteer
+Allow: /internship
+Allow: /contact
+Allow: /donate
+Allow: /privacy-policy
+Allow: /terms-and-conditions
+Allow: /refund-policy
+
+# Security Disallow: Sensitive Admin, API & Config routes
+Disallow: /mrshahidbabu
+Disallow: /admin
+Disallow: /api/
+Disallow: /scripts/
+Disallow: /.env
+Disallow: /config/
+
+# Crawl Delay
+Crawl-delay: 2
+
+# Sitemap Location
+Sitemap: https://www.dayfoundation.in/sitemap.xml
