@@ -1,4 +1,4 @@
-import { adminDb } from './firebase-admin';
+import { adminDb } from './firebase-admin.js';
 import { 
   defaultEvents, 
   defaultBlogs, 
@@ -8,7 +8,7 @@ import {
   defaultTestimonials, 
   defaultCityTeam, 
   defaultFlagshipCampaigns 
-} from "../src/data/mockData";
+} from "../src/data/mockData.js";
 
 export default async function handler(req: any, res: any) {
   // Set CORS headers
