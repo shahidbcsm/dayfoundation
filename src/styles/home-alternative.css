@@ -243,7 +243,7 @@
   font-family: 'Garet', 'Outfit', 'Inter', sans-serif;
   font-size: 9px;
   font-weight: 700;
-  color: #68696B;
+  color: #405A6F;
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
@@ -345,8 +345,21 @@ body.dark-mode .header-nav {
 }
 
 body.dark-mode .nav-link,
-body.dark-mode .nav-logo-text {
-  color: #F5F2ED !important;
+body.dark-mode .nav-dropdown-trigger,
+body.dark-mode .nav-dropdown-trigger span,
+body.dark-mode .nav-dropdown-item,
+body.dark-mode .nav-logo-text,
+body.dark-mode .mobile-nav-link,
+body.dark-mode .mobile-nav-sublink,
+body.dark-mode .mobile-dropdown-label {
+  color: #ffffff !important;
+}
+
+body.dark-mode .nav-dropdown-trigger *,
+body.dark-mode .nav-dropdown-trigger svg,
+body.dark-mode .nav-link svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
 }
 
 /* ── SECTION 1: HERO (BLACK #181716) ── */
@@ -416,7 +429,7 @@ body.dark-mode .alt-stat-value {
 }
 
 body.dark-mode .alt-stat-label {
-  color: #4A453F !important;
+  color: #1C1A18 !important;
   font-weight: 700 !important;
 }
 
@@ -580,6 +593,16 @@ body.dark-mode .alt-city-card .alt-h3 {
   color: #F5F2ED !important;
 }
 
+body.dark-mode .alt-city-card .alt-city-meta {
+  color: #F2A172 !important;
+  font-weight: 700 !important;
+}
+
+body.dark-mode .alt-city-card .alt-city-meta svg {
+  color: #F2A172 !important;
+  stroke: #F2A172 !important;
+}
+
 body.dark-mode .alt-city-card .alt-city-programs {
   color: #C5BEB3 !important;
 }
@@ -632,9 +655,11 @@ body.dark-mode .alt-donate-wrapper .alt-h2 {
   color: #F5F2ED !important;
 }
 
+.alt-donate-left p,
+.alt-donate-benefits li,
 body.dark-mode .alt-donate-left p,
 body.dark-mode .alt-donate-benefits li {
-  color: #C5BEB3 !important;
+  color: #ffffff !important;
 }
 
 body.dark-mode .alt-donate-box {
@@ -748,34 +773,38 @@ body.dark-mode .alt-coming-tag {
   color: #ECE7DF !important;
 }
 
-/* ── SECTION 9: FAQ (BLACK #181716) ── */
-body.dark-mode .alt-faq-wrapper {
+/* ── SECTION 9: FAQ (PURE WHITE ON ALL FAQ TEXT) ── */
+.alt-faq-wrapper {
   background: #181716 !important;
   padding: 5rem 0;
 }
 
-body.dark-mode .alt-faq-wrapper .alt-pill {
+.alt-faq-wrapper .alt-pill {
   background: #4A453F !important;
-  color: #E6DFC5 !important;
+  color: #ffffff !important;
 }
 
+.alt-faq-wrapper .alt-h2,
+.alt-faq-wrapper .alt-sub,
+.alt-faq-btn,
+.alt-faq-btn span,
+.alt-faq-btn .icon,
+.alt-faq-answer,
 body.dark-mode .alt-faq-wrapper .alt-h2,
-body.dark-mode .alt-faq-wrapper .alt-sub {
-  color: #F5F2ED !important;
+body.dark-mode .alt-faq-wrapper .alt-sub,
+body.dark-mode .alt-faq-btn,
+body.dark-mode .alt-faq-btn span,
+body.dark-mode .alt-faq-btn .icon,
+body.dark-mode .alt-faq-answer,
+body.dark-mode .alt-faq-ans {
+  color: #ffffff !important;
 }
 
+.alt-faq-item,
 body.dark-mode .alt-faq-item {
   background: #252422 !important;
-  border-color: rgba(255, 255, 255, 0.08) !important;
-  color: #F5F2ED !important;
-}
-
-body.dark-mode .alt-faq-btn {
-  color: #F5F2ED !important;
-}
-
-body.dark-mode .alt-faq-ans {
-  color: #C5BEB3 !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  color: #ffffff !important;
 }
 
 /* ── SECTION 10: FOOTER (WARM TAUPE #9D9588) ── */
@@ -911,7 +940,17 @@ body.dark-mode .footer-bottom {
   width: 72px;
   height: 56px;
 }
-.alt-city-meta { display: flex; align-items: center; gap: 4px; font-size: 0.75rem; color: rgba(40,24,8,0.45); }
+.alt-city-meta { 
+  display: flex; 
+  align-items: center; 
+  gap: 4px; 
+  font-size: 0.78rem; 
+  font-weight: 700;
+  color: #E68952; 
+}
+.alt-city-meta svg {
+  color: #E68952;
+}
 .alt-city-programs { font-size: 0.75rem; font-weight: 600; color: rgba(40,24,8,0.65); }
 
 /* ─────────────────────────────────
@@ -1088,7 +1127,7 @@ body.dark-mode .footer-bottom {
 
 /* ── ADDITIONAL DARK MODE CONTRAST OVERRIDES ── */
 body.dark-mode .alt-stat-label {
-  color: rgba(247, 237, 230, 0.7) !important;
+  color: #1C1A18 !important;
 }
 body.dark-mode .alt-testi-text {
   color: rgba(247, 237, 230, 0.9) !important;
@@ -1130,3 +1169,141 @@ body.dark-mode .alt-pill.alt-pill-who-we-are * {
   fill: #34312C !important;
   stroke: #34312C !important;
 }
+
+/* ── ABOUT PAGE SECTIONS (HOW IT ALL BEGAN, MILESTONES OF IMPACT, FOUNDER'S MESSAGE) ── */
+.about-heading-title {
+  color: #343537;
+}
+.about-text-p {
+  color: #343537;
+}
+.about-stat-lbl {
+  color: #68696B;
+}
+
+body.dark-mode .about-heading-title,
+body.dark-mode .milestone-nexus-section h2,
+body.dark-mode .milestone-nexus-section h3,
+body.dark-mode .milestone-nexus-section h4,
+body.dark-mode .founders-message-section h2,
+body.dark-mode .founders-message-section h3,
+body.dark-mode .founders-message-section h4,
+body.dark-mode .nexus-spotlight-title,
+body.dark-mode .nexus-stack-item-title,
+body.dark-mode .section-title {
+  color: #ffffff !important;
+}
+
+body.dark-mode .about-text-p,
+body.dark-mode .about-stat-lbl,
+body.dark-mode .about-origin-section p,
+body.dark-mode .milestone-nexus-section p,
+body.dark-mode .founders-message-section p,
+body.dark-mode .nexus-spotlight-desc,
+body.dark-mode .nexus-highlight-pill span,
+body.dark-mode .nexus-stack-item-year,
+body.dark-mode .section-subtitle {
+  color: #ffffff !important;
+}
+
+body.dark-mode .about-origin-section strong,
+body.dark-mode .founders-message-section strong,
+body.dark-mode .milestone-nexus-section strong {
+  color: #ffffff !important;
+}
+
+body.dark-mode .about-origin-section,
+body.dark-mode .milestone-nexus-section,
+body.dark-mode .founders-message-section {
+  background-color: #181716 !important;
+  color: #ffffff !important;
+}
+
+body.dark-mode .nexus-nav-bar,
+body.dark-mode .nexus-spotlight-card,
+body.dark-mode .nexus-stack-item {
+  background-color: #252422 !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  color: #ffffff !important;
+}
+
+body.dark-mode .nexus-stack-item.active {
+  background-color: #34322d !important;
+  border-color: var(--color-secondary) !important;
+}
+
+body.dark-mode .nexus-spotlight-tag {
+  background-color: #4A453F !important;
+  color: #ffffff !important;
+}
+
+body.dark-mode .nexus-spotlight-location,
+body.dark-mode .nexus-spotlight-date,
+body.dark-mode .nexus-spotlight-index {
+  color: #ffffff !important;
+}
+
+.about-stat-pink {
+  color: #E85D75 !important;
+}
+
+body.dark-mode .about-stat-pink {
+  color: #FF85A1 !important;
+}
+
+.pill-text-black,
+.badge-custom.pill-text-black,
+span.badge-custom.pill-text-black,
+body.dark-mode .pill-text-black,
+body.dark-mode .badge-custom.pill-text-black,
+body.dark-mode span.badge-custom.pill-text-black {
+  background-color: #FFFFFF !important;
+  background: #FFFFFF !important;
+  color: #000000 !important;
+  border: 1px solid rgba(0, 0, 0, 0.12) !important;
+}
+
+.pill-text-black *,
+.badge-custom.pill-text-black *,
+span.badge-custom.pill-text-black *,
+body.dark-mode .pill-text-black *,
+body.dark-mode .badge-custom.pill-text-black *,
+body.dark-mode span.badge-custom.pill-text-black * {
+  color: #000000 !important;
+  font-weight: 800 !important;
+}
+
+
+/* ── MISSION PAGE FUTURE VISION SECTION ── */
+.mission-future-vision-section {
+  background-color: var(--color-bg-cream) !important;
+  color: var(--color-text-dark) !important;
+  border-top: 1px solid var(--color-border-light) !important;
+}
+
+.mission-future-vision-section p {
+  color: var(--color-text-muted) !important;
+}
+
+.mission-future-text,
+.mission-future-text strong,
+.mission-future-list li {
+  color: var(--color-text-dark) !important;
+}
+
+/* Dark theme overrides */
+body.dark-mode .mission-future-vision-section {
+  background-color: #181716 !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+body.dark-mode .mission-future-vision-section p,
+body.dark-mode .mission-future-vision-section .mission-future-list,
+body.dark-mode .mission-future-vision-section .mission-future-list li,
+body.dark-mode .mission-future-vision-section .mission-future-list span.mission-future-text,
+body.dark-mode .mission-future-vision-section .mission-future-list span.mission-future-text strong,
+body.dark-mode .mission-future-text,
+body.dark-mode .mission-future-text strong {
+  color: #FFFFFF !important;
+}
+

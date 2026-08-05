@@ -76,7 +76,11 @@ export const About: React.FC = () => {
 
   useEffect(() => {
     const unsub = subscribeTeam((data) => {
-      setTeam(data);
+      const sanitized = data.map((m) => ({
+        ...m,
+        name: m.name === "Khushali Takk" ? "Khushali Tak" : m.name,
+      }));
+      setTeam(sanitized);
     });
     const unsubCity = subscribeCityMembers((data) => {
       setCityMembers(data);
@@ -182,15 +186,16 @@ export const About: React.FC = () => {
         <div className="container-custom">
           <span className="badge-custom">About Us</span>
           <h1 className="subpage-hero-title">Our Story of Compassion</h1>
-          <p className="subpage-hero-desc">
+          <p className="subpage-hero-desc" style={{ whiteSpace: "nowrap", fontSize: "0.9rem" }}>
             Learn about the origins of BHTDAY Welfare Foundation, our registered credentials, and the journey of youth-driven community welfare.
           </p>
         </div>
       </section>
 
-      {/* Origin Details */}
-      <section className="section-padding" style={{ backgroundColor: "var(--color-bg-white)" }}>
-        <div className="container-custom">
+      {/* Origin Details: How It All Began */}
+      <section className="milestone-nexus-section origin-details-section" style={{ position: "relative", overflow: "hidden", padding: "4.5rem 0 5rem" }}>
+        <div className="nexus-bg-glow glow-1"></div>
+        <div className="container-custom" style={{ position: "relative", zIndex: 5 }}>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "3rem", alignItems: "center" }}>
             <motion.div
               initial={{ opacity: 0, x: -30 }}
@@ -211,27 +216,31 @@ export const About: React.FC = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <h2 style={{ fontFamily: "var(--font-serif)", fontSize: "2.25rem", color: "var(--color-primary)", marginBottom: "1.5rem" }}>
-                How It All Began
+              <span className="badge-custom">
+                <Sparkles size={14} style={{ color: "var(--color-secondary)", marginRight: "6px" }} />
+                OUR ORIGINS
+              </span>
+              <h2 className="section-title" style={{ marginTop: "0.5rem", marginBottom: "1.25rem", textAlign: "left" }}>
+                How It All <span className="text-gradient-nexus">Began</span>
               </h2>
-              <p style={{ color: "var(--color-text-muted)", lineHeight: "1.7", marginBottom: "1rem" }}>
+              <p className="section-subtitle" style={{ textAlign: "left", margin: "0 0 1.25rem 0", maxWidth: "100%" }}>
                 Founded on <strong>12th April 2022</strong>, DAY Foundation (BHTDAY Welfare Foundation) began with a clear, radical goal: to bridge critical gaps in primary education, healthcare diagnostics, and employment options by transforming youth energy into standard social work.
               </p>
-              <p style={{ color: "var(--color-text-muted)", lineHeight: "1.7", marginBottom: "1.5rem" }}>
+              <p className="section-subtitle" style={{ textAlign: "left", margin: "0 0 1.5rem 0", maxWidth: "100%" }}>
                 Under our motto <strong className="hindi-motto" style={{ fontFamily: "'Anek Devanagari', sans-serif", fontWeight: 800, whiteSpace: "nowrap" }}>“शिक्षा से सशक्तिकरण, युवा से समर्थन”</strong>, we established local chapters where student interns manage on-ground crowdfunding, welfare distributions, and micro-business workshops, helping underprivileged clusters build self-reliance.
               </p>
               <div style={{ display: "flex", gap: "2rem", flexWrap: "wrap" }}>
                 <div>
-                  <h4 style={{ fontSize: "1.5rem", color: "var(--color-secondary)", fontWeight: 800 }}>1,200+</h4>
-                  <p style={{ fontSize: "0.85rem", color: "var(--color-text-muted)" }}>Interns Trained</p>
+                  <h4 className="about-stat-pink" style={{ fontSize: "1.5rem", color: "#E85D75", fontWeight: 800, margin: "0 0 2px 0" }}>1,200+</h4>
+                  <p className="about-stat-pink" style={{ fontSize: "0.85rem", color: "#E85D75", fontWeight: 700, margin: 0 }}>Interns Trained</p>
                 </div>
                 <div>
-                  <h4 style={{ fontSize: "1.5rem", color: "var(--color-secondary)", fontWeight: 800 }}>3 Cities</h4>
-                  <p style={{ fontSize: "0.85rem", color: "var(--color-text-muted)" }}>Delhi, Indore, Jabalpur</p>
+                  <h4 className="about-stat-pink" style={{ fontSize: "1.5rem", color: "#E85D75", fontWeight: 800, margin: "0 0 2px 0" }}>3 Cities</h4>
+                  <p className="about-stat-pink" style={{ fontSize: "0.85rem", color: "#E85D75", fontWeight: 700, margin: 0 }}>Delhi, Indore, Jabalpur</p>
                 </div>
                 <div>
-                  <h4 style={{ fontSize: "1.5rem", color: "var(--color-secondary)", fontWeight: 800 }}>800+</h4>
-                  <p style={{ fontSize: "0.85rem", color: "var(--color-text-muted)" }}>Certificates Issued</p>
+                  <h4 className="about-stat-pink" style={{ fontSize: "1.5rem", color: "#E85D75", fontWeight: 800, margin: "0 0 2px 0" }}>800+</h4>
+                  <p className="about-stat-pink" style={{ fontSize: "0.85rem", color: "#E85D75", fontWeight: 700, margin: 0 }}>Certificates Issued</p>
                 </div>
               </div>
             </motion.div>
@@ -435,18 +444,17 @@ export const About: React.FC = () => {
         </div>
       </section>
 
+      {/* Founder's Message */}
       <section 
-        className="section-padding founders-message-section" 
+        className="milestone-nexus-section founders-message-section" 
         style={{ 
-          backgroundColor: "var(--color-bg-cream)", 
-          borderTop: "1px solid var(--color-border-light)",
-          paddingTop: "2.25rem",
-          paddingBottom: "2.25rem",
           position: "relative",
-          zIndex: 10
+          overflow: "hidden",
+          padding: "4.5rem 0 5rem"
         }}
       >
-        <div className="container-custom">
+        <div className="nexus-bg-glow glow-2"></div>
+        <div className="container-custom" style={{ position: "relative", zIndex: 5 }}>
           
           <div className="founders-message-grid" style={{ alignItems: "flex-start" }}>
             
@@ -487,24 +495,28 @@ export const About: React.FC = () => {
                 zIndex: 20,
                 textAlign: "center"
               }}>
-                <h4 style={{ margin: 0, fontSize: "1.05rem", fontWeight: "800", fontFamily: "var(--font-serif)" }}>Om Sen</h4>
-                <p style={{ margin: 0, fontSize: "0.7rem", fontWeight: "700", textTransform: "uppercase", letterSpacing: "0.08em", opacity: 0.95 }}>Founder & Director</p>
+                <h4 style={{ margin: 0, fontSize: "1.05rem", fontWeight: "800", fontFamily: "var(--font-serif)", color: "#ffffff" }}>Om Sen</h4>
+                <p style={{ margin: 0, fontSize: "0.7rem", fontWeight: "700", textTransform: "uppercase", letterSpacing: "0.08em", color: "#ffffff", opacity: 0.95 }}>Founder &amp; Executive Director</p>
               </div>
             </motion.div>
 
             {/* Right Column: Founder Message Heading + Text + Signature */}
-            <div style={{ color: "var(--color-text-muted)", fontSize: "1.05rem", lineHeight: "1.8" }}>
-              <h2 style={{ fontFamily: "var(--font-serif)", fontSize: "2.3rem", color: "var(--color-primary)", marginTop: "0", marginBottom: "1.25rem", textAlign: "left" }}>
-                Founder's Message
+            <div>
+              <span className="badge-custom">
+                <Sparkles size={14} style={{ color: "var(--color-secondary)", marginRight: "6px" }} />
+                FOUNDER'S PERSPECTIVE
+              </span>
+              <h2 className="section-title" style={{ marginTop: "0.5rem", marginBottom: "1.25rem", textAlign: "left" }}>
+                Founder's <span className="text-gradient-nexus">Message</span>
               </h2>
 
-              <p style={{ marginBottom: "1.25rem" }}>
+              <p className="section-subtitle" style={{ textAlign: "left", margin: "0 0 1.25rem 0", maxWidth: "100%" }}>
                 At DAY Foundation, we believe that every child deserves access to education, care, and opportunities, and that empowered youth can drive meaningful change in society. Built on the values of professionalism, accountability, and teamwork, our mission is to create lasting impact through collective action.
               </p>
-              <p style={{ marginBottom: "1.25rem" }}>
+              <p className="section-subtitle" style={{ textAlign: "left", margin: "0 0 1.25rem 0", maxWidth: "100%" }}>
                 While I founded DAY Foundation, its true strength lies in the dedication of our volunteers, whose commitment has transformed a vision into a growing movement. Together, we are working to expand our efforts in education, healthcare, mental health, and employment support to build a brighter future for communities across India.
               </p>
-              <p style={{ marginBottom: "1.25rem" }}>
+              <p className="section-subtitle" style={{ textAlign: "left", margin: "0 0 1.25rem 0", maxWidth: "100%" }}>
                 My hope is that DAY Foundation will always be known for its compassion, integrity, and commitment to empowering children and youth.
               </p>
 
@@ -513,7 +525,7 @@ export const About: React.FC = () => {
                 <p style={{ fontFamily: "'Caveat', cursive", fontSize: "2.4rem", color: "var(--color-secondary)", margin: 0, lineHeight: 1.1 }}>
                   Om Sen
                 </p>
-                <p style={{ fontSize: "0.85rem", color: "var(--color-text-muted)", margin: "4px 0 0 0", fontWeight: "700", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                <p className="founder-director-subtitle" style={{ fontSize: "0.85rem", color: "#000000", margin: "4px 0 0 0", fontWeight: "700", textTransform: "uppercase", letterSpacing: "0.05em" }}>
                   Founder &amp; Executive Director
                 </p>
               </div>
@@ -723,7 +735,7 @@ export const About: React.FC = () => {
                         {[
                           { name: "Niharika Vasvani", role: "Head of Human Resources", color: "#3b6e9e" },
                           { name: "Aditi Tiwari", role: "Head of Development and Program", color: "#1e6b5e" },
-                          { name: "Khushali Takk", role: "Head of Finance and Hiring", color: "#2a7a4b" },
+                          { name: "Khushali Tak", role: "Head of Finance and Hiring", color: "#2a7a4b" },
                           { name: "Radhika Umre", role: "Head Of Social Media", color: "#c47c1a" },
                           { name: "Shubhra Jain Garhawal", role: "Head of Legal and Communication", color: "#9e3b4c" },
                         ].map((m, i) => (
@@ -1089,7 +1101,9 @@ export const About: React.FC = () => {
                     {/* Vision Statement */}
                     <div className="premium-card" style={{ background: "linear-gradient(135deg, rgba(196,124,26,0.08) 0%, rgba(30,107,94,0.08) 100%)", padding: "2.5rem", textAlign: "center" }}>
                       <Telescope size={40} color="#c47c1a" style={{ marginBottom: "1.25rem" }} />
-                      <span className="badge-custom" style={{ marginBottom: "1rem", display: "inline-block" }}>Our Vision</span>
+                      <span className="badge-custom pill-text-black" style={{ marginBottom: "1rem", display: "inline-block", backgroundColor: "#FFFFFF", color: "#000000" }}>
+                        <span style={{ color: "#000000", fontWeight: 800 }}>Our Vision</span>
+                      </span>
                       <blockquote style={{ fontFamily: "var(--font-serif)", fontSize: "1.4rem", color: "var(--color-primary)", lineHeight: "1.7", margin: "0 auto", maxWidth: "750px", fontStyle: "italic" }}>
                         "To build an inclusive society where every individual, regardless of their background, has access to education, healthcare, and opportunities for growth, empowering them to lead dignified and self-sufficient lives."
                       </blockquote>
@@ -1100,7 +1114,9 @@ export const About: React.FC = () => {
 
                     {/* Mission Statement */}
                     <div className="premium-card" style={{ borderLeft: "4px solid var(--color-primary)" }}>
-                      <span className="badge-custom" style={{ marginBottom: "0.75rem", display: "inline-block" }}>Our Mission</span>
+                      <span className="badge-custom pill-text-black" style={{ marginBottom: "0.75rem", display: "inline-block", backgroundColor: "#FFFFFF", color: "#000000" }}>
+                        <span style={{ color: "#000000", fontWeight: 800 }}>Our Mission</span>
+                      </span>
                       <p style={{ color: "var(--color-text-muted)", lineHeight: "1.75", fontSize: "1.025rem" }}>
                         At the DAY Foundation, our mission is to build an inclusive society where every individual has access to <strong>Education, Aid, Youth, and Care</strong>. Since our inception, we have been dedicated to empowering youth, supporting underprivileged communities, and providing sustainable solutions through initiatives like Rojgar and child development programs.
                       </p>
@@ -1158,7 +1174,9 @@ export const About: React.FC = () => {
 
                     {/* Founder's Vision */}
                     <div className="premium-card" style={{ background: "linear-gradient(135deg, rgba(30,107,94,0.05) 0%, rgba(196,124,26,0.05) 100%)", padding: "2rem" }}>
-                      <span className="badge-custom" style={{ marginBottom: "1rem", display: "inline-block" }}>Founder's Words</span>
+                      <span className="badge-custom pill-text-black" style={{ marginBottom: "1rem", display: "inline-block", backgroundColor: "#FFFFFF", color: "#000000" }}>
+                        <span style={{ color: "#000000", fontWeight: 800 }}>Founder's Words</span>
+                      </span>
                       <p style={{ fontFamily: "var(--font-serif)", fontSize: "1.1rem", color: "var(--color-primary)", lineHeight: "1.8", fontStyle: "italic" }}>
                         "My dream is simple: when people hear the name DAY Foundation, they should think of an organization built on professionalism, compassion, and integrity — an organization where children find opportunities and youth discover purpose. Most importantly, I hope every volunteer feels that they are not just contributing to an NGO but helping build a movement that will create impact for generations to come."
                       </p>

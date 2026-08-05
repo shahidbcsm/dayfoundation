@@ -70,15 +70,15 @@ body {
   transition: background-color var(--transition-normal), color var(--transition-normal);
 }
 
-/* Global Typography matching Design Specification */
+/* Global Typography */
 h1, h2, h3, h4, h5, h6, .font-recoleta {
   font-family: var(--font-heading);
-  color: #034356 !important;
+  color: #343537;
 }
 
 p, span, li, dt, dd, td, label, legend, blockquote {
   font-family: var(--font-sans);
-  color: #034356;
+  color: #343537;
 }
 
 .text-muted, p.text-muted, span.text-muted, small, .credentials-text {
@@ -1225,5 +1225,93 @@ body.dark-mode .status-badge * {
   fill: #68696B !important;
   stroke: #68696B !important;
 }
+
+/* ── FUTURE VISION PILLS (OUR VISION & OUR MISSION) STYLING ── */
+#foundation .pill-text-black,
+#foundation .badge-custom.pill-text-black,
+#foundation span.badge-custom.pill-text-black,
+section#foundation .pill-text-black,
+section#foundation .badge-custom.pill-text-black,
+section#foundation span.badge-custom.pill-text-black,
+body.dark-mode #foundation .pill-text-black,
+body.dark-mode #foundation .badge-custom.pill-text-black,
+body.dark-mode #foundation span.badge-custom.pill-text-black,
+body.dark-mode section#foundation .pill-text-black,
+body.dark-mode section#foundation .badge-custom.pill-text-black,
+body.dark-mode section#foundation span.badge-custom.pill-text-black,
+.pill-text-black,
+.badge-custom.pill-text-black,
+span.badge-custom.pill-text-black,
+body.dark-mode .pill-text-black,
+body.dark-mode .badge-custom.pill-text-black,
+body.dark-mode span.badge-custom.pill-text-black {
+  background-color: #FFFFFF !important;
+  background: #FFFFFF !important;
+  color: #000000 !important;
+  border: 1px solid rgba(0, 0, 0, 0.12) !important;
+}
+
+#foundation .pill-text-black *,
+#foundation .badge-custom.pill-text-black *,
+#foundation span.badge-custom.pill-text-black *,
+section#foundation .pill-text-black *,
+section#foundation .badge-custom.pill-text-black *,
+section#foundation span.badge-custom.pill-text-black *,
+body.dark-mode #foundation .pill-text-black *,
+body.dark-mode #foundation .badge-custom.pill-text-black *,
+body.dark-mode #foundation span.badge-custom.pill-text-black *,
+body.dark-mode section#foundation .pill-text-black *,
+body.dark-mode section#foundation .badge-custom.pill-text-black *,
+body.dark-mode section#foundation span.badge-custom.pill-text-black *,
+.pill-text-black *,
+.badge-custom.pill-text-black *,
+span.badge-custom.pill-text-black *,
+body.dark-mode .pill-text-black *,
+body.dark-mode .badge-custom.pill-text-black *,
+body.dark-mode span.badge-custom.pill-text-black * {
+  color: #000000 !important;
+  font-weight: 800 !important;
+}
+
+/* ── OUR MISSION PAGE: OUR FUTURE VISION SECTION ── */
+.mission-future-vision-section {
+  background-color: var(--color-bg-cream) !important;
+  color: var(--color-text-dark) !important;
+  border-top: 1px solid var(--color-border-light) !important;
+}
+
+.mission-future-vision-section p {
+  color: var(--color-text-muted) !important;
+}
+
+.mission-future-text,
+.mission-future-text strong,
+.mission-future-list li {
+  color: var(--color-text-dark) !important;
+}
+
+/* Dark theme overrides */
+body.dark-mode .mission-future-vision-section {
+  background-color: #181716 !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+body.dark-mode .mission-future-vision-section p,
+body.dark-mode .mission-future-vision-section .mission-future-list,
+body.dark-mode .mission-future-vision-section .mission-future-list li,
+body.dark-mode .mission-future-vision-section .mission-future-list span.mission-future-text,
+body.dark-mode .mission-future-vision-section .mission-future-list span.mission-future-text strong,
+body.dark-mode .mission-future-text,
+body.dark-mode .mission-future-text strong {
+  color: #FFFFFF !important;
+}
+
+body.dark-mode .founder-director-subtitle {
+  color: #FFFFFF !important;
+}
+
+
+
+
 
 

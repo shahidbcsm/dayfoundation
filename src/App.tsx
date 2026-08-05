@@ -10,24 +10,25 @@ import { useScrollToTop } from "./hooks/useScrollToTop";
 import { useAutoSEO } from "./hooks/useAutoSEO";
 
 // Page View Imports
-import HomeAlternative from "./pages/HomeAlternative";
-import About from "./pages/About";
-import Mission from "./pages/Mission";
-import Programs from "./pages/Programs";
-import Gallery from "./pages/Gallery";
-import Blogs from "./pages/Blogs";
-import BlogDetail from "./pages/BlogDetail";
-import Events from "./pages/Events";
-import Volunteer from "./pages/Volunteer";
-import Internship from "./pages/Internship";
-import Donate from "./pages/Donate";
-import DonateSuccess from "./pages/DonateSuccess";
-import Contact from "./pages/Contact";
-import AdminDashboard from "./pages/AdminDashboard";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
-import TermsConditions from "./pages/TermsConditions";
-import RefundPolicy from "./pages/RefundPolicy";
-import InternshipStatus from "./pages/InternshipStatus";
+import { lazy, Suspense } from "react";
+const HomeAlternative = lazy(() => import("./pages/HomeAlternative"));
+const About = lazy(() => import("./pages/About"));
+const Mission = lazy(() => import("./pages/Mission"));
+const Programs = lazy(() => import("./pages/Programs"));
+const Gallery = lazy(() => import("./pages/Gallery"));
+const Blogs = lazy(() => import("./pages/Blogs"));
+const BlogDetail = lazy(() => import("./pages/BlogDetail"));
+const Events = lazy(() => import("./pages/Events"));
+const Volunteer = lazy(() => import("./pages/Volunteer"));
+const Internship = lazy(() => import("./pages/Internship"));
+const Donate = lazy(() => import("./pages/Donate"));
+const DonateSuccess = lazy(() => import("./pages/DonateSuccess"));
+const Contact = lazy(() => import("./pages/Contact"));
+const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const TermsConditions = lazy(() => import("./pages/TermsConditions"));
+const RefundPolicy = lazy(() => import("./pages/RefundPolicy"));
+const InternshipStatus = lazy(() => import("./pages/InternshipStatus"));
 
 // Styles
 import "./styles/index.css";
@@ -168,6 +169,7 @@ const AppContent: React.FC = () => {
       {/* Core viewports with glass page transitions */}
       <div style={{ flex: 1 }}>
         <AnimatePresence mode="wait">
+        <Suspense fallback={<div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "100vh", backgroundColor: "var(--color-bg-white)", color: "var(--color-primary)" }}><div className="skeleton-base" style={{ width: "40px", height: "40px", borderRadius: "50%" }}></div></div>}>
           <motion.div
             key={location.pathname}
             variants={pageVariants}
@@ -203,6 +205,7 @@ const AppContent: React.FC = () => {
               <Route path="*" element={<HomeAlternative />} />
             </Routes>
           </motion.div>
+        </Suspense>
         </AnimatePresence>
       </div>
 

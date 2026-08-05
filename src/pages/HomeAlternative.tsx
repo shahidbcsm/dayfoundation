@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, Heart, Users, GraduationCap, HeartPulse, Handshake, MapPin, Quote, Star, ChevronLeft, ChevronRight } from "lucide-react";
 import { subscribeTestimonials, useCardImages } from "../firebase/services";
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import "../styles/home-alternative.css";
 
 /* ─── Count-up hook ─── */
@@ -253,7 +254,14 @@ const HomeAlternative: React.FC = () => {
         {/* ── STATS BAR ── */}
         <div className="alt-container" style={{ paddingBottom: 0 }}>
           <div className="alt-stats-bar">
-            <div className="alt-stats-grid">
+            <div style={{ position: "absolute", top: "10px", right: "20px", width: "80px", height: "80px", zIndex: 0, opacity: 0.8 }}>
+              <DotLottieReact
+                src="https://lottie.host/bdb06c4d-9d78-492c-94a9-bed5f81f7f7e/ScOHdeYzc1.lottie"
+                loop
+                autoplay
+              />
+            </div>
+            <div className="alt-stats-grid" style={{ position: "relative", zIndex: 1 }}>
               <StatItem value={320} label="Active Volunteers" />
               <StatItem value={1200} label="Interns Trained" />
               <StatItem value={800} label="Certificates Issued" />
@@ -500,11 +508,11 @@ const HomeAlternative: React.FC = () => {
             <div className="alt-donate-left">
               <span className="alt-donate-badge">Make a Difference</span>
               <h2 className="alt-h2">Every contribution creates ripples.</h2>
-              <p>Your contribution directly funds sewing machines, digital tablets, and mobile diagnostic camps. Join us in making a tangible difference.</p>
-              <ul className="alt-donate-benefits">
-                <li>✅ 80G Tax Exemption Available</li>
-                <li>✅ Secure Razorpay Gateway</li>
-                <li>✅ Certificate of Donation Provided</li>
+              <p style={{ color: "#ffffff" }}>Your contribution directly funds sewing machines, digital tablets, and mobile diagnostic camps. Join us in making a tangible difference.</p>
+              <ul className="alt-donate-benefits" style={{ color: "#ffffff" }}>
+                <li style={{ color: "#ffffff" }}>✅ 80G Tax Exemption Available</li>
+                <li style={{ color: "#ffffff" }}>✅ Secure Razorpay Gateway</li>
+                <li style={{ color: "#ffffff" }}>✅ Certificate of Donation Provided</li>
               </ul>
             </div>
             <div className="alt-donate-box">

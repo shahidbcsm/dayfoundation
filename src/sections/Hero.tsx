@@ -34,7 +34,7 @@ const HeroStatItem: React.FC<{ value: number; suffix?: string; label: string }> 
       <div style={{
         fontSize: "0.77rem",
         fontWeight: 600,
-        color: "#68696B",
+        color: "#405A6F",
         fontFamily: "'Garet', 'Outfit', 'Inter', sans-serif",
         opacity: 0.9,
         marginTop: "0.25rem",

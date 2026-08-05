@@ -756,7 +756,7 @@ export const defaultTeam: TeamMember[] = [
   },
   {
     id: "team-4",
-    name: "Khushali Takk",
+    name: "Khushali Tak",
     role: "Head of Finance and Hiring",
     bio: "Audits operational budgets, monitors donations, and handles strategic recruitment for the administrative teams.",
     image: "/assets/teams/kaushali tak.jpeg",

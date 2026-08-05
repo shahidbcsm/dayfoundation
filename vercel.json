@@ -36,8 +36,20 @@
   ],
   "rewrites": [
     {
+      "source": "/api/send-email",
+      "destination": "/api/send-email.js"
+    },
+    {
+      "source": "/api/send-push",
+      "destination": "/api/send-push.js"
+    },
+    {
+      "source": "/api/seed",
+      "destination": "/api/seed.ts"
+    },
+    {
       "source": "/api/:path*",
-      "destination": "/api/:path*"
+      "destination": "/api/index.ts"
     },
     {
       "source": "/((?!api/).*)",

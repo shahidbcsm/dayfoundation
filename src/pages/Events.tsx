@@ -4,7 +4,8 @@ import { subscribeEvents, subscribeFlagshipCampaigns } from "../firebase/service
 import type { Event, FlagshipCampaign } from "../data/mockData";
 import { defaultFlagshipCampaigns } from "../data/mockData";
 import { motion, AnimatePresence } from "framer-motion";
-import { Calendar, MapPin, Loader, AlertCircle } from "lucide-react";
+import { Calendar, MapPin, AlertCircle } from "lucide-react";
+import { CardSkeleton } from "../components/Skeleton";
 import "../styles/pages.css";
 
 export const Events: React.FC = () => {
@@ -132,8 +133,10 @@ export const Events: React.FC = () => {
           </div>
 
           {loading ? (
-            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "200px", color: "var(--color-secondary)" }}>
-              <Loader className="animate-spin" size={32} />
+            <div className="grid-cols-responsive">
+              <CardSkeleton />
+              <CardSkeleton />
+              <CardSkeleton />
             </div>
           ) : (
             <AnimatePresence mode="wait">

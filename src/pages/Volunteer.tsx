@@ -344,7 +344,7 @@ export const Volunteer: React.FC = () => {
                     <Heart size={22} color="#FC4E1E" style={{ color: "#FC4E1E" }} className="fill-current" />
                     <span style={{ color: "#FC4E1E" }}>Volunteer Registration Form</span>
                   </h2>
-                  <p style={{ fontSize: "0.85rem", color: "#ECE7DF", marginTop: "0.25rem" }}>
+                  <p className="form-subtitle-adaptive" style={{ fontSize: "0.85rem", marginTop: "0.25rem" }}>
                     Please fill in your authentic details below. A coordinator from your selected city will contact you.
                   </p>
                 </div>

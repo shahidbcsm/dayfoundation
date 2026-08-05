@@ -3,7 +3,7 @@ import { subscribeGallery } from "../firebase/services";
 import type { GalleryItem } from "../data/mockData";
 import { Lightbox } from "../components/Lightbox";
 import { motion, AnimatePresence } from "framer-motion";
-import { Loader } from "lucide-react";
+import { Skeleton } from "../components/Skeleton";
 import "../styles/pages.css";
 
 export const Gallery: React.FC = () => {
@@ -64,8 +64,12 @@ export const Gallery: React.FC = () => {
       <section className="section-padding">
         <div className="container-custom">
           {loading ? (
-            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "200px", color: "var(--color-secondary)" }}>
-              <Loader className="animate-spin" size={32} />
+            <div className="gallery-grid">
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="gallery-item" style={{ height: "250px" }}>
+                  <Skeleton borderRadius="12px" />
+                </div>
+              ))}
             </div>
           ) : (
             <AnimatePresence mode="wait">

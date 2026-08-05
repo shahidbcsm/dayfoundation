@@ -154,7 +154,7 @@ export const Mission: React.FC = () => {
       </section>
 
       {/* Future Vision Section */}
-      <section className="section-padding" style={{ backgroundColor: "var(--color-bg-cream)", borderTop: "1px solid var(--color-border-light)" }}>
+      <section className="section-padding mission-future-vision-section" style={{ borderTop: "1px solid var(--color-border-light)" }}>
         <div className="container-custom">
           <div className="grid-2" style={{ alignItems: "center" }}>
             <div>
@@ -162,26 +162,26 @@ export const Mission: React.FC = () => {
               <h2 style={{ fontFamily: "var(--font-serif)", fontSize: "2.25rem", color: "var(--color-primary)", marginBottom: "1.5rem" }}>
                 Our Future Vision
               </h2>
-              <p style={{ color: "var(--color-text-muted)", lineHeight: "1.7", marginBottom: "1.25rem" }}>
+              <p style={{ lineHeight: "1.7", marginBottom: "1.25rem" }}>
                 BHTDAY Welfare Foundation is expanding its boundaries and deepening its social footprint. We are launching key campaigns to establish a larger, youth-powered network of change.
               </p>
               
-              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "0.75rem", fontSize: "0.9rem", color: "var(--color-text-muted)" }}>
+              <ul className="mission-future-list" style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "0.75rem", fontSize: "0.9rem" }}>
                 <li style={{ display: "flex", gap: "8px", alignItems: "flex-start" }}>
                   <span style={{ color: "var(--color-secondary)", fontWeight: 800 }}>✓</span>
-                  <span><strong>Geographical Expansion:</strong> Expanding operational branches into Mumbai, Prayagraj, and Delhi NCR.</span>
+                  <span className="mission-future-text"><strong>Geographical Expansion:</strong> Expanding operational branches into Mumbai, Prayagraj, and Delhi NCR.</span>
                 </li>
                 <li style={{ display: "flex", gap: "8px", alignItems: "flex-start" }}>
                   <span style={{ color: "var(--color-secondary)", fontWeight: 800 }}>✓</span>
-                  <span><strong>Segment 2 Launch:</strong> Launching a structured segment by Diwali focusing on expanded Rozgar options and professional Mental Wellness initiatives.</span>
+                  <span className="mission-future-text"><strong>Segment 2 Launch:</strong> Launching a structured segment by Diwali focusing on expanded Rozgar options and professional Mental Wellness initiatives.</span>
                 </li>
                 <li style={{ display: "flex", gap: "8px", alignItems: "flex-start" }}>
                   <span style={{ color: "var(--color-secondary)", fontWeight: 800 }}>✓</span>
-                  <span><strong>DAY Influencer Community:</strong> Mobilizing social media creators and campus leaders to promote primary child rights and environmental sanitation awareness.</span>
+                  <span className="mission-future-text"><strong>DAY Influencer Community:</strong> Mobilizing social media creators and campus leaders to promote primary child rights and environmental sanitation awareness.</span>
                 </li>
                 <li style={{ display: "flex", gap: "8px", alignItems: "flex-start" }}>
                   <span style={{ color: "var(--color-secondary)", fontWeight: 800 }}>✓</span>
-                  <span><strong>Compliance &amp; Governance:</strong> Recruiting selective, dedicated professionals to strengthen our internal Legal Unit and Human Resource compliance.</span>
+                  <span className="mission-future-text"><strong>Compliance &amp; Governance:</strong> Recruiting selective, dedicated professionals to strengthen our internal Legal Unit and Human Resource compliance.</span>
                 </li>
               </ul>
             </div>

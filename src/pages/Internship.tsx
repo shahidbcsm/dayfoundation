@@ -377,7 +377,7 @@ export const Internship: React.FC = () => {
                     <BookOpen size={22} color="#FC4E1E" style={{ color: "#FC4E1E" }} />
                     <span style={{ color: "#FC4E1E" }}>Internship Application Form</span>
                   </h2>
-                  <p style={{ fontSize: "0.85rem", color: "#ECE7DF", marginTop: "0.25rem" }}>
+                  <p className="form-subtitle-adaptive" style={{ fontSize: "0.85rem", marginTop: "0.25rem" }}>
                     Apply for the 15-day summer internship program. Selected candidates will be notified via email for the onboarding session.
                   </p>
                 </div>

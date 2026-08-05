@@ -113,7 +113,8 @@ const seedStorage = () => {
   localStorage.removeItem("day_donations");
 
 
-  if (!localStorage.getItem("day_team")) {
+  const storedTeam = localStorage.getItem("day_team");
+  if (!storedTeam || storedTeam.includes("Khushali Takk")) {
     localStorage.setItem("day_team", JSON.stringify(defaultTeam));
   }
 
@@ -1057,7 +1058,12 @@ export const subscribeTeam = (callback: (team: TeamMember[]) => void) => {
     const handler = () => {
       const data = localStorage.getItem("day_team");
       const list: TeamMember[] = data ? JSON.parse(data) : [];
-      const active = list.filter((m: any) => !m.deleted);
+      const active = list
+        .map((m: any) => ({
+          ...m,
+          name: m.name === "Khushali Takk" ? "Khushali Tak" : m.name
+        }))
+        .filter((m: any) => !m.deleted);
       active.sort((a, b) => (a.order || 0) - (b.order || 0));
       callback(active);
     };
@@ -1094,7 +1100,11 @@ export const subscribeTeam = (callback: (team: TeamMember[]) => void) => {
       return;
     }
     const data = Object.entries(val)
-      .map(([id, item]: [string, any]) => ({ id, ...item }))
+      .map(([id, item]: [string, any]) => ({
+        id,
+        ...item,
+        name: item.name === "Khushali Takk" ? "Khushali Tak" : item.name
+      }))
       .filter((m: any) => !m.deleted);
     data.sort((a: any, b: any) => (a.order || 0) - (b.order || 0));
     callback(data);

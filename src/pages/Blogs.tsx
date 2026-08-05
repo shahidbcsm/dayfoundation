@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import { subscribeBlogs } from "../firebase/services";
 import type { Blog } from "../data/mockData";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Calendar, User, ArrowRight, Loader } from "lucide-react";
+import { Search, Calendar, User, ArrowRight } from "lucide-react";
+import { CardSkeleton } from "../components/Skeleton";
 import "../styles/pages.css";
 
 export const Blogs: React.FC = () => {
@@ -117,8 +118,10 @@ export const Blogs: React.FC = () => {
           </div>
 
           {loading ? (
-            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "200px", color: "var(--color-secondary)" }}>
-              <Loader className="animate-spin" size={32} />
+            <div className="grid-cols-responsive">
+              <CardSkeleton />
+              <CardSkeleton />
+              <CardSkeleton />
             </div>
           ) : (
             <AnimatePresence mode="wait">

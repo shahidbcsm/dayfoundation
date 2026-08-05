@@ -92,6 +92,11 @@ body.layout-alternative .header-nav.scrolled {
 
 body.layout-alternative .nav-logo-text,
 body.layout-alternative .header-nav .nav-links a,
+body.layout-alternative .header-nav .nav-links button,
+body.layout-alternative .header-nav .nav-links span,
+body.layout-alternative .header-nav .nav-link,
+body.layout-alternative .header-nav .nav-dropdown-trigger,
+body.layout-alternative .header-nav .nav-dropdown-trigger span,
 body.layout-alternative .header-nav a {
   color: #281808 !important;
   font-weight: 700 !important;
@@ -99,11 +104,17 @@ body.layout-alternative .header-nav a {
 }
 
 body.layout-alternative .header-nav .nav-links a:hover,
+body.layout-alternative .header-nav .nav-links button:hover,
+body.layout-alternative .header-nav .nav-links span:hover,
+body.layout-alternative .header-nav .nav-link:hover,
+body.layout-alternative .header-nav .nav-dropdown-trigger:hover,
+body.layout-alternative .header-nav .nav-dropdown-trigger:hover span,
 body.layout-alternative .header-nav a:hover {
   color: #E68952 !important;
 }
 
-body.layout-alternative .header-nav .nav-links a.active {
+body.layout-alternative .header-nav .nav-links a.active,
+body.layout-alternative .header-nav .nav-link.active {
   color: #E68952 !important;
 }
 
@@ -526,12 +537,23 @@ body.layout-alternative.dark-mode .header-nav.scrolled {
 }
 body.layout-alternative.dark-mode .nav-logo-text,
 body.layout-alternative.dark-mode .header-nav .nav-links a,
-body.layout-alternative.dark-mode .header-nav a {
-  color: #f4f4f5 !important;
+body.layout-alternative.dark-mode .header-nav .nav-links button,
+body.layout-alternative.dark-mode .header-nav .nav-links span,
+body.layout-alternative.dark-mode .header-nav a,
+body.layout-alternative.dark-mode .nav-link,
+body.layout-alternative.dark-mode .nav-dropdown-trigger,
+body.layout-alternative.dark-mode .nav-dropdown-trigger span,
+body.layout-alternative.dark-mode .nav-dropdown-item {
+  color: #ffffff !important;
 }
 body.layout-alternative.dark-mode .header-nav .nav-links a:hover,
+body.layout-alternative.dark-mode .header-nav .nav-links button:hover,
+body.layout-alternative.dark-mode .header-nav .nav-links span:hover,
 body.layout-alternative.dark-mode .header-nav a:hover,
-body.layout-alternative.dark-mode .header-nav .nav-links a.active {
+body.layout-alternative.dark-mode .header-nav .nav-dropdown-trigger:hover,
+body.layout-alternative.dark-mode .header-nav .nav-dropdown-trigger:hover span,
+body.layout-alternative.dark-mode .header-nav .nav-links a.active,
+body.layout-alternative.dark-mode .header-nav .nav-link.active {
   color: #F2A172 !important;
 }
 

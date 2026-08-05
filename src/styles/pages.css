@@ -2520,6 +2520,13 @@ body.dark-mode .donate-custom-input {
     align-items: stretch !important;
   }
 
+  .text-gradient-nexus {
+    color: #E68952;
+    background: linear-gradient(135deg, #E68952, #D9854E);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
   /* ── Footer grid ── */
   .footer-grid {
     grid-template-columns: 1fr !important;
@@ -4182,6 +4189,183 @@ body.dark-mode .premium-card form textarea {
   font-weight: 600 !important;
 }
 
+
+
+
+
+
+
+/* Form subtitle adaptive gray */
+.form-subtitle-adaptive {
+  color: gray !important;
+}
+body.dark-mode .form-subtitle-adaptive {
+  color: #ECE7DF !important;
+}
+
+
+/* Master override for all form inputs in dark mode to have dark background and white text */
+body.dark-mode .volunteer-form-gray-card input,
+body.dark-mode .volunteer-form-gray-card select,
+body.dark-mode .volunteer-form-gray-card textarea,
+body.dark-mode .internship-form-gray-card input,
+body.dark-mode .internship-form-gray-card select,
+body.dark-mode .internship-form-gray-card textarea,
+body.dark-mode .contact-form-gray-card input,
+body.dark-mode .contact-form-gray-card select,
+body.dark-mode .contact-form-gray-card textarea,
+body.dark-mode .premium-card form input,
+body.dark-mode .premium-card form select,
+body.dark-mode .premium-card form textarea {
+  background-color: #161e18 !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+}
+
+
+/* Fix specificity for premium card inputs in dark mode */
+body.dark-mode .premium-card form input:not([type="radio"]):not([type="checkbox"]),
+body.dark-mode .premium-card form select,
+body.dark-mode .premium-card form textarea,
+body.dark-mode .volunteer-form-gray-card input:not([type="radio"]):not([type="checkbox"]),
+body.dark-mode .internship-form-gray-card input:not([type="radio"]):not([type="checkbox"]),
+body.dark-mode .contact-form-gray-card input:not([type="radio"]):not([type="checkbox"]) {
+  background-color: #161e18 !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+}
+
+
+/* Fix for dark theme text color in the Home alternative donate box */
+body.dark-mode .alt-donate-label,
+body.dark-mode .alt-donate-hint {
+  color: #ffffff !important;
+}
+
+
+/* Higher specificity fix for dark theme text color in the Home alternative donate box */
+body.dark-mode .alt-donate-box p.alt-donate-label,
+body.dark-mode .alt-donate-box p.alt-donate-hint {
+  color: #ffffff !important;
+}
+
+
+/* SKELETON LOADERS */
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.4; }
+  100% { opacity: 1; }
+}
+
+.skeleton-base {
+  background-color: var(--color-border-light);
+  animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+body.dark-mode .skeleton-base {
+  background-color: #2A2C2E;
+}
+
+.skeleton-card {
+  background: var(--color-bg-white);
+  border-radius: 12px;
+  border: 1px solid var(--color-border-light);
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+}
+
+body.dark-mode .skeleton-card {
+  background: var(--color-bg-dark);
+  border-color: #2A2C2E;
+}
+
+.skeleton-card-content {
+  padding: 1.5rem;
+}
+
+/* ── FUTURE VISION PILLS (OUR VISION & OUR MISSION) STYLING ── */
+#foundation .pill-text-black,
+#foundation .badge-custom.pill-text-black,
+#foundation span.badge-custom.pill-text-black,
+section#foundation .pill-text-black,
+section#foundation .badge-custom.pill-text-black,
+section#foundation span.badge-custom.pill-text-black,
+body.dark-mode #foundation .pill-text-black,
+body.dark-mode #foundation .badge-custom.pill-text-black,
+body.dark-mode #foundation span.badge-custom.pill-text-black,
+body.dark-mode section#foundation .pill-text-black,
+body.dark-mode section#foundation .badge-custom.pill-text-black,
+body.dark-mode section#foundation span.badge-custom.pill-text-black,
+.pill-text-black,
+.badge-custom.pill-text-black,
+span.badge-custom.pill-text-black,
+body.dark-mode .pill-text-black,
+body.dark-mode .badge-custom.pill-text-black,
+body.dark-mode span.badge-custom.pill-text-black {
+  background-color: #FFFFFF !important;
+  background: #FFFFFF !important;
+  color: #000000 !important;
+  border: 1px solid rgba(0, 0, 0, 0.12) !important;
+}
+
+#foundation .pill-text-black *,
+#foundation .badge-custom.pill-text-black *,
+#foundation span.badge-custom.pill-text-black *,
+section#foundation .pill-text-black *,
+section#foundation .badge-custom.pill-text-black *,
+section#foundation span.badge-custom.pill-text-black *,
+body.dark-mode #foundation .pill-text-black *,
+body.dark-mode #foundation .badge-custom.pill-text-black *,
+body.dark-mode #foundation span.badge-custom.pill-text-black *,
+body.dark-mode section#foundation .pill-text-black *,
+body.dark-mode section#foundation .badge-custom.pill-text-black *,
+body.dark-mode section#foundation span.badge-custom.pill-text-black *,
+.pill-text-black *,
+.badge-custom.pill-text-black *,
+span.badge-custom.pill-text-black *,
+body.dark-mode .pill-text-black *,
+body.dark-mode .badge-custom.pill-text-black *,
+body.dark-mode span.badge-custom.pill-text-black * {
+  color: #000000 !important;
+  font-weight: 800 !important;
+}
+
+/* ── OUR MISSION PAGE: OUR FUTURE VISION SECTION ── */
+.mission-future-vision-section {
+  background-color: var(--color-bg-cream) !important;
+  color: var(--color-text-dark) !important;
+  border-top: 1px solid var(--color-border-light) !important;
+}
+
+.mission-future-vision-section p {
+  color: var(--color-text-muted) !important;
+}
+
+.mission-future-text,
+.mission-future-text strong,
+.mission-future-list li {
+  color: var(--color-text-dark) !important;
+}
+
+/* Dark theme overrides */
+body.dark-mode .mission-future-vision-section {
+  background-color: #181716 !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+body.dark-mode .mission-future-vision-section p,
+body.dark-mode .mission-future-vision-section .mission-future-list,
+body.dark-mode .mission-future-vision-section .mission-future-list li,
+body.dark-mode .mission-future-vision-section .mission-future-list span.mission-future-text,
+body.dark-mode .mission-future-vision-section .mission-future-list span.mission-future-text strong,
+body.dark-mode .mission-future-text,
+body.dark-mode .mission-future-text strong {
+  color: #FFFFFF !important;
+}
+
+body.dark-mode .founder-director-subtitle {
+  color: #FFFFFF !important;
+}
 
 
 
