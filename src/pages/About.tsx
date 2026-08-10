@@ -525,7 +525,7 @@ export const About: React.FC = () => {
                 <p style={{ fontFamily: "'Caveat', cursive", fontSize: "2.4rem", color: "var(--color-secondary)", margin: 0, lineHeight: 1.1 }}>
                   Om Sen
                 </p>
-                <p className="founder-director-subtitle" style={{ fontSize: "0.85rem", color: "#000000", margin: "4px 0 0 0", fontWeight: "700", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                <p className="founder-director-subtitle" style={{ fontSize: "0.85rem", color: "#343537", margin: "4px 0 0 0", fontWeight: "700", textTransform: "uppercase", letterSpacing: "0.05em" }}>
                   Founder &amp; Executive Director
                 </p>
               </div>
@@ -1101,8 +1101,8 @@ export const About: React.FC = () => {
                     {/* Vision Statement */}
                     <div className="premium-card" style={{ background: "linear-gradient(135deg, rgba(196,124,26,0.08) 0%, rgba(30,107,94,0.08) 100%)", padding: "2.5rem", textAlign: "center" }}>
                       <Telescope size={40} color="#c47c1a" style={{ marginBottom: "1.25rem" }} />
-                      <span className="badge-custom pill-text-black" style={{ marginBottom: "1rem", display: "inline-block", backgroundColor: "#FFFFFF", color: "#000000" }}>
-                        <span style={{ color: "#000000", fontWeight: 800 }}>Our Vision</span>
+                      <span className="badge-custom pill-text-black" style={{ marginBottom: "1rem", display: "inline-block", backgroundColor: "#F5C4D1", color: "#68696B" }}>
+                        <span style={{ color: "#68696B", fontWeight: 800 }}>Our Vision</span>
                       </span>
                       <blockquote style={{ fontFamily: "var(--font-serif)", fontSize: "1.4rem", color: "var(--color-primary)", lineHeight: "1.7", margin: "0 auto", maxWidth: "750px", fontStyle: "italic" }}>
                         "To build an inclusive society where every individual, regardless of their background, has access to education, healthcare, and opportunities for growth, empowering them to lead dignified and self-sufficient lives."
@@ -1114,8 +1114,8 @@ export const About: React.FC = () => {
 
                     {/* Mission Statement */}
                     <div className="premium-card" style={{ borderLeft: "4px solid var(--color-primary)" }}>
-                      <span className="badge-custom pill-text-black" style={{ marginBottom: "0.75rem", display: "inline-block", backgroundColor: "#FFFFFF", color: "#000000" }}>
-                        <span style={{ color: "#000000", fontWeight: 800 }}>Our Mission</span>
+                      <span className="badge-custom pill-text-black" style={{ marginBottom: "0.75rem", display: "inline-block", backgroundColor: "#F5C4D1", color: "#68696B" }}>
+                        <span style={{ color: "#68696B", fontWeight: 800 }}>Our Mission</span>
                       </span>
                       <p style={{ color: "var(--color-text-muted)", lineHeight: "1.75", fontSize: "1.025rem" }}>
                         At the DAY Foundation, our mission is to build an inclusive society where every individual has access to <strong>Education, Aid, Youth, and Care</strong>. Since our inception, we have been dedicated to empowering youth, supporting underprivileged communities, and providing sustainable solutions through initiatives like Rojgar and child development programs.
@@ -1174,8 +1174,8 @@ export const About: React.FC = () => {
 
                     {/* Founder's Vision */}
                     <div className="premium-card" style={{ background: "linear-gradient(135deg, rgba(30,107,94,0.05) 0%, rgba(196,124,26,0.05) 100%)", padding: "2rem" }}>
-                      <span className="badge-custom pill-text-black" style={{ marginBottom: "1rem", display: "inline-block", backgroundColor: "#FFFFFF", color: "#000000" }}>
-                        <span style={{ color: "#000000", fontWeight: 800 }}>Founder's Words</span>
+                      <span className="badge-custom pill-text-black" style={{ marginBottom: "1rem", display: "inline-block", backgroundColor: "#F5C4D1", color: "#68696B" }}>
+                        <span style={{ color: "#68696B", fontWeight: 800 }}>Founder's Words</span>
                       </span>
                       <p style={{ fontFamily: "var(--font-serif)", fontSize: "1.1rem", color: "var(--color-primary)", lineHeight: "1.8", fontStyle: "italic" }}>
                         "My dream is simple: when people hear the name DAY Foundation, they should think of an organization built on professionalism, compassion, and integrity — an organization where children find opportunities and youth discover purpose. Most importantly, I hope every volunteer feels that they are not just contributing to an NGO but helping build a movement that will create impact for generations to come."

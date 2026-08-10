@@ -127,7 +127,7 @@ export const Internship: React.FC = () => {
         try {
           const { subscribeNewsletter } = await import("../firebase/services");
           await subscribeNewsletter(formData.email, "Internship Form");
-        } catch (subErr) {
+        } catch {
           // Ignore if already subscribed
         }
       }

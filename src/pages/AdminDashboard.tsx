@@ -2250,7 +2250,7 @@ export const AdminDashboard: React.FC = () => {
   };
 
   // Paginated lists
-  const paginateList = <T extends any>(list: T[]): T[] => {
+  const paginateList = <T,>(list: T[]): T[] => {
     const startIndex = (currentPage - 1) * rowsPerPage;
     return list.slice(startIndex, startIndex + rowsPerPage);
   };

@@ -51,7 +51,7 @@ export const Team: React.FC = () => {
       <div className="container-custom">
         
         {/* Core Values */}
-        <div style={{ textAlign: "center", marginBottom: "4rem" }}>
+        <div style={{ textAlign: "center", marginBottom: "2rem" }}>
           <span className="badge-custom">Our Values</span>
           <h2 className="section-title">Credentials of Trust</h2>
           <p className="section-subtitle">
@@ -59,7 +59,7 @@ export const Team: React.FC = () => {
           </p>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "2rem", marginBottom: "5rem" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "2rem", marginBottom: "2.5rem" }}>
           {values.map((val, idx) => (
             <motion.div 
               key={idx}

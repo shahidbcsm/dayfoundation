@@ -80,7 +80,7 @@ export const Contact: React.FC = () => {
         try {
           const { subscribeNewsletter } = await import("../firebase/services");
           await subscribeNewsletter(sanitizedData.email, "Contact Form");
-        } catch (subErr) {
+        } catch {
           // Ignore if already subscribed
         }
       }
@@ -145,7 +145,7 @@ export const Contact: React.FC = () => {
         try {
           const { subscribeNewsletter } = await import("../firebase/services");
           await subscribeNewsletter(sanitizedComplaint.email, "Complaint Form");
-        } catch (subErr) {
+        } catch {
           // Ignore if already subscribed
         }
       }

@@ -233,7 +233,7 @@ export const sendRecordUpdate = async (params: {
       </div>
     `;
 
-  let prompt = "";
+  let prompt: string;
   if (isContact) {
     prompt = `Write a friendly, polite, and helpful email reply from BHTDAY Welfare Foundation to ${params.name} regarding their message/inquiry (Ticket: ${params.ticketNo}).
     Here is their original inquiry message: '${params.originalMessage || ""}'.

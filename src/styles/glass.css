@@ -614,9 +614,9 @@ body.dark-mode select {
 }
 
 body.dark-mode .badge-custom {
-  background: rgba(58, 107, 42, 0.35) !important;
-  border-color: rgba(122,191,96,0.28) !important;
-  color: #A0D880 !important;
+  background: #4A453F !important;
+  border-color: transparent !important;
+  color: #E6DFC5 !important;
 }
 
 /* ─────────────────────────────────────────────────────────────────

@@ -1,8 +1,7 @@
-
 /* --- Subpage Header Hero --- */
 .subpage-hero {
-  padding-top: 115px;
-  padding-bottom: var(--space-8);
+  padding-top: 100px;
+  padding-bottom: 1.5rem;
   background: linear-gradient(135deg, var(--color-bg-cream) 0%, rgba(var(--color-accent-rgb), 0.05) 100%);
   text-align: center;
   position: relative;
@@ -2426,8 +2425,22 @@ body.dark-mode .donate-custom-input {
 
   /* ── Section spacing ── */
   .section-padding {
-    padding-top: 2.5rem !important;
-    padding-bottom: 2.5rem !important;
+    padding-top: 1.25rem !important;
+    padding-bottom: 1.25rem !important;
+  }
+
+  .subpage-hero {
+    padding-top: 85px !important;
+    padding-bottom: 1rem !important;
+  }
+
+  .section-header,
+  div[style*="marginBottom: 4rem"],
+  div[style*="marginBottom: 3.5rem"],
+  div[style*="marginBottom: 3rem"],
+  div[style*="margin-bottom: 4rem"],
+  div[style*="margin-bottom: 3rem"] {
+    margin-bottom: 1.5rem !important;
   }
 
   /* ── Section title ── */
@@ -3303,13 +3316,14 @@ body.dark-mode .donate-custom-input {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  background: var(--color-bg-gray);
+  background-color: #F5C4D1 !important;
+  background: #F5C4D1 !important;
   border: 1px solid var(--color-border-light);
   padding: 4px 10px;
   border-radius: 9999px;
   font-size: 0.75rem;
   font-weight: 700;
-  color: var(--color-text-dark);
+  color: #68696B !important;
 }
 
 .nexus-highlight-check {
@@ -3495,10 +3509,13 @@ body.dark-mode .nexus-stack-item-year {
   color: rgba(255, 255, 255, 0.75) !important;
 }
 
-body.dark-mode .nexus-highlight-pill {
-  background: rgba(255, 255, 255, 0.08) !important;
-  border-color: rgba(255, 255, 255, 0.12) !important;
-  color: #ffffff !important;
+.badge-custom,
+.alt-pill {
+  background-color: #F5C4D1 !important;
+  background: #F5C4D1 !important;
+  color: #68696B !important; /* Gray text */
+  border: 1px solid rgba(104, 105, 107, 0.15) !important;
+  font-weight: 700 !important;
 }
 
 body.dark-mode .nexus-stack-item-icon {
@@ -3552,8 +3569,9 @@ body.dark-mode section:nth-of-type(odd) .section-subtitle {
 /* 1. Default / White Background Sections -> GRAY PILL WITH GRAY TEXT */
 .badge-custom,
 .alt-pill {
-  background-color: #E2E8F0 !important;
-  color: #4B5563 !important; /* Gray text */
+  background-color: #F5C4D1 !important;
+  background: #F5C4D1 !important;
+  color: #68696B !important; /* Gray text */
   border: 1px solid rgba(0, 0, 0, 0.08) !important;
   font-weight: 700 !important;
 }
@@ -3561,7 +3579,26 @@ body.dark-mode section:nth-of-type(odd) .section-subtitle {
 /* 2. Gray & Dark Background Sections (including GOVERNANCE & STRUCTURE) -> WHITE PILL WITH GRAY TEXT */
 section#foundation .badge-custom,
 section#foundation .alt-pill,
-section.subpage-hero .badge-custom,
+section.subpage-hero .badge-custom {
+  background-color: #F5C4D1 !important;
+  background: #F5C4D1 !important;
+  color: #68696B !important; /* Gray text for GOVERNANCE & STRUCTURE */
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  font-weight: 700 !important;
+}
+
+/* Dark mode: same unified gray/cream pill, even for the #foundation-scoped ones above */
+body.dark-mode section#foundation .badge-custom,
+body.dark-mode section#foundation .alt-pill,
+body.dark-mode section.subpage-hero .badge-custom {
+  background-color: #4A453F !important;
+  background: #4A453F !important;
+  color: #E6DFC5 !important;
+  border: none !important;
+  font-weight: 700 !important;
+}
+
+/* Dark mode: same unified gray/cream pill everywhere, even inside sections */
 body.dark-mode .badge-custom,
 body.dark-mode .alt-pill,
 body.dark-mode section .badge-custom,
@@ -3570,9 +3607,10 @@ body.dark-mode section:nth-of-type(odd) .badge-custom,
 body.dark-mode section:nth-of-type(odd) .alt-pill,
 body.dark-mode section:nth-of-type(even) .badge-custom,
 body.dark-mode section:nth-of-type(even) .alt-pill {
-  background-color: #FFFFFF !important;
-  color: #68696B !important; /* Gray text for GOVERNANCE & STRUCTURE */
-  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  background-color: #4A453F !important;
+  background: #4A453F !important;
+  color: #E6DFC5 !important;
+  border: none !important;
   font-weight: 700 !important;
 }
 
@@ -3791,9 +3829,12 @@ body.dark-mode select {
 
 /* 1. About section - Pill label above "Our Foundation Overview" */
 .governance-pill,
-section#foundation .governance-pill,
-body.dark-mode section#foundation .governance-pill {
+section#foundation .governance-pill {
   color: #68696B !important;
+}
+
+body.dark-mode section#foundation .governance-pill {
+  color: #E6DFC5 !important;
 }
 
 /* 2. Programmes section - Both buttons (Support & Volunteer) text color = Gray (#68696B) */
@@ -3825,39 +3866,12 @@ body.dark-mode .featured-blog-btn svg {
 .values-culture-card h3,
 .values-culture-card p,
 .values-culture-card span,
-.values-culture-card li,
-body.dark-mode .values-culture-card,
-body.dark-mode .values-culture-card h3,
-body.dark-mode .values-culture-card p,
-body.dark-mode .values-culture-card span,
-body.dark-mode .values-culture-card li {
-  color: #68696B !important;
-}
-
-/* 5. Volunteer Registration Form - Title & Icon Orange, Entry Tags / Labels Black */
-.volunteer-form-gray-card,
-body.dark-mode .volunteer-form-gray-card {
-  background-color: #383532 !important;
-  border: 1px solid rgba(255, 255, 255, 0.15) !important;
-}
-
-.volunteer-form-gray-card h2,
-.volunteer-form-gray-card h2 span,
-.volunteer-form-gray-card h2 svg,
-body.dark-mode .volunteer-form-gray-card h2,
-body.dark-mode .volunteer-form-gray-card h2 span,
-body.dark-mode .volunteer-form-gray-card h2 svg {
-  color: #FC4E1E !important;
-  fill: #FC4E1E !important;
-}
-
-.volunteer-form-gray-card label,
 .volunteer-form-gray-card .form-label,
 .volunteer-form-gray-card .bylaw-agree-label,
 body.dark-mode .volunteer-form-gray-card label,
 body.dark-mode .volunteer-form-gray-card .form-label,
 body.dark-mode .volunteer-form-gray-card .bylaw-agree-label {
-  color: #000000 !important;
+  color: #343537 !important;
   font-weight: 700 !important;
 }
 
@@ -3868,7 +3882,7 @@ body.dark-mode .volunteer-form-gray-card input,
 body.dark-mode .volunteer-form-gray-card select,
 body.dark-mode .volunteer-form-gray-card textarea {
   background-color: #FFFFFF !important;
-  color: #000000 !important;
+  color: #343537 !important;
   border: 1px solid rgba(0, 0, 0, 0.25) !important;
 }
 
@@ -3895,7 +3909,7 @@ body.dark-mode .internship-form-gray-card h2 svg {
 body.dark-mode .internship-form-gray-card label,
 body.dark-mode .internship-form-gray-card .form-label,
 body.dark-mode .internship-form-gray-card .bylaw-agree-label {
-  color: #000000 !important;
+  color: #343537 !important;
   font-weight: 700 !important;
 }
 
@@ -3906,7 +3920,7 @@ body.dark-mode .internship-form-gray-card input,
 body.dark-mode .internship-form-gray-card select,
 body.dark-mode .internship-form-gray-card textarea {
   background-color: #FFFFFF !important;
-  color: #000000 !important;
+  color: #343537 !important;
   border: 1px solid rgba(0, 0, 0, 0.25) !important;
 }
 
@@ -3927,50 +3941,6 @@ body.dark-mode .gray-content-card li,
 body.dark-mode .gray-content-card strong,
 body.dark-mode .gray-content-card span:not(.badge-custom),
 body.dark-mode .gray-content-card div:not(.section-title),
-body.dark-mode .contact-info-card p,
-body.dark-mode .contact-info-card li,
-body.dark-mode .contact-info-card strong,
-body.dark-mode .contact-info-card span,
-body.dark-mode .contact-info-card a,
-body.dark-mode .contact-info-card div:not(h2):not(.section-title) {
-  color: #68696B !important;
-}
-
-/* Card headings & icons in Program Parameters, Internship Tasks & Focus, Internship Protocol & Guidelines, Contact Information */
-.gray-content-card h2,
-.gray-content-card h2 span,
-.gray-content-card h2 svg,
-.gray-content-card h3,
-.gray-content-card h3 span,
-.gray-content-card h3 svg,
-.contact-info-card h2,
-.contact-info-card h2 span,
-.contact-info-card h2 svg,
-body.dark-mode .gray-content-card h2,
-body.dark-mode .gray-content-card h2 span,
-body.dark-mode .gray-content-card h2 svg,
-body.dark-mode .gray-content-card h3,
-body.dark-mode .gray-content-card h3 span,
-body.dark-mode .gray-content-card h3 svg,
-body.dark-mode .contact-info-card h2,
-body.dark-mode .contact-info-card h2 span,
-body.dark-mode .contact-info-card h2 svg {
-  color: #FC4E1E !important;
-  fill: #FC4E1E !important;
-}
-
-/* Contact Page Form - Title & Icon Orange, Labels Black, Inputs White */
-.contact-form-gray-card,
-body.dark-mode .contact-form-gray-card {
-  background-color: #383532 !important;
-  border: 1px solid rgba(255, 255, 255, 0.15) !important;
-}
-
-.contact-form-gray-card h3,
-.contact-form-gray-card h3 span,
-.contact-form-gray-card h3 svg,
-body.dark-mode .contact-form-gray-card h3,
-body.dark-mode .contact-form-gray-card h3 span,
 body.dark-mode .contact-form-gray-card h3 svg {
   color: #FC4E1E !important;
   fill: #FC4E1E !important;
@@ -3980,7 +3950,7 @@ body.dark-mode .contact-form-gray-card h3 svg {
 .contact-form-gray-card .form-label,
 body.dark-mode .contact-form-gray-card label,
 body.dark-mode .contact-form-gray-card .form-label {
-  color: #000000 !important;
+  color: #343537 !important;
   font-weight: 700 !important;
 }
 
@@ -3991,7 +3961,7 @@ body.dark-mode .contact-form-gray-card input,
 body.dark-mode .contact-form-gray-card select,
 body.dark-mode .contact-form-gray-card textarea {
   background-color: #FFFFFF !important;
-  color: #000000 !important;
+  color: #343537 !important;
   border: 1px solid rgba(0, 0, 0, 0.25) !important;
 }
 
@@ -4049,6 +4019,22 @@ body.dark-mode button.donate-submit-btn:hover {
 .badge-blue,
 .badge-red,
 .badge-gray,
+.badge-secondary,
+.nexus-highlight-pill,
+.pill-text-black,
+body.layout-alternative .badge,
+body.layout-alternative .pill,
+body.layout-alternative .alt-pill {
+  background-color: #F5C4D1 !important;
+  background: #F5C4D1 !important;
+  color: #68696B !important;
+  font-family: 'Garet', 'Outfit', 'Inter', sans-serif !important;
+  border: 1px solid rgba(104, 105, 107, 0.15) !important;
+}
+
+/* Dark mode: every site-wide pill/badge shares the same gray bg + cream text
+   (matches the "Our Legacy" pill). Admin-only .status-badge is intentionally
+   excluded so its semantic status colors (approved/hold/etc.) still work. */
 body.dark-mode .badge-custom,
 body.dark-mode .alt-pill,
 body.dark-mode .pill,
@@ -4063,15 +4049,34 @@ body.dark-mode .hero-floating-badge,
 body.dark-mode .story-badge,
 body.dark-mode .story-badge-mini,
 body.dark-mode .alt-donate-badge,
-body.dark-mode .status-badge,
-body.layout-alternative .badge,
-body.layout-alternative .pill,
-body.layout-alternative .alt-pill {
-  background-color: #F5C4D1 !important;
-  background: #F5C4D1 !important;
-  color: #68696B !important;
+body.dark-mode .nexus-highlight-pill,
+body.dark-mode .pill-text-black {
+  background-color: #4A453F !important;
+  background: #4A453F !important;
+  color: #E6DFC5 !important;
   font-family: 'Garet', 'Outfit', 'Inter', sans-serif !important;
-  border: 1px solid rgba(104, 105, 107, 0.15) !important;
+  border: none !important;
+}
+
+body.dark-mode .badge-custom *,
+body.dark-mode .alt-pill *,
+body.dark-mode .pill *,
+body.dark-mode .badge *,
+body.dark-mode .badge-pill *,
+body.dark-mode .badge-pink *,
+body.dark-mode .section-badge *,
+body.dark-mode .our-legacy-badge *,
+body.dark-mode .governance-pill *,
+body.dark-mode .hero-badge *,
+body.dark-mode .hero-floating-badge *,
+body.dark-mode .story-badge *,
+body.dark-mode .story-badge-mini *,
+body.dark-mode .alt-donate-badge *,
+body.dark-mode .nexus-highlight-pill *,
+body.dark-mode .pill-text-black * {
+  color: #E6DFC5 !important;
+  fill: #E6DFC5 !important;
+  stroke: #E6DFC5 !important;
 }
 
 .badge-custom *,
@@ -4088,22 +4093,7 @@ body.layout-alternative .alt-pill {
 .story-badge *,
 .story-badge-mini *,
 .alt-donate-badge *,
-.status-badge *,
-body.dark-mode .badge-custom *,
-body.dark-mode .alt-pill *,
-body.dark-mode .pill *,
-body.dark-mode .badge *,
-body.dark-mode .badge-pill *,
-body.dark-mode .badge-pink *,
-body.dark-mode .section-badge *,
-body.dark-mode .our-legacy-badge *,
-body.dark-mode .governance-pill *,
-body.dark-mode .hero-badge *,
-body.dark-mode .hero-floating-badge *,
-body.dark-mode .story-badge *,
-body.dark-mode .story-badge-mini *,
-body.dark-mode .alt-donate-badge *,
-body.dark-mode .status-badge * {
+.status-badge * {
   color: #68696B !important;
   fill: #68696B !important;
   stroke: #68696B !important;
@@ -4173,7 +4163,7 @@ body.dark-mode .premium-card form span:not(.donate-submit-btn span),
 body.dark-mode .premium-card form p,
 body.dark-mode .premium-card form .filter-btn,
 body.dark-mode .premium-card form .form-label {
-  color: #000000 !important;
+  color: #343537 !important;
   font-weight: 700 !important;
 }
 
@@ -4184,7 +4174,7 @@ body.dark-mode .premium-card form input:not([type="radio"]):not([type="checkbox"
 body.dark-mode .premium-card form select,
 body.dark-mode .premium-card form textarea {
   background-color: #FFFFFF !important;
-  color: #000000 !important;
+  color: #343537 !important;
   border: 1px solid rgba(0, 0, 0, 0.25) !important;
   font-weight: 600 !important;
 }
@@ -4290,22 +4280,13 @@ body.dark-mode .skeleton-card {
 section#foundation .pill-text-black,
 section#foundation .badge-custom.pill-text-black,
 section#foundation span.badge-custom.pill-text-black,
-body.dark-mode #foundation .pill-text-black,
-body.dark-mode #foundation .badge-custom.pill-text-black,
-body.dark-mode #foundation span.badge-custom.pill-text-black,
-body.dark-mode section#foundation .pill-text-black,
-body.dark-mode section#foundation .badge-custom.pill-text-black,
-body.dark-mode section#foundation span.badge-custom.pill-text-black,
 .pill-text-black,
 .badge-custom.pill-text-black,
-span.badge-custom.pill-text-black,
-body.dark-mode .pill-text-black,
-body.dark-mode .badge-custom.pill-text-black,
-body.dark-mode span.badge-custom.pill-text-black {
-  background-color: #FFFFFF !important;
-  background: #FFFFFF !important;
-  color: #000000 !important;
-  border: 1px solid rgba(0, 0, 0, 0.12) !important;
+span.badge-custom.pill-text-black {
+  background-color: #F5C4D1 !important;
+  background: #F5C4D1 !important;
+  color: #68696B !important;
+  border: 1px solid rgba(104, 105, 107, 0.15) !important;
 }
 
 #foundation .pill-text-black *,
@@ -4314,19 +4295,39 @@ body.dark-mode span.badge-custom.pill-text-black {
 section#foundation .pill-text-black *,
 section#foundation .badge-custom.pill-text-black *,
 section#foundation span.badge-custom.pill-text-black *,
+.pill-text-black *,
+.badge-custom.pill-text-black *,
+span.badge-custom.pill-text-black * {
+  color: #68696B !important;
+  font-weight: 800 !important;
+}
+
+/* Dark mode: same unified gray/cream pill as everywhere else on the site */
+body.dark-mode #foundation .pill-text-black,
+body.dark-mode #foundation .badge-custom.pill-text-black,
+body.dark-mode #foundation span.badge-custom.pill-text-black,
+body.dark-mode section#foundation .pill-text-black,
+body.dark-mode section#foundation .badge-custom.pill-text-black,
+body.dark-mode section#foundation span.badge-custom.pill-text-black,
+body.dark-mode .pill-text-black,
+body.dark-mode .badge-custom.pill-text-black,
+body.dark-mode span.badge-custom.pill-text-black {
+  background-color: #4A453F !important;
+  background: #4A453F !important;
+  color: #E6DFC5 !important;
+  border: none !important;
+}
+
 body.dark-mode #foundation .pill-text-black *,
 body.dark-mode #foundation .badge-custom.pill-text-black *,
 body.dark-mode #foundation span.badge-custom.pill-text-black *,
 body.dark-mode section#foundation .pill-text-black *,
 body.dark-mode section#foundation .badge-custom.pill-text-black *,
 body.dark-mode section#foundation span.badge-custom.pill-text-black *,
-.pill-text-black *,
-.badge-custom.pill-text-black *,
-span.badge-custom.pill-text-black *,
 body.dark-mode .pill-text-black *,
 body.dark-mode .badge-custom.pill-text-black *,
 body.dark-mode span.badge-custom.pill-text-black * {
-  color: #000000 !important;
+  color: #E6DFC5 !important;
   font-weight: 800 !important;
 }
 

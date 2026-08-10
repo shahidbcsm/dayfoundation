@@ -149,9 +149,9 @@ body.dark-mode .hero-stats-pill,
 body.dark-mode .nexus-highlight-pill,
 body.dark-mode .nexus-spotlight-tag,
 body.dark-mode .journey-step-tag {
-  background-color: rgba(242, 161, 114, 0.15) !important;
-  color: #F2A172 !important;
-  border: 1px solid rgba(242, 161, 114, 0.3) !important;
+  background-color: #4A453F !important;
+  color: #E6DFC5 !important;
+  border: none !important;
 }
 
 body.dark-mode select option {
@@ -232,14 +232,14 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 }
 
 .section-padding {
-  padding-top: 2rem;
-  padding-bottom: 2rem;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
 }
 
 @media (min-width: 1024px) {
   .section-padding {
-    padding-top: 3.25rem;
-    padding-bottom: 3.25rem;
+    padding-top: 2.25rem;
+    padding-bottom: 2.25rem;
   }
 }
 
@@ -279,15 +279,14 @@ body, p, span, a, li, label, button, input, select, textarea {
 
 .hero-section p,
 .hero-section .hero-desc,
-.alt-hero p,
-.alt-lead,
-.alt-hero-content p,
-.alt-hero-content .alt-lead,
 .kids-hero-section p,
 .kids-hero p,
 .kids-hero-grid p {
   font-family: var(--font-heading) !important; /* Neue Montreal */
 }
+
+/* .alt-lead (hero/mission body copy) is styled as Garet by home-alternative.css
+   per the design spec — do not re-override it to Neue Montreal here. */
 
 .section-title {
   font-size: var(--fs-3xl);
@@ -701,7 +700,7 @@ body.theme-collective .premium-card {
     gap: 0.75rem !important;
   }
   .subpage-hero {
-    padding: 100px 0 50px !important;
+    padding: 85px 0 1.25rem !important;
   }
   .subpage-hero-title {
     font-size: 2.2rem !important;
@@ -791,7 +790,7 @@ a[href="/donate"].btn-primary,
 a[href="/donate"].btn-secondary,
 button.donate-btn,
 .mobile-nav-menu a[href="/donate"] {
-  color: #2d3748 !important;
+  color: #68696B !important;
 }
 
 .nav-donate-desktop *,
@@ -803,9 +802,9 @@ a[href="/donate"].btn-primary *,
 a[href="/donate"].btn-secondary *,
 button.donate-btn *,
 .mobile-nav-menu a[href="/donate"] * {
-  color: #2d3748 !important;
-  fill: #2d3748 !important;
-  stroke: #2d3748 !important;
+  color: #68696B !important;
+  fill: #68696B !important;
+  stroke: #68696B !important;
 }
 
 .nav-donate-desktop:hover,
@@ -1166,6 +1165,22 @@ body[class*="dark"] .footer-hr {
 .badge-blue,
 .badge-red,
 .badge-gray,
+.badge-secondary,
+.nexus-highlight-pill,
+.pill-text-black,
+body.layout-alternative .badge,
+body.layout-alternative .pill,
+body.layout-alternative .alt-pill {
+  background-color: #F5C4D1 !important;
+  background: #F5C4D1 !important;
+  color: #68696B !important;
+  font-family: 'Garet', 'Outfit', 'Inter', sans-serif !important;
+  border: 1px solid rgba(104, 105, 107, 0.15) !important;
+}
+
+/* Dark mode: every site-wide pill/badge shares the same gray bg + cream text
+   (matches the "Our Legacy" pill). Admin-only .status-badge is intentionally
+   excluded so its semantic status colors (approved/hold/etc.) still work. */
 body.dark-mode .badge-custom,
 body.dark-mode .alt-pill,
 body.dark-mode .pill,
@@ -1180,15 +1195,34 @@ body.dark-mode .hero-floating-badge,
 body.dark-mode .story-badge,
 body.dark-mode .story-badge-mini,
 body.dark-mode .alt-donate-badge,
-body.dark-mode .status-badge,
-body.layout-alternative .badge,
-body.layout-alternative .pill,
-body.layout-alternative .alt-pill {
-  background-color: #F5C4D1 !important;
-  background: #F5C4D1 !important;
-  color: #68696B !important;
+body.dark-mode .nexus-highlight-pill,
+body.dark-mode .pill-text-black {
+  background-color: #4A453F !important;
+  background: #4A453F !important;
+  color: #E6DFC5 !important;
   font-family: 'Garet', 'Outfit', 'Inter', sans-serif !important;
-  border: 1px solid rgba(104, 105, 107, 0.15) !important;
+  border: none !important;
+}
+
+body.dark-mode .badge-custom *,
+body.dark-mode .alt-pill *,
+body.dark-mode .pill *,
+body.dark-mode .badge *,
+body.dark-mode .badge-pill *,
+body.dark-mode .badge-pink *,
+body.dark-mode .section-badge *,
+body.dark-mode .our-legacy-badge *,
+body.dark-mode .governance-pill *,
+body.dark-mode .hero-badge *,
+body.dark-mode .hero-floating-badge *,
+body.dark-mode .story-badge *,
+body.dark-mode .story-badge-mini *,
+body.dark-mode .alt-donate-badge *,
+body.dark-mode .nexus-highlight-pill *,
+body.dark-mode .pill-text-black * {
+  color: #E6DFC5 !important;
+  fill: #E6DFC5 !important;
+  stroke: #E6DFC5 !important;
 }
 
 .badge-custom *,
@@ -1205,22 +1239,7 @@ body.layout-alternative .alt-pill {
 .story-badge *,
 .story-badge-mini *,
 .alt-donate-badge *,
-.status-badge *,
-body.dark-mode .badge-custom *,
-body.dark-mode .alt-pill *,
-body.dark-mode .pill *,
-body.dark-mode .badge *,
-body.dark-mode .badge-pill *,
-body.dark-mode .badge-pink *,
-body.dark-mode .section-badge *,
-body.dark-mode .our-legacy-badge *,
-body.dark-mode .governance-pill *,
-body.dark-mode .hero-badge *,
-body.dark-mode .hero-floating-badge *,
-body.dark-mode .story-badge *,
-body.dark-mode .story-badge-mini *,
-body.dark-mode .alt-donate-badge *,
-body.dark-mode .status-badge * {
+.status-badge * {
   color: #68696B !important;
   fill: #68696B !important;
   stroke: #68696B !important;
@@ -1233,21 +1252,12 @@ body.dark-mode .status-badge * {
 section#foundation .pill-text-black,
 section#foundation .badge-custom.pill-text-black,
 section#foundation span.badge-custom.pill-text-black,
-body.dark-mode #foundation .pill-text-black,
-body.dark-mode #foundation .badge-custom.pill-text-black,
-body.dark-mode #foundation span.badge-custom.pill-text-black,
-body.dark-mode section#foundation .pill-text-black,
-body.dark-mode section#foundation .badge-custom.pill-text-black,
-body.dark-mode section#foundation span.badge-custom.pill-text-black,
 .pill-text-black,
 .badge-custom.pill-text-black,
-span.badge-custom.pill-text-black,
-body.dark-mode .pill-text-black,
-body.dark-mode .badge-custom.pill-text-black,
-body.dark-mode span.badge-custom.pill-text-black {
+span.badge-custom.pill-text-black {
   background-color: #FFFFFF !important;
   background: #FFFFFF !important;
-  color: #000000 !important;
+  color: #343537 !important;
   border: 1px solid rgba(0, 0, 0, 0.12) !important;
 }
 
@@ -1257,19 +1267,39 @@ body.dark-mode span.badge-custom.pill-text-black {
 section#foundation .pill-text-black *,
 section#foundation .badge-custom.pill-text-black *,
 section#foundation span.badge-custom.pill-text-black *,
+.pill-text-black *,
+.badge-custom.pill-text-black *,
+span.badge-custom.pill-text-black * {
+  color: #343537 !important;
+  font-weight: 800 !important;
+}
+
+/* Dark mode: same unified gray/cream pill, overriding the white/black variant above */
+body.dark-mode #foundation .pill-text-black,
+body.dark-mode #foundation .badge-custom.pill-text-black,
+body.dark-mode #foundation span.badge-custom.pill-text-black,
+body.dark-mode section#foundation .pill-text-black,
+body.dark-mode section#foundation .badge-custom.pill-text-black,
+body.dark-mode section#foundation span.badge-custom.pill-text-black,
+body.dark-mode .pill-text-black,
+body.dark-mode .badge-custom.pill-text-black,
+body.dark-mode span.badge-custom.pill-text-black {
+  background-color: #4A453F !important;
+  background: #4A453F !important;
+  color: #E6DFC5 !important;
+  border: none !important;
+}
+
 body.dark-mode #foundation .pill-text-black *,
 body.dark-mode #foundation .badge-custom.pill-text-black *,
 body.dark-mode #foundation span.badge-custom.pill-text-black *,
 body.dark-mode section#foundation .pill-text-black *,
 body.dark-mode section#foundation .badge-custom.pill-text-black *,
 body.dark-mode section#foundation span.badge-custom.pill-text-black *,
-.pill-text-black *,
-.badge-custom.pill-text-black *,
-span.badge-custom.pill-text-black *,
 body.dark-mode .pill-text-black *,
 body.dark-mode .badge-custom.pill-text-black *,
 body.dark-mode span.badge-custom.pill-text-black * {
-  color: #000000 !important;
+  color: #E6DFC5 !important;
   font-weight: 800 !important;
 }
 

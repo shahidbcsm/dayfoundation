@@ -97,7 +97,9 @@ export const useAutoSEO = () => {
             const newCache = getFirestoreSeoCache();
             newCache[pathname] = seo;
             sessionStorage.setItem(FIRESTORE_SEO_CACHE_KEY, JSON.stringify(newCache));
-          } catch {}
+          } catch {
+            // Ignore — sessionStorage may be unavailable (e.g. private browsing, quota exceeded)
+          }
           return; // Done — Firestore SEO takes full priority
         }
 

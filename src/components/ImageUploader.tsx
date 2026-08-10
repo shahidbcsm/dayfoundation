@@ -55,7 +55,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
       setErrorMsg("");
 
       // Convert to compressed Base64 Data URL for instant, reliable Firestore storage
-      let base64DataUrl = "";
+      let base64DataUrl: string;
       try {
         base64DataUrl = await fileToCompressedBase64(file, 1200, 0.82);
         setPreview(base64DataUrl);

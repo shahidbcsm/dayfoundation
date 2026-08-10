@@ -304,10 +304,10 @@ const HomeAlternative: React.FC = () => {
             <h2 className="alt-h2">Our Vision</h2>
             <p>To build a brighter and more inclusive future through sustainable social impact. We envision expanding into universities and colleges, reaching more communities, launching mental health initiatives, and empowering youth to become self-reliant leaders of change.</p>
           </div>
-          <div className="alt-vision-card">
-            <div className="alt-vision-card-icon"><GraduationCap size={28} /></div>
-            <h3 className="alt-h3">Transformative Education</h3>
-            <p>Ensuring every child in urban slums has access to quality foundational schooling, learning resources, and pathways to university.</p>
+          <div className="alt-vision-card alt-vision-card-terracotta">
+            <div className="alt-vision-card-icon" style={{ background: "rgba(255, 255, 255, 0.25)", color: "#FFFBF5" }}><GraduationCap size={28} /></div>
+            <h3 className="alt-h3" style={{ color: "#FFFBF5" }}>Transformative Education</h3>
+            <p style={{ color: "#FFFBF5" }}>Ensuring every child in urban slums has access to quality foundational schooling, learning resources, and pathways to university.</p>
           </div>
           <div className="alt-vision-card">
             <div className="alt-vision-card-icon"><Users size={28} /></div>

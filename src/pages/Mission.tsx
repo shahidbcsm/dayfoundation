@@ -86,7 +86,7 @@ export const Mission: React.FC = () => {
               />
             </div>
             <p style={{ color: "var(--color-text-muted)", lineHeight: "1.8", fontSize: "1.05rem" }}>
-              Our guiding motto bridges two of society's most powerful elements: **Education** and **Youth**. 
+              Our guiding motto bridges two of society's most powerful elements: Education and Youth. 
               We believe that true, scalable community welfare cannot happen simply through passive charity. 
               By training energetic university students to manage and execute grassroots programs, we create a self-sustaining cycle where youth develop high leadership competence while elevating underprivileged children.
             </p>
@@ -97,7 +97,7 @@ export const Mission: React.FC = () => {
       {/* Operational Pillars grid */}
       <section className="section-padding">
         <div className="container-custom">
-          <div style={{ textAlign: "center", marginBottom: "4rem" }}>
+          <div style={{ textAlign: "center", marginBottom: "2rem" }}>
             <span className="badge-custom">Operational Columns</span>
             <h2 className="section-title">Four Pillars of Social Change</h2>
             <p className="section-subtitle">How we structure our localized deployments across Jabalpur, Indore, and Delhi.</p>

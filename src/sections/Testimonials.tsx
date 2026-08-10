@@ -68,7 +68,7 @@ export const Testimonials: React.FC = () => {
 
       <div className="container-custom" style={{ position: "relative", zIndex: 10 }}>
         
-        <div style={{ textAlign: "center", marginBottom: "4rem" }}>
+        <div style={{ textAlign: "center", marginBottom: "2rem" }}>
           <span className="badge-custom">Testimonials</span>
           <h2 className="section-title">Echoes of Gratitude</h2>
           <p className="section-subtitle">

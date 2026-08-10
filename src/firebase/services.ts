@@ -1253,7 +1253,7 @@ export const addRecordComment = async (
     adminComment: commentText
   });
 
-  const safeDateKey = newComment.date.replace(/[\.\#\$\[\]]/g, "_");
+  const safeDateKey = newComment.date.replace(/[.#$[\]]/g, "_");
   await set(ref(rtdb, `${collectionName}/${id}/comments/${safeDateKey}`), newComment);
   await set(ref(rtdb, `${collectionName}/${id}/adminComment`), commentText);
 

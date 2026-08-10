@@ -31,7 +31,7 @@ const VAPID_PUBLIC_KEY = import.meta.env.VITE_VAPID_PUBLIC_KEY || "BI7IxzEzNwapW
 function urlBase64ToUint8Array(base64String: string) {
   const padding = '='.repeat((4 - base64String.length % 4) % 4);
   const base64 = (base64String + padding)
-    .replace(/\-/g, '+')
+    .replace(/-/g, '+')
     .replace(/_/g, '/');
 
   const rawData = window.atob(base64);
@@ -215,7 +215,9 @@ export const subscribeToLiveBroadcasts = (
             onNewBroadcast(data);
           }
         }
-      } catch {}
+      } catch {
+        // Ignore — malformed/missing localStorage entry
+      }
     };
 
     const interval = setInterval(checkMockBroadcast, 2500);

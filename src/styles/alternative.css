@@ -68,13 +68,12 @@ body.layout-alternative .hero-section h1 {
   font-weight: 700 !important;
 }
 
-body.layout-alternative .alt-hero p,
-body.layout-alternative .alt-lead,
-body.layout-alternative .alt-hero-content p,
-body.layout-alternative .alt-hero-content .alt-lead,
 body.layout-alternative .hero-section p {
   font-family: 'Neue Montreal', 'Plus Jakarta Sans', 'Inter', sans-serif !important;
 }
+
+/* .alt-lead (hero/mission body copy) is styled as Garet by home-alternative.css
+   per the design spec — do not re-override it to Neue Montreal here. */
 
 /* ── Navbar / Header ── */
 body.layout-alternative .header-nav,
@@ -613,8 +612,8 @@ body.layout-alternative.dark-mode .hero-section {
   background: #121316 !important;
 }
 body.layout-alternative.dark-mode .hero-section .hero-badge {
-  background: #27272a !important;
-  color: #f4f4f5 !important;
+  background: #4A453F !important;
+  color: #E6DFC5 !important;
 }
 
 /* Gallery Filters */

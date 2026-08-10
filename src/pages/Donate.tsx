@@ -180,7 +180,7 @@ export const Donate: React.FC = () => {
           try {
             const { subscribeNewsletter } = await import("../firebase/services");
             await subscribeNewsletter(sanitizedData.email, "Donate Form");
-          } catch (subErr) {
+          } catch {
             // Ignore if already subscribed
           }
         }

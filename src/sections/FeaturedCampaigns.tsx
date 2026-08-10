@@ -72,7 +72,7 @@ export const FeaturedCampaigns: React.FC = () => {
       <section className="section-padding" style={{ backgroundColor: "var(--color-bg-white)" }}>
         <div className="container-custom">
           
-          <div style={{ textAlign: "center", marginBottom: "4rem" }}>
+          <div style={{ textAlign: "center", marginBottom: "2rem" }}>
             <span className="badge-custom">What We Do</span>
             <h2 className="section-title">Pillars of Impact</h2>
             <p className="section-subtitle">
@@ -130,7 +130,7 @@ export const FeaturedCampaigns: React.FC = () => {
       <section className="section-padding" style={{ backgroundColor: "var(--color-bg-cream)" }}>
         <div className="container-custom">
           
-          <div style={{ textAlign: "center", marginBottom: "4rem" }}>
+          <div style={{ textAlign: "center", marginBottom: "2rem" }}>
             <span className="badge-custom">Impact Stories</span>
             <h2 className="section-title">Voices from the Field</h2>
             <p className="section-subtitle">
