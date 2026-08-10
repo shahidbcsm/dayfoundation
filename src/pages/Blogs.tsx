@@ -170,7 +170,7 @@ export const Blogs: React.FC = () => {
                           {featuredBlog.summary}
                         </p>
                         
-                        <div style={{ display: "flex", alignItems: "center", gap: "1.5rem", fontSize: "0.85rem", color: "var(--color-text-light)", marginBottom: "2rem" }}>
+                        <div className="featured-blog-meta" style={{ display: "flex", alignItems: "center", gap: "1.5rem", fontSize: "0.85rem", color: "var(--color-text-light)", marginBottom: "2rem" }}>
                           <span style={{ display: "flex", alignItems: "center", gap: "0.3rem" }}>
                             <User size={14} />
                             {featuredBlog.author}

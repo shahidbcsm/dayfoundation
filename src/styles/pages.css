@@ -3541,7 +3541,7 @@ body.dark-mode .nexus-stack-item.active {
 body.dark-mode section:nth-of-type(odd),
 body.dark-mode .subpage-hero {
   background-color: #181716 !important;
-  color: #F5F2ED !important;
+  color: #E6DFC5 !important;
   border-color: rgba(255, 255, 255, 0.08) !important;
 }
 
@@ -3551,7 +3551,7 @@ body.dark-mode section:nth-of-type(odd) h3,
 body.dark-mode section:nth-of-type(odd) h4,
 body.dark-mode .subpage-hero-title,
 body.dark-mode section:nth-of-type(odd) .section-title {
-  color: #F5F2ED !important;
+  color: #E6DFC5 !important;
 }
 
 body.dark-mode section:nth-of-type(odd) p,
@@ -3658,7 +3658,7 @@ body.dark-mode section#foundation,
 body.dark-mode #foundation,
 body.dark-mode #foundation .section-padding {
   background-color: #181716 !important;
-  color: #F5F2ED !important;
+  color: #E6DFC5 !important;
 }
 
 /* Off-white text for all headings, titles, subtext & paragraph content in #foundation */
@@ -3672,20 +3672,20 @@ body.dark-mode #foundation li,
 body.dark-mode #foundation div,
 body.dark-mode #foundation strong,
 body.dark-mode #foundation blockquote {
-  color: #F5F2ED !important;
+  color: #E6DFC5 !important;
 }
 
 /* 1. Management Structure Header & Subtitle */
 body.dark-mode #foundation h2,
 body.dark-mode #foundation p {
-  color: #F5F2ED !important;
+  color: #E6DFC5 !important;
 }
 
 /* 2 & 3. Tier 1 Directors (Mr. Om Sen, Mr. Shantanu Sen) & MCA Details */
 body.dark-mode #foundation .premium-card {
   background-color: #252422 !important;
   border-color: rgba(255, 255, 255, 0.12) !important;
-  color: #F5F2ED !important;
+  color: #E6DFC5 !important;
 }
 
 body.dark-mode #foundation .premium-card div[style*="backgroundColor"],
@@ -3698,7 +3698,7 @@ body.dark-mode #foundation .premium-card div[style*="backgroundColor"] p,
 body.dark-mode #foundation .premium-card div[style*="backgroundColor"] span,
 body.dark-mode #foundation .premium-card a[style*="backgroundColor"] p,
 body.dark-mode #foundation .premium-card a[style*="backgroundColor"] span {
-  color: #F5F2ED !important;
+  color: #E6DFC5 !important;
 }
 
 /* 4. Tier 2 Central Management (Niharika, Aditi, Khushali, Radhika, Shubhra) */
@@ -3709,7 +3709,7 @@ body.dark-mode #foundation div[style*="gridTemplateColumns"] > div {
 
 body.dark-mode #foundation div[style*="gridTemplateColumns"] > div p,
 body.dark-mode #foundation div[style*="gridTemplateColumns"] > div span {
-  color: #F5F2ED !important;
+  color: #E6DFC5 !important;
 }
 
 /* 5. Resources & Communication (Contact Channels, Social Media, Internal Communication) */
@@ -3727,7 +3727,7 @@ body.dark-mode #foundation a[href*="mailto"] p,
 body.dark-mode #foundation a[href*="tel"] p,
 body.dark-mode #foundation a p,
 body.dark-mode #foundation a span {
-  color: #F5F2ED !important;
+  color: #E6DFC5 !important;
 }
 
 /* 6. Key Responsibilities, Legal Governance Principles, Future Vision, Management Hiring, Working Model, Services & Programs */
@@ -3739,7 +3739,7 @@ body.dark-mode .premium-card span,
 body.dark-mode .premium-card li,
 body.dark-mode .premium-card strong,
 body.dark-mode .premium-card blockquote {
-  color: #F5F2ED !important;
+  color: #E6DFC5 !important;
 }
 
 /* Off-white text for Services & Programs item cards (Child Development, Youth, Community, Healthcare, Employment, Webinars, Events, Internships) */
@@ -3747,32 +3747,32 @@ body.dark-mode div[style*="gridTemplateColumns"] > div[style*="borderRadius"],
 body.dark-mode div[style*="gridTemplateColumns"] > div {
   background-color: #252422 !important;
   border-color: rgba(255, 255, 255, 0.12) !important;
-  color: #F5F2ED !important;
+  color: #E6DFC5 !important;
 }
 
 body.dark-mode div[style*="gridTemplateColumns"] > div span,
 body.dark-mode div[style*="gridTemplateColumns"] > div p,
 body.dark-mode div[style*="gridTemplateColumns"] > div h4,
 body.dark-mode div[style*="gridTemplateColumns"] > div h3 {
-  color: #F5F2ED !important;
+  color: #E6DFC5 !important;
 }
 
 /* Felicitations & Recognition award cards in dark mode */
 body.dark-mode div[style*="gridTemplateColumns"] > div[style*="backgroundColor: var(--color-bg-white)"],
 body.dark-mode div[style*="backgroundColor: var(--color-bg-white)"] {
   background-color: #252422 !important;
-  color: #F5F2ED !important;
+  color: #E6DFC5 !important;
 }
 
 body.dark-mode div[style*="backgroundColor: var(--color-bg-white)"] p {
-  color: #F5F2ED !important;
+  color: #E6DFC5 !important;
 }
 
 /* Form Labels & Checkbox Agreement Text in Dark Mode */
 body.dark-mode .form-label,
 body.dark-mode form label,
 body.dark-mode .bylaw-agree-label {
-  color: #F5F2ED !important;
+  color: #E6DFC5 !important;
 }
 
 /* Sticky tab bar in Governance section */
@@ -3795,7 +3795,7 @@ body.dark-mode div[style*="sticky"] button[style*="2px solid"] {
 body.dark-mode .nexus-spotlight-card,
 body.dark-mode .nexus-stack-item {
   background: #252422 !important;
-  color: #F5F2ED !important;
+  color: #E6DFC5 !important;
   border-color: rgba(255, 255, 255, 0.1) !important;
 }
 
@@ -3806,12 +3806,12 @@ body.dark-mode .nexus-stack-item.active {
 
 body.dark-mode .nexus-spotlight-title,
 body.dark-mode .nexus-stack-item-title {
-  color: #F5F2ED !important;
+  color: #E6DFC5 !important;
 }
 
 body.dark-mode .nexus-spotlight-desc,
 body.dark-mode .nexus-stack-item-year {
-  color: #F5F2ED !important;
+  color: #E6DFC5 !important;
 }
 
 /* Form controls in dark mode */
@@ -3819,7 +3819,7 @@ body.dark-mode input,
 body.dark-mode textarea,
 body.dark-mode select {
   background-color: #252422 !important;
-  color: #F5F2ED !important;
+  color: #E6DFC5 !important;
   border: 1px solid rgba(255, 255, 255, 0.15) !important;
 }
 
@@ -4369,6 +4369,95 @@ body.dark-mode .founder-director-subtitle {
 }
 
 
+/* ── Dark mode: Featured blog card (head blog) fixes ── */
 
+/* 1. "Future Initiatives" category pill — match all other dark-mode pills */
+body.dark-mode .featured-blog-card .blog-card-category {
+  display: inline-block;
+  background-color: #4A453F !important;
+  background: #4A453F !important;
+  color: #E6DFC5 !important;
+  border: none !important;
+  border-radius: 9999px !important;
+  padding: 4px 14px !important;
+  font-size: 0.72rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+}
 
+/* 2. Author ("DAY Team") and date — use black so they're readable on the white/cream card */
+body.dark-mode .featured-blog-card .featured-blog-meta,
+body.dark-mode .featured-blog-card [style*="color-text-light"],
+body.dark-mode .featured-blog-card span {
+  color: #1C1A18 !important;
+}
 
+/* ── Dark mode: Our Values & Professional Working Culture cards
+   — use the exact same colours as the "Why Join Us?" card ── */
+body.dark-mode .values-culture-card {
+  background: #ECE7DF !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  border-left-color: rgba(0, 0, 0, 0.2) !important;
+  color: #1C1A18 !important;
+}
+
+body.dark-mode .values-culture-card h3,
+body.dark-mode .values-culture-card h4 {
+  color: #1C1A18 !important;
+}
+
+body.dark-mode .values-culture-card p,
+body.dark-mode .values-culture-card li,
+body.dark-mode .values-culture-card span,
+body.dark-mode .values-culture-card strong,
+body.dark-mode .values-culture-card div {
+  color: #2B2824 !important;
+}
+
+/* ── Dark mode: Keep form title h2 orange (#FC4E1E) on all registration forms
+   (Volunteer, Internship, Contact, Track Status) ── */
+body.dark-mode .volunteer-form-gray-card h2,
+body.dark-mode .volunteer-form-gray-card h2 span,
+body.dark-mode .internship-form-gray-card h2,
+body.dark-mode .internship-form-gray-card h2 span,
+body.dark-mode .contact-form-gray-card h2,
+body.dark-mode .contact-form-gray-card h2 span,
+body.dark-mode .contact-info-card h2,
+body.dark-mode .contact-info-card h3,
+body.dark-mode .contact-form-gray-card h3,
+body.dark-mode .internship-form-gray-card h3 {
+  color: #FC4E1E !important;
+}
+
+/* ── Dark mode: Program Parameters, Internship Tasks & Focus, Internship Protocol & Guidelines
+   — use the exact same colours as the "Why Join Us?" card ── */
+body.dark-mode .gray-content-card {
+  background: #ECE7DF !important;
+  background-color: #ECE7DF !important;
+  border-color: rgba(0, 0, 0, 0.12) !important;
+  border-left-color: #FC4E1E !important;
+  color: #1C1A18 !important;
+}
+
+/* Headings stay orange (matching the title icon accent) */
+body.dark-mode .gray-content-card h2,
+body.dark-mode .gray-content-card h3 {
+  color: #FC4E1E !important;
+}
+
+/* All body content text → dark warm (same as Why Join Us? card body) */
+body.dark-mode .gray-content-card p,
+body.dark-mode .gray-content-card li,
+body.dark-mode .gray-content-card strong,
+body.dark-mode .gray-content-card span:not(.badge-custom),
+body.dark-mode .gray-content-card div:not(.section-title),
+body.dark-mode .gray-content-card ul,
+body.dark-mode .gray-content-card a {
+  color: #2B2824 !important;
+}
+
+/* Row separators visible on cream bg */
+body.dark-mode .gray-content-card li[style*="borderBottom"] {
+  border-bottom-color: rgba(0, 0, 0, 0.1) !important;
+}

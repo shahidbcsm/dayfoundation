@@ -22,11 +22,11 @@
 
 /* ── Section spacing ── */
 .alt-section {
-  padding: 80px 0;
+  padding: 48px 0;
 }
 
 .alt-section-sm {
-  padding: 48px 0;
+  padding: 28px 0;
 }
 
 /* ── Pill / badge ── */
@@ -178,17 +178,17 @@
 .alt-hero {
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
-  gap: 40px;
+  gap: 32px;
   align-items: center;
-  padding-top: 100px;
+  padding-top: 80px;
   /* clear fixed 80px navbar */
-  padding-bottom: 40px;
+  padding-bottom: 20px;
 }
 
 @media (max-width: 900px) {
   .alt-hero {
     grid-template-columns: 1fr;
-    padding-top: 90px;
+    padding-top: 70px;
   }
 }
 
@@ -312,7 +312,7 @@
 .alt-stats-bar {
   background: #D6E8F7;
   border-radius: 32px;
-  padding: 30px 40px;
+  padding: 20px 32px;
   position: relative;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(64, 90, 111, 0.08);
@@ -390,15 +390,15 @@
 .alt-mission-grid {
   display: grid;
   grid-template-columns: 1fr 1.2fr;
-  gap: 40px;
+  gap: 28px;
   align-items: center;
-  margin-bottom: 40px;
+  margin-bottom: 24px;
 }
 
 @media (max-width: 900px) {
   .alt-mission-grid {
     grid-template-columns: 1fr;
-    gap: 24px;
+    gap: 16px;
   }
 }
 
@@ -450,12 +450,12 @@
 .alt-vision-card-orange {
   background: #D9854E;
   border-radius: 32px;
-  padding: 36px;
-  min-height: 280px;
+  padding: 24px;
+  min-height: 220px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 16px;
+  gap: 12px;
   color: #FFFBF5;
 }
 
@@ -474,14 +474,14 @@
 .alt-vision-card {
   background: #F7BC6E;
   border-radius: 32px;
-  min-height: 280px;
+  min-height: 220px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 28px;
-  gap: 12px;
+  padding: 20px;
+  gap: 10px;
 }
 
 .alt-vision-card.alt-vision-card-terracotta {
@@ -523,7 +523,7 @@
 
 body.dark-mode .alt-page {
   background: #181716 !important;
-  color: #F5F2ED !important;
+  color: #E6DFC5 !important;
 }
 
 body.dark-mode .header-nav {
@@ -558,7 +558,7 @@ body.dark-mode .alt-hero-wrapper {
 body.dark-mode .alt-hero-wrapper .alt-h1,
 body.dark-mode .alt-hero-wrapper .alt-h1 .regular,
 body.dark-mode .alt-hero-wrapper .alt-h1 .bold {
-  color: #F5F2ED !important;
+  color: #E6DFC5 !important;
 }
 
 body.dark-mode .alt-hero-wrapper .alt-lead {
@@ -566,7 +566,7 @@ body.dark-mode .alt-hero-wrapper .alt-lead {
 }
 
 body.dark-mode .alt-hero-wrapper .alt-lead strong {
-  color: #F5F2ED !important;
+  color: #E6DFC5 !important;
 }
 
 body.dark-mode .motto-label {
@@ -574,7 +574,7 @@ body.dark-mode .motto-label {
 }
 
 body.dark-mode .motto {
-  color: #F5F2ED !important;
+  color: #E6DFC5 !important;
 }
 
 body.dark-mode .alt-hero-wrapper .alt-pill {
@@ -597,8 +597,8 @@ body.dark-mode .btn-donate {
 /* ── SECTION 2: STATS + MISSION (WARM TAUPE #9D9588) ── */
 body.dark-mode .alt-taupe-wrapper {
   background: #9D9588 !important;
-  padding-top: 3.5rem;
-  padding-bottom: 3.5rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 
 body.dark-mode .alt-stats-bar {
@@ -700,17 +700,17 @@ body.dark-mode .alt-focus-bg .alt-pill {
 
 body.dark-mode .alt-focus-bg .alt-h2,
 body.dark-mode .alt-focus-bg .alt-sub {
-  color: #F5F2ED !important;
+  color: #E6DFC5 !important;
 }
 
 body.dark-mode .alt-focus-card {
   background: #252422 !important;
   border-color: rgba(255, 255, 255, 0.08) !important;
-  color: #F5F2ED !important;
+  color: #E6DFC5 !important;
 }
 
 body.dark-mode .alt-focus-card .alt-h3 {
-  color: #F5F2ED !important;
+  color: #E6DFC5 !important;
 }
 
 body.dark-mode .alt-focus-card .alt-sub {
@@ -720,7 +720,7 @@ body.dark-mode .alt-focus-card .alt-sub {
 /* ── SECTION 4: IMPACT STORIES (WARM TAUPE #9D9588) ── */
 body.dark-mode .alt-stories-wrapper {
   background: #9D9588 !important;
-  padding: 5rem 0;
+  padding: 3rem 0;
 }
 
 body.dark-mode .alt-stories-wrapper .alt-pill {
@@ -767,17 +767,17 @@ body.dark-mode .alt-cities-wrapper .alt-pill {
 
 body.dark-mode .alt-cities-wrapper .alt-h2,
 body.dark-mode .alt-cities-wrapper .alt-sub {
-  color: #F5F2ED !important;
+  color: #E6DFC5 !important;
 }
 
 body.dark-mode .alt-city-card {
   background: #252422 !important;
   border: 1px solid rgba(255, 255, 255, 0.08) !important;
-  color: #F5F2ED !important;
+  color: #E6DFC5 !important;
 }
 
 body.dark-mode .alt-city-card .alt-h3 {
-  color: #F5F2ED !important;
+  color: #E6DFC5 !important;
 }
 
 body.dark-mode .alt-city-card .alt-city-meta {
@@ -835,11 +835,11 @@ body.dark-mode .alt-testi-card.active {
 /* ── SECTION 7: DONATE (BLACK #181716) ── */
 body.dark-mode .alt-donate-wrapper {
   background: #181716 !important;
-  padding: 5rem 0;
+  padding: 3rem 0;
 }
 
 body.dark-mode .alt-donate-wrapper .alt-h2 {
-  color: #F5F2ED !important;
+  color: #E6DFC5 !important;
 }
 
 .alt-donate-left p,
@@ -975,7 +975,7 @@ body.dark-mode .alt-coming-tag {
 /* ── SECTION 9: FAQ (PURE WHITE ON ALL FAQ TEXT) ── */
 .alt-faq-wrapper {
   background: #181716 !important;
-  padding: 5rem 0;
+  padding: 3rem 0;
 }
 
 .alt-faq-wrapper .alt-pill {
@@ -1050,11 +1050,11 @@ body.dark-mode .footer-bottom {
 .alt-section-header {
   text-align: center;
   max-width: 640px;
-  margin: 0 auto 56px;
+  margin: 0 auto 32px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 14px;
+  gap: 10px;
 }
 
 .alt-focus-grid {
@@ -1106,10 +1106,10 @@ body.dark-mode .footer-bottom {
 }
 
 .alt-focus-body {
-  padding: 24px;
+  padding: 16px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
 
 .alt-focus-icon {
@@ -1181,11 +1181,11 @@ body.dark-mode .footer-bottom {
   position: absolute;
   bottom: 0;
   left: 0;
-  padding: 32px;
+  padding: 20px;
   color: #fff;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 }
 
 .alt-story-tag {
@@ -1236,10 +1236,10 @@ body.dark-mode .footer-bottom {
   background: #ffeada;
   border: 1px solid rgba(40, 24, 8, 0.05);
   border-radius: 30px;
-  padding: 24px;
+  padding: 16px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
   transition: box-shadow 0.3s ease;
 }
 
@@ -1302,12 +1302,12 @@ body.dark-mode .footer-bottom {
   background: #fff;
   border: 1px solid rgba(40, 24, 8, 0.08);
   border-radius: 30px;
-  padding: 32px;
+  padding: 20px;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -1370,7 +1370,7 @@ body.dark-mode .footer-bottom {
   background: #fff;
   border: 1px solid rgba(40, 24, 8, 0.08);
   border-radius: 35px;
-  padding: 32px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -1410,9 +1410,9 @@ body.dark-mode .footer-bottom {
 .alt-testi-footer {
   display: flex;
   align-items: center;
-  gap: 14px;
-  margin-top: 24px;
-  padding-top: 20px;
+  gap: 12px;
+  margin-top: 14px;
+  padding-top: 12px;
   border-top: 1px solid rgba(40, 24, 8, 0.05);
 }
 
@@ -1441,10 +1441,10 @@ body.dark-mode .footer-bottom {
 .alt-donate-wrap {
   background: #E68952;
   border-radius: 40px;
-  padding: 64px;
+  padding: 40px;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 48px;
+  gap: 32px;
   align-items: center;
   box-shadow: 0 12px 40px rgba(230, 137, 82, 0.25);
 }
@@ -1452,7 +1452,7 @@ body.dark-mode .footer-bottom {
 @media (max-width: 900px) {
   .alt-donate-wrap {
     grid-template-columns: 1fr;
-    padding: 40px 28px;
+    padding: 24px 20px;
   }
 }
 
@@ -1506,10 +1506,10 @@ body.dark-mode .footer-bottom {
 .alt-donate-box {
   background: #fff8f5;
   border-radius: 30px;
-  padding: 32px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 14px;
 }
 
 .alt-donate-label {
@@ -1606,7 +1606,7 @@ body.dark-mode .footer-bottom {
   background: #fff;
   border: 1px solid rgba(40, 24, 8, 0.08);
   border-radius: 40px;
-  padding: 48px;
+  padding: 28px;
   max-width: 720px;
   margin: 0 auto;
   position: relative;
@@ -1678,7 +1678,7 @@ body.dark-mode .footer-bottom {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 24px;
+  padding: 14px 20px;
   background: none;
   border: none;
   cursor: pointer;
@@ -1704,7 +1704,7 @@ body.dark-mode .footer-bottom {
 }
 
 .alt-faq-answer {
-  padding: 0 24px 20px;
+  padding: 0 20px 14px;
   font-size: 0.875rem;
   color: rgba(40, 24, 8, 0.72);
   line-height: 1.7;

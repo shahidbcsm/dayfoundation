@@ -3,8 +3,13 @@
    Activated when body has class: .layout-alternative
 ═══════════════════════════════════════════════════════════════ */
 
-/* ── Root CSS Variable Overrides ── */
-body.layout-alternative {
+/* ── Root CSS Variable Overrides ──
+   Scoped to :not(.dark-mode) so these light-theme values never fight
+   variables.css's `body.dark-mode { ... }` block, which defines the
+   correct dark-mode equivalents of the same variables. Without this,
+   both rules tie on specificity and whichever wins the cascade coin-flip
+   can leave dark-mode surfaces stuck with light backgrounds/text. */
+body.layout-alternative:not(.dark-mode) {
   --color-primary: #E68952 !important;
   --color-primary-dark: #c4643a !important;
   --color-primary-light: #F3D5BA !important;

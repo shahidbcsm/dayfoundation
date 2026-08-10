@@ -82,11 +82,7 @@ export const Events: React.FC = () => {
                     onError={(ev) => { (ev.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&q=80&w=800'; }}
                     style={{ width: "100%", height: "100%", objectFit: "cover" }}
                   />
-                  {camp.emoji && (
-                    <span style={{ position: "absolute", top: "12px", right: "12px", background: "rgba(255,255,255,0.92)", backdropFilter: "blur(6px)", borderRadius: "50%", width: "36px", height: "36px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.2rem", boxShadow: "0 2px 8px rgba(0,0,0,0.12)" }}>
-                      {camp.emoji}
-                    </span>
-                  )}
+
                 </div>
 
                 <div className="blog-card-content" style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
