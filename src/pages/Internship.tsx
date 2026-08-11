@@ -209,11 +209,11 @@ export const Internship: React.FC = () => {
       </section>
 
       {/* Program Details Section */}
-      <section className="section-padding" style={{ backgroundColor: "var(--color-bg-white)", borderBottom: "1px solid var(--color-border-light)" }}>
+      <section className="section-padding" style={{ backgroundColor: "var(--color-bg-cream)", borderBottom: "1px solid var(--color-border-light)" }}>
         <div className="container-custom">
           <div className="grid-2" style={{ marginBottom: "3rem" }}>
             {/* Left Box: Overview */}
-            <div className="premium-card" style={{ display: "flex", flexDirection: "column", gap: "1.25rem", backgroundColor: "var(--color-bg-white)", padding: "2.5rem" }}>
+            <div className="premium-card internship-detail-card" style={{ display: "flex", flexDirection: "column", gap: "1.25rem", backgroundColor: "var(--color-bg-white)", padding: "2.5rem" }}>
               <div style={{ display: "flex", alignItems: "center", gap: "10px", color: "var(--color-primary)" }}>
                 <Calendar size={22} color="var(--color-primary)" />
                 <h2 style={{ fontSize: "1.25rem", margin: 0, fontWeight: 700, color: "var(--color-primary)" }}>Program Parameters</h2>
@@ -239,7 +239,7 @@ export const Internship: React.FC = () => {
             </div>
 
             {/* Right Box: Tasks & Focus */}
-            <div className="premium-card" style={{ display: "flex", flexDirection: "column", gap: "1.25rem", backgroundColor: "var(--color-bg-white)", padding: "2.5rem" }}>
+            <div className="premium-card internship-detail-card" style={{ display: "flex", flexDirection: "column", gap: "1.25rem", backgroundColor: "var(--color-bg-white)", padding: "2.5rem" }}>
               <div style={{ display: "flex", alignItems: "center", gap: "10px", color: "var(--color-primary)" }}>
                 <Award size={22} color="var(--color-primary)" />
                 <h2 style={{ fontSize: "1.25rem", margin: 0, fontWeight: 700, color: "var(--color-primary)" }}>Internship Tasks &amp; Focus</h2>
@@ -268,7 +268,7 @@ export const Internship: React.FC = () => {
           </div>
 
           {/* Internship Guidelines Alert Banner */}
-          <div className="premium-card" style={{ backgroundColor: "var(--color-bg-white)", border: "1px solid var(--color-border-light)", borderRadius: "24px", padding: "2.5rem" }}>
+          <div className="premium-card internship-detail-card" style={{ backgroundColor: "var(--color-bg-white)", border: "1px solid var(--color-border-light)", borderRadius: "24px", padding: "2.5rem" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "10px", color: "var(--color-primary)", marginBottom: "1rem" }}>
               <ShieldAlert size={22} color="var(--color-primary)" />
               <h3 style={{ fontSize: "1.1rem", margin: 0, fontWeight: 700, color: "var(--color-primary)" }}>Internship Protocol &amp; Guidelines</h3>

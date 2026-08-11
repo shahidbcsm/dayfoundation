@@ -4432,32 +4432,54 @@ body.dark-mode .internship-form-gray-card h3 {
 
 /* ── Dark mode: Program Parameters, Internship Tasks & Focus, Internship Protocol & Guidelines
    — use the exact same colours as the "Why Join Us?" card ── */
+body.dark-mode .internship-detail-card,
 body.dark-mode .gray-content-card {
   background: #ECE7DF !important;
   background-color: #ECE7DF !important;
-  border-color: rgba(0, 0, 0, 0.12) !important;
-  border-left-color: #FC4E1E !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
   color: #1C1A18 !important;
 }
 
-/* Headings stay orange (matching the title icon accent) */
+body.dark-mode .internship-detail-card h1,
+body.dark-mode .internship-detail-card h2,
+body.dark-mode .internship-detail-card h3,
+body.dark-mode .internship-detail-card h4,
+body.dark-mode .internship-detail-card h5,
+body.dark-mode .internship-detail-card h6,
+body.dark-mode .internship-detail-card svg,
+body.dark-mode .gray-content-card h1,
 body.dark-mode .gray-content-card h2,
-body.dark-mode .gray-content-card h3 {
-  color: #FC4E1E !important;
+body.dark-mode .gray-content-card h3,
+body.dark-mode .gray-content-card h4,
+body.dark-mode .gray-content-card h5,
+body.dark-mode .gray-content-card h6,
+body.dark-mode .gray-content-card svg {
+  color: #1C1A18 !important;
+  stroke: #1C1A18 !important;
 }
 
-/* All body content text → dark warm (same as Why Join Us? card body) */
+body.dark-mode .internship-detail-card p,
+body.dark-mode .internship-detail-card li,
+body.dark-mode .internship-detail-card strong,
+body.dark-mode .internship-detail-card span:not(.badge-custom),
+body.dark-mode .internship-detail-card div:not(.section-title),
+body.dark-mode .internship-detail-card ul,
+body.dark-mode .internship-detail-card ol,
+body.dark-mode .internship-detail-card a,
 body.dark-mode .gray-content-card p,
 body.dark-mode .gray-content-card li,
 body.dark-mode .gray-content-card strong,
 body.dark-mode .gray-content-card span:not(.badge-custom),
 body.dark-mode .gray-content-card div:not(.section-title),
 body.dark-mode .gray-content-card ul,
+body.dark-mode .gray-content-card ol,
 body.dark-mode .gray-content-card a {
   color: #2B2824 !important;
 }
 
-/* Row separators visible on cream bg */
+/* Row separators visible on cream bg in dark mode */
+body.dark-mode .internship-detail-card li[style*="borderBottom"],
 body.dark-mode .gray-content-card li[style*="borderBottom"] {
   border-bottom-color: rgba(0, 0, 0, 0.1) !important;
 }
+
