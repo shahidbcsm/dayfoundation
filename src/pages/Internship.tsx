@@ -212,42 +212,42 @@ export const Internship: React.FC = () => {
       <section className="section-padding" style={{ backgroundColor: "var(--color-bg-white)", borderBottom: "1px solid var(--color-border-light)" }}>
         <div className="container-custom">
           <div className="grid-2" style={{ marginBottom: "3rem" }}>
-                       {/* Left Box: Overview */}
-            <div className="premium-card gray-content-card" style={{ display: "flex", flexDirection: "column", gap: "1.25rem", borderLeft: "4px solid #FC4E1E", backgroundColor: "var(--color-bg-cream)" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "10px", color: "#FC4E1E" }}>
-                <Calendar size={22} color="#FC4E1E" style={{ color: "#FC4E1E" }} />
-                <h2 style={{ fontSize: "1.25rem", margin: 0, fontWeight: 700, color: "#FC4E1E" }}>Program Parameters</h2>
+            {/* Left Box: Overview */}
+            <div className="premium-card" style={{ display: "flex", flexDirection: "column", gap: "1.25rem", backgroundColor: "var(--color-bg-white)", padding: "2.5rem" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px", color: "var(--color-primary)" }}>
+                <Calendar size={22} color="var(--color-primary)" />
+                <h2 style={{ fontSize: "1.25rem", margin: 0, fontWeight: 700, color: "var(--color-primary)" }}>Program Parameters</h2>
               </div>
               <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "0.75rem", fontSize: "0.9rem" }}>
                 <li style={{ display: "flex", justifyContent: "space-between", borderBottom: "1px solid var(--color-border-light)", paddingBottom: "6px", alignItems: "center" }}>
-                  <span style={{ color: "#68696B" }}>Commencement Date:</span>
-                  <strong style={{ color: "#68696B" }}>30th May 2026</strong>
+                  <span style={{ color: "var(--color-text-muted)" }}>Commencement Date:</span>
+                  <strong style={{ color: "var(--color-primary)" }}>30th May 2026</strong>
                 </li>
                 <li style={{ display: "flex", justifyContent: "space-between", borderBottom: "1px solid var(--color-border-light)", paddingBottom: "6px", alignItems: "center" }}>
-                  <span style={{ color: "#68696B" }}>Duration:</span>
-                  <strong style={{ color: "#68696B" }}>15 Days (Structured)</strong>
+                  <span style={{ color: "var(--color-text-muted)" }}>Duration:</span>
+                  <strong style={{ color: "var(--color-primary)" }}>15 Days (Structured)</strong>
                 </li>
                 <li style={{ display: "flex", justifyContent: "space-between", borderBottom: "1px solid var(--color-border-light)", paddingBottom: "6px", alignItems: "center" }}>
-                  <span style={{ color: "#68696B" }}>Stipend:</span>
-                  <span style={{ backgroundColor: "rgba(252, 78, 30, 0.08)", color: "#68696B", padding: "4px 10px", borderRadius: "8px", fontSize: "0.8rem", fontWeight: "800", border: "1px solid rgba(252, 78, 30, 0.15)" }}>Unpaid / No Stipend</span>
+                  <span style={{ color: "var(--color-text-muted)" }}>Stipend:</span>
+                  <span style={{ backgroundColor: "rgba(104, 105, 107, 0.08)", color: "var(--color-text-muted)", padding: "4px 10px", borderRadius: "8px", fontSize: "0.8rem", fontWeight: "800", border: "1px solid rgba(104, 105, 107, 0.15)" }}>Unpaid / No Stipend</span>
                 </li>
                 <li style={{ display: "flex", justifyContent: "space-between", paddingBottom: "6px" }}>
-                  <span style={{ color: "#68696B" }}>Credentials Earned:</span>
-                  <strong style={{ color: "#68696B", textAlign: "right" }}>Internship Certificate, Letter of Recommendation (LOR) &amp; Mentor Report</strong>
+                  <span style={{ color: "var(--color-text-muted)" }}>Credentials Earned:</span>
+                  <strong style={{ color: "var(--color-primary)", textAlign: "right" }}>Internship Certificate, Letter of Recommendation (LOR) &amp; Mentor Report</strong>
                 </li>
               </ul>
             </div>
 
             {/* Right Box: Tasks & Focus */}
-            <div className="premium-card gray-content-card" style={{ display: "flex", flexDirection: "column", gap: "1.25rem", borderLeft: "4px solid #FC4E1E", backgroundColor: "var(--color-bg-cream)" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "10px", color: "#FC4E1E" }}>
-                <Award size={22} color="#FC4E1E" style={{ color: "#FC4E1E" }} />
-                <h2 style={{ fontSize: "1.25rem", margin: 0, fontWeight: 700, color: "#FC4E1E" }}>Internship Tasks &amp; Focus</h2>
+            <div className="premium-card" style={{ display: "flex", flexDirection: "column", gap: "1.25rem", backgroundColor: "var(--color-bg-white)", padding: "2.5rem" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px", color: "var(--color-primary)" }}>
+                <Award size={22} color="var(--color-primary)" />
+                <h2 style={{ fontSize: "1.25rem", margin: 0, fontWeight: 700, color: "var(--color-primary)" }}>Internship Tasks &amp; Focus</h2>
               </div>
-              <p style={{ fontSize: "0.9rem", color: "#68696B", margin: 0, lineHeight: "1.6" }}>
+              <p style={{ fontSize: "0.9rem", color: "var(--color-text-muted)", margin: 0, lineHeight: "1.6" }}>
                 Interns will receive hands-on experience by working on real-world assignments. Depending on the department, tasks include:
               </p>
-              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "0.5rem", fontSize: "0.85rem", color: "#68696B" }}>
+              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "0.5rem", fontSize: "0.85rem", color: "var(--color-text-muted)" }}>
                 {[
                   "Sponsorship research and outreach",
                   "Public relations and awareness campaigns",
@@ -258,8 +258,8 @@ export const Internship: React.FC = () => {
                   "Offline social drives and event exposure"
                 ].map((task) => (
                   <li key={task} style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-                    <span style={{ color: "#68696B", fontWeight: "bold" }}>✔</span>
-                    <span style={{ color: "#68696B" }}>{task}</span>
+                    <span style={{ color: "var(--color-secondary)", fontWeight: "bold" }}>✔</span>
+                    <span style={{ color: "var(--color-text-muted)" }}>{task}</span>
                   </li>
                 ))}
               </ul>
@@ -268,47 +268,46 @@ export const Internship: React.FC = () => {
           </div>
 
           {/* Internship Guidelines Alert Banner */}
-          <div className="premium-card gray-content-card" style={{ backgroundColor: "var(--color-bg-cream)", border: "1px solid rgba(252, 78, 30, 0.2)", borderRadius: "16px", padding: "1.75rem" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "10px", color: "#FC4E1E", marginBottom: "1rem" }}>
-              <ShieldAlert size={22} color="#FC4E1E" style={{ color: "#FC4E1E" }} />
-              <h3 style={{ fontSize: "1.1rem", margin: 0, fontWeight: 700, color: "#FC4E1E" }}>Internship Protocol &amp; Guidelines</h3>
+          <div className="premium-card" style={{ backgroundColor: "var(--color-bg-white)", border: "1px solid var(--color-border-light)", borderRadius: "24px", padding: "2.5rem" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "10px", color: "var(--color-primary)", marginBottom: "1rem" }}>
+              <ShieldAlert size={22} color="var(--color-primary)" />
+              <h3 style={{ fontSize: "1.1rem", margin: 0, fontWeight: 700, color: "var(--color-primary)" }}>Internship Protocol &amp; Guidelines</h3>
             </div>
             
             <div className="grid-2">
-                         <div>
-                <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "0.75rem", fontSize: "0.85rem", color: "#68696B" }}>
+              <div>
+                <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "0.75rem", fontSize: "0.85rem", color: "var(--color-text-muted)" }}>
                   <li style={{ display: "flex", gap: "8px" }}>
-                    <span style={{ color: "#68696B", fontWeight: 800 }}>1.</span>
-                    <span style={{ color: "#68696B" }}><strong style={{ color: "#68696B" }}>Unique Task Submissions:</strong> Each intern must attach distinct screenshots/proofs to their tasks. Duplicating work or screenshots is strictly prohibited.</span>
+                    <span style={{ color: "var(--color-primary)", fontWeight: 800 }}>1.</span>
+                    <span style={{ color: "var(--color-text-muted)" }}><strong style={{ color: "var(--color-primary)" }}>Unique Task Submissions:</strong> Each intern must attach distinct screenshots/proofs to their tasks. Duplicating work or screenshots is strictly prohibited.</span>
                   </li>
                   <li style={{ display: "flex", gap: "8px" }}>
-                    <span style={{ color: "#68696B", fontWeight: 800 }}>2.</span>
-                    <span style={{ color: "#68696B" }}><strong style={{ color: "#68696B" }}>Exclusive Articles &amp; Reports:</strong> Reports or articles requested must be unique. Plagiarism will lead to immediate cancellation of internship.</span>
+                    <span style={{ color: "var(--color-primary)", fontWeight: 800 }}>2.</span>
+                    <span style={{ color: "var(--color-text-muted)" }}><strong style={{ color: "var(--color-primary)" }}>Exclusive Articles &amp; Reports:</strong> Reports or articles requested must be unique. Plagiarism will lead to immediate cancellation of internship.</span>
                   </li>
                   <li style={{ display: "flex", gap: "8px" }}>
-                    <span style={{ color: "#68696B", fontWeight: 800 }}>3.</span>
-                    <span style={{ color: "#68696B" }}><strong style={{ color: "#68696B" }}>Completion of Tasks:</strong> All tasks must be completed fully. Incomplete tasks may result in withholding certificates and recommendations.</span>
+                    <span style={{ color: "var(--color-primary)", fontWeight: 800 }}>3.</span>
+                    <span style={{ color: "var(--color-text-muted)" }}><strong style={{ color: "var(--color-primary)" }}>Completion of Tasks:</strong> All tasks must be completed fully. Incomplete tasks may result in withholding certificates and recommendations.</span>
                   </li>
                 </ul>
               </div>
 
               <div>
-                <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "0.75rem", fontSize: "0.85rem", color: "#68696B" }}>
+                <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "0.75rem", fontSize: "0.85rem", color: "var(--color-text-muted)" }}>
                   <li style={{ display: "flex", gap: "8px" }}>
-                    <span style={{ color: "#68696B", fontWeight: 800 }}>4.</span>
-                    <span style={{ color: "#68696B" }}><strong style={{ color: "#68696B" }}>Respectful Conduct:</strong> Treat team members, coordinators, slum communities, and mentors with utmost respect. Disrespect is not tolerated.</span>
+                    <span style={{ color: "var(--color-primary)", fontWeight: 800 }}>4.</span>
+                    <span style={{ color: "var(--color-text-muted)" }}><strong style={{ color: "var(--color-primary)" }}>Respectful Conduct:</strong> Treat team members, coordinators, slum communities, and mentors with utmost respect. Disrespect is not tolerated.</span>
                   </li>
                   <li style={{ display: "flex", gap: "8px" }}>
-                    <span style={{ color: "#68696B", fontWeight: 800 }}>5.</span>
-                    <span style={{ color: "#68696B" }}><strong style={{ color: "#68696B" }}>Mandatory Offline Backups:</strong> Interns must maintain local, offline backups of their work and drive logs for verification.</span>
+                    <span style={{ color: "var(--color-primary)", fontWeight: 800 }}>5.</span>
+                    <span style={{ color: "var(--color-text-muted)" }}><strong style={{ color: "var(--color-primary)" }}>Mandatory Offline Backups:</strong> Interns must maintain local, offline backups of their work and drive logs for verification.</span>
                   </li>
                   <li style={{ display: "flex", gap: "8px" }}>
-                    <span style={{ color: "#68696B", fontWeight: 800 }}>6.</span>
-                    <span style={{ color: "#68696B" }}><strong style={{ color: "#68696B" }}>Invalid AI Responses:</strong> Utilizing AI-generated text or graphics for task submissions is strictly prohibited. AI-produced reports will be marked as incomplete.</span>
+                    <span style={{ color: "var(--color-primary)", fontWeight: 800 }}>6.</span>
+                    <span style={{ color: "var(--color-text-muted)" }}><strong style={{ color: "var(--color-primary)" }}>Invalid AI Responses:</strong> Utilizing AI-generated text or graphics for task submissions is strictly prohibited. AI-produced reports will be marked as incomplete.</span>
                   </li>
                 </ul>
               </div>
-
             </div>
           </div>
         </div>
