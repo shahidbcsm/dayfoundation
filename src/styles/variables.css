@@ -1,6 +1,13 @@
 :root {
   /* Primary Accent — Terracotta / Warm Clay (#D9854E) */
-  --color-primary: #D9854E;          /* Warm Terracotta Accent */
+  --color-primary: #D9854E;          /* Warm Terracotta Accent — fills, icons, borders, large display text */
+
+  /* Terracotta tuned for SMALL text only. The brand #D9854E/#E68952 scores just
+     2.5–2.8:1 on our cream/peach backgrounds — fine for big headings, too faint
+     for links and body copy. This darker sibling keeps the same warm hue but
+     clears 4.9:1 on cream. Use for small text; never for fills or big headings,
+     or the palette stops matching the brand. */
+  --color-primary-text: #A85A28;
   --color-primary-dark: #B66935;     
   --color-primary-light: #F7E4D7;    
   --color-primary-rgb: 217, 133, 78;
@@ -120,13 +127,14 @@
 body.dark-mode {
   --color-bg-white: #181716;
   --color-bg-gray: #1E1D1B;
-  --color-bg-cream: #9D9588;
-  --color-bg-sand: #8A8275;
+  --color-bg-cream: #2A2826;
+  --color-bg-sand: #363330;
   --color-bg-dark: #121110;
 
-  --color-text-dark: #E6DFC5;
-  --color-text-muted: #C5BEB3;
-  --color-text-light: #ECE7DF;
+  --color-text-dark: #F8FAFC;
+  --color-text-muted: #E2E8F0;
+  --color-text-light: #CBD5E1;
+  --color-primary-text: #FB923C;
 
   --color-border: rgba(255, 255, 255, 0.12);
   --color-border-light: rgba(255, 255, 255, 0.06);

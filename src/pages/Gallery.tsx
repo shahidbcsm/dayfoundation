@@ -95,11 +95,10 @@ export const Gallery: React.FC = () => {
                   >
                     <img 
                       src={item.imageUrl} 
-                      alt={item.title} 
+                      alt={item.title || "DAY Foundation Gallery Photo"} 
                       loading="lazy" 
                       onError={(e) => {
-                        const parent = e.currentTarget.closest('.gallery-item') as HTMLElement;
-                        if (parent) parent.style.display = 'none';
+                        (e.currentTarget as HTMLImageElement).src = 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=800';
                       }}
                     />
                   </motion.div>

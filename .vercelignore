@@ -1,0 +1,10 @@
+# System & Config
+.env*
+.firebase
+.claude
+.git
+
+# Dependencies and build outputs
+node_modules
+dist
+dist-ssr

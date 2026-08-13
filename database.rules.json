@@ -25,7 +25,7 @@
     "donations": {
       ".read": "auth != null",
       "$id": {
-        ".write": "auth != null || !data.exists()"
+        ".write": "!data.exists() || (auth != null && newData.exists())"
       }
     },
     "contacts": {
@@ -36,24 +36,36 @@
     },
     "admins": {
       ".read": "auth != null",
-      ".write": "auth != null"
+      ".write": "auth != null && (auth.token.email === 'owner@dayfoundation.com' || auth.token.email === 'mrshahidbabu@dayfoundation.in' || auth.token.email === 'info@dayfoundation.in')"
     },
     "audit_logs": {
       ".read": "auth != null",
-      ".write": "auth != null"
+      "$id": {
+        ".write": "auth != null && !data.exists()"
+      }
     },
     "settings": {
-      ".read": "true",
-      ".write": "auth != null"
+      ".write": "auth != null",
+      "default_design_layout": {
+        ".read": "true"
+      },
+      "recycle_bin_password": {
+        ".read": "auth != null"
+      }
     },
     "analytics": {
       ".read": "true",
-      ".write": "true"
+      "visitors": {
+        ".write": "newData.isNumber() && newData.val() >= 0 && (!data.exists() || newData.val() > data.val())"
+      },
+      "reach": {
+        ".write": "newData.isNumber() && newData.val() >= 0 && (!data.exists() || newData.val() >= data.val())"
+      }
     },
     "newsletter": {
       ".read": "auth != null",
       "$id": {
-        ".write": "true"
+        ".write": "auth != null || !data.exists()"
       }
     },
     "city_team": {
@@ -63,7 +75,7 @@
     "complaints": {
       ".read": "auth != null",
       "$id": {
-        ".write": "true"
+        ".write": "auth != null || !data.exists()"
       }
     },
     "testimonials": {

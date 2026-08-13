@@ -2,32 +2,40 @@ rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
 
+    // Uploads are admin-only. Reads stay public so the site can display media.
+    // NOTE: `request.auth != null` is required — without it any anonymous visitor
+    // could upload to, and overwrite, these paths.
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isValidImage() {
+      return request.resource.size < 15 * 1024 * 1024
+             && request.resource.contentType.matches('image/.*');
+    }
+
     // Gallery uploads
     match /gallery/{fileName} {
       allow read: if true;
-      allow write: if request.resource.size < 15 * 1024 * 1024
-                   && request.resource.contentType.matches('image/.*');
+      allow write: if isSignedIn() && isValidImage();
     }
 
     // Blog cover images
     match /blogs/{fileName} {
       allow read: if true;
-      allow write: if request.resource.size < 15 * 1024 * 1024
-                   && request.resource.contentType.matches('image/.*');
+      allow write: if isSignedIn() && isValidImage();
     }
 
     // Event cover images
     match /events/{fileName} {
       allow read: if true;
-      allow write: if request.resource.size < 15 * 1024 * 1024
-                   && request.resource.contentType.matches('image/.*');
+      allow write: if isSignedIn() && isValidImage();
     }
 
     // Team member profile photos
     match /team/{fileName} {
       allow read: if true;
-      allow write: if request.resource.size < 15 * 1024 * 1024
-                   && request.resource.contentType.matches('image/.*');
+      allow write: if isSignedIn() && isValidImage();
     }
 
     // Block everything else

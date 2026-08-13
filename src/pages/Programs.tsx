@@ -183,7 +183,8 @@ export const Programs: React.FC = () => {
                 >
                   <img 
                     src={prog.image} 
-                    alt={prog.title} 
+                    alt={prog.title ? String(prog.title) : "DAY Foundation Community Program"} 
+                    onError={(e) => { (e.currentTarget as HTMLImageElement).src = 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=800'; }}
                     style={{ 
                       width: "100%", 
                       height: "100%", 
@@ -242,9 +243,9 @@ export const Programs: React.FC = () => {
                       >
                         {prog.icon}
                       </div>
-                      <h3 style={{ fontSize: "1.35rem", color: "var(--color-primary)", margin: 0, fontWeight: "700" }}>
+                      <h2 style={{ fontSize: "1.35rem", color: "var(--color-primary)", margin: 0, fontWeight: "700" }}>
                         {prog.title}
-                      </h3>
+                      </h2>
                     </div>
                     
                     <p style={{ fontSize: "0.925rem", color: "var(--color-text-muted)", lineHeight: "1.6", marginBottom: "2rem" }}>

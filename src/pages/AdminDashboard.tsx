@@ -8,7 +8,7 @@ import {
   updateRecordComment,
   updateContactStatus,
   addRecordComment,
-  deleteVolunteerRecord, deleteDonationRecord, deleteContactMessage,
+  deleteVolunteerRecord, deleteContactMessage,
   subscribeBlogs, subscribeVolunteers, subscribeDonations,
   subscribeContactMessages, subscribeRecycleBin,
   subscribeComplaints, deleteComplaint, updateComplaintStatus,
@@ -17,21 +17,21 @@ import {
   subscribeFlagshipCampaigns, createFlagshipCampaign, updateFlagshipCampaign, deleteFlagshipCampaign,
   createTeamMember, deleteTeamMember, updateTeamMember, subscribeTeam,
   createCityMember, deleteCityMember, updateCityMember, subscribeCityMembers,
-  subscribeAnalytics,
   subscribeTestimonials, createTestimonial, deleteTestimonial, updateTestimonial,
   setSeoSetting, subscribeSeoSettings,
   fileToCompressedBase64, saveCardImageToFirestore, subscribeCardImages,
-  subscribeNewsletterList, deleteNewsletterSubscriber,
+  subscribeNewsletterList, deleteNewsletterSubscriber, subscribeNewsletter,
   type ContactMessage, type Complaint, type SeoPageSetting, type NewsletterSubscriber
 } from "../firebase/services";
 import type { Blog, Volunteer, Donation, GalleryItem, Event, TeamMember, Testimonial, CityMember, FlagshipCampaign } from "../data/mockData";
 import { defaultFlagshipCampaigns } from "../data/mockData";
+import { AnalyticsCharts } from "../components/AnalyticsCharts";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   LayoutDashboard, BookOpen, Users, 
   DollarSign, LogOut, Trash2, Check, X, ShieldAlert, Loader,
   GraduationCap, MessageSquare,
-  Search, Shield, History, Globe, Megaphone, Printer, Image, Calendar, UserCheck, Eye, TrendingUp,
+  Search, Shield, History, Globe, Megaphone, Printer, Image, Calendar, UserCheck, TrendingUp, Award,
   Menu, Sparkles, Mail, Lock, ArrowRight, CheckCircle, Tag, RotateCcw, Upload
 } from "lucide-react";
 import { collection, addDoc, getDocs, deleteDoc, doc, setDoc } from "firebase/firestore";
@@ -43,6 +43,7 @@ import { generateAIReply } from "../services/geminiService";
 import { fallbackSEOMap } from "../services/seoService";
 import { sendBroadcastNotification, subscribeNotificationTokens, deleteNotificationToken } from "../services/notificationService";
 import "../styles/dashboard.css";
+import "../styles/dashboard-premium.css"; // Aurora Glass layer — must load after dashboard.css
 import "../styles/pages.css";
 
 // ----------- EXPORT UTILITIES -----------
@@ -420,6 +421,31 @@ const CardImageRow: React.FC<{ label: string; imgKey: string; description: strin
 };
 // ─────────────────────────────────────────────────────────────────────────────
 
+/** Header titles for each tab — mirrors the sidebar wording so the
+ *  header always states which section you are in. */
+const TAB_LABELS: Record<string, string> = {
+  overview: "Overview",
+  blogs: "Blogs",
+  gallery: "Gallery",
+  events: "Events",
+  teams: "Team",
+  city_members: "City Members",
+  testimonials: "Testimonials",
+  card_images: "Card Images",
+  volunteers: "Volunteers",
+  internships: "Internships",
+  donations: "Donations",
+  newsletter_subscribers: "Newsletter",
+  contacts: "Contact Messages",
+  complaints: "Complaints",
+  seo: "SEO Settings",
+  marketing: "Marketing",
+  broadcast: "Broadcast",
+  audit_logs: "Audit Logs",
+  users: "Users",
+  recycle_bin: "Recycle Bin",
+};
+
 export const AdminDashboard: React.FC = () => {
   const { user, login, logout, error: authError } = useAuth();
   
@@ -437,7 +463,9 @@ export const AdminDashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState<AdminTab>("overview");
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState<boolean>(false);
   const [isRecycleBinUnlocked, setIsRecycleBinUnlocked] = useState<boolean>(false);
-  const [recycleBinPassword, setRecycleBinPassword] = useState<string>("DAY@19019");
+  // SECURITY: no hardcoded fallback — this file is bundled and served to the browser.
+  // The real value is loaded from RTDB settings/recycle_bin_password below.
+  const [recycleBinPassword, setRecycleBinPassword] = useState<string>("");
 
   useEffect(() => {
     if (rtdb) {
@@ -455,7 +483,9 @@ export const AdminDashboard: React.FC = () => {
     if (tab === "recycle_bin" && !isRecycleBinUnlocked) {
       const inputPass = prompt("🔐 Enter Password to Access Recycle Bin:");
       if (inputPass === null) return; // cancelled
-      if (inputPass.trim() === recycleBinPassword) {
+      // Guard against an unset/unloaded password: an empty stored value must never
+      // unlock on empty input.
+      if (recycleBinPassword && inputPass.trim() === recycleBinPassword) {
         setIsRecycleBinUnlocked(true);
         setActiveTab("recycle_bin");
         alert("🔓 Recycle Bin Access Unlocked!");
@@ -509,7 +539,6 @@ export const AdminDashboard: React.FC = () => {
   const [seoSaving, setSeoSaving] = useState(false);
   const [seoSuccess, setSeoSuccess] = useState<string | null>(null);
   const [marketingConfig, setMarketingConfig] = useState({ googleAnalytics: import.meta.env.VITE_GOOGLE_ANALYTICS_ID || "G-Y7T2407MS3", clarityId: "cl-xxxxxx" });
-  const [visitorAnalytics, setVisitorAnalytics] = useState({ visitors: 1428, reach: 1115 });
   const [printReceiptData, setPrintReceiptData] = useState<any | null>(null);
 
   // Broadcast state
@@ -523,6 +552,23 @@ export const AdminDashboard: React.FC = () => {
   const [recycleBinItems, setRecycleBinItems] = useState<any[]>([]);
   const [showAddDonationModal, setShowAddDonationModal] = useState<boolean>(false);
   const [newDonation, setNewDonation] = useState({ donorName: "", donorEmail: "", amount: 1000, purpose: "General Social Welfare", transactionId: "" });
+
+  // Growth Analytics Selector State
+  const [selectedGrowthMetric, setSelectedGrowthMetric] = useState<'volunteers' | 'internships' | 'donations'>('volunteers');
+  const [selectedGrowthTimeframe, setSelectedGrowthTimeframe] = useState<'weekly' | 'monthly' | 'yearly'>('weekly');
+  const [hoveredLinePoint, setHoveredLinePoint] = useState<any | null>(null);
+
+  // Date-to-Date CSV Export Modal State
+  const [showExportModal, setShowExportModal] = useState<boolean>(false);
+  const [exportReportType, setExportReportType] = useState<'donations' | 'volunteers' | 'internships'>('donations');
+  const [exportStartDate, setExportStartDate] = useState<string>('');
+  const [exportEndDate, setExportEndDate] = useState<string>('');
+
+  // Manual Newsletter Subscriber Modal State
+  const [showAddSubscriberModal, setShowAddSubscriberModal] = useState<boolean>(false);
+  const [newSubscriberEmail, setNewSubscriberEmail] = useState<string>('');
+  const [newSubscriberName, setNewSubscriberName] = useState<string>('');
+  const [subscriberSubmitting, setSubscriberSubmitting] = useState<boolean>(false);
 
   // Core Content Modal States
   const [showAddBlogModal, setShowAddBlogModal] = useState<boolean>(false);
@@ -776,7 +822,6 @@ export const AdminDashboard: React.FC = () => {
   const [aiPrompt, setAiPrompt] = useState<string>("");
   const [aiDraft, setAiDraft] = useState<string>("");
   const [aiGenerating, setAiGenerating] = useState<boolean>(false);
-  const [hoveredGraphPoint, setHoveredGraphPoint] = useState<{ month: string; amount: number; x: number; y: number } | null>(null);
 
   // Role Permissions
   const userRole = (user as any)?.role || "Viewer";
@@ -857,10 +902,6 @@ export const AdminDashboard: React.FC = () => {
       setDbLoading(false);
     });
 
-    const unsubAnalytics = subscribeAnalytics((data) => {
-      setVisitorAnalytics(data);
-    });
-
     const unsubSeo = subscribeSeoSettings((data) => {
       setSeoSettings(data);
     });
@@ -895,7 +936,6 @@ export const AdminDashboard: React.FC = () => {
       unsubContacts();
       unsubComplaints();
       unsubFlagship();
-      unsubAnalytics();
       unsubSeo();
       unsubPushTokens();
       unsubRecycleBin();
@@ -2070,29 +2110,6 @@ export const AdminDashboard: React.FC = () => {
       alert("Record deleted successfully.");
     } catch (err) { console.error(err); }
   };
-  const handleDeleteDonation = async (id: string) => {
-    if (!hasWritePermission) return;
-    if (!window.confirm("Are you sure you want to delete this donation record?")) return;
-    try {
-      await deleteDonationRecord(id);
-      setDonations(prev => prev.filter(d => d.id !== id));
-      await recordAuditLog(user?.email || "unknown", `Deleted donation record ID: ${id}`);
-      
-      try {
-        const { sendAdminNotification } = await import("../services/emailService");
-        await sendAdminNotification('data_deletion', {
-          recordType: "Donation Ledger Entry",
-          recordId: id,
-          operatorEmail: user?.email || "unknown",
-          timestamp: new Date().toISOString()
-        });
-      } catch (err) {
-        console.error("Failed to notify deletion:", err);
-      }
-
-      alert("✅ Donation record deleted!");
-    } catch (err) { console.error(err); }
-  };
 
 
   // Bulk Actions Handlers
@@ -2102,18 +2119,17 @@ export const AdminDashboard: React.FC = () => {
 
   const handleBulkDelete = async (type: "volunteer" | "internship" | "donation") => {
     if (!hasWritePermission) return;
+    if (type === "donation") {
+      alert("🔒 Action Denied: Donation ledger entries are immutable and cannot be deleted by any administrator for financial compliance.");
+      return;
+    }
     if (selectedIds.length === 0) return;
     if (!window.confirm(`Perform bulk delete on ${selectedIds.length} records?`)) return;
     try {
       setActionLoading(true);
       for (const id of selectedIds) {
-        if (type === "donation") {
-          await deleteDonationRecord(id);
-        } else {
-          await deleteVolunteerRecord(id);
-        }
+        await deleteVolunteerRecord(id);
       }
-      if (type === "donation") setDonations(prev => prev.filter(d => !selectedIds.includes(d.id)));
       if (type === "volunteer") setVolunteers(prev => prev.filter(v => !selectedIds.includes(v.id)));
       if (type === "internship") setInternships(prev => prev.filter(v => !selectedIds.includes(v.id)));
       
@@ -2124,6 +2140,128 @@ export const AdminDashboard: React.FC = () => {
       console.error(e);
     } finally {
       setActionLoading(false);
+    }
+  };
+
+  // Handler for Date-to-Date CSV Report Export
+  const handleExportCSV = () => {
+    let sourceData: any[] = [];
+    let filename = "";
+
+    if (exportReportType === "donations") {
+      sourceData = donations.filter(d => !d.deleted);
+      filename = "DAY_Foundation_Donations_Report";
+    } else if (exportReportType === "volunteers") {
+      sourceData = volunteers.filter(v => !v.deleted);
+      filename = "DAY_Foundation_Volunteers_Report";
+    } else {
+      sourceData = internships.filter(i => !i.deleted);
+      filename = "DAY_Foundation_Internships_Report";
+    }
+
+    // Filter by Date Range if specified
+    const startMs = exportStartDate ? new Date(`${exportStartDate}T00:00:00`).getTime() : 0;
+    const endMs = exportEndDate ? new Date(`${exportEndDate}T23:59:59`).getTime() : Infinity;
+
+    const filtered = sourceData.filter(item => {
+      const dateStr = item.createdAt || item.currentDate || "";
+      if (!dateStr) return true;
+      const itemMs = new Date(dateStr).getTime();
+      return itemMs >= startMs && itemMs <= endMs;
+    });
+
+    if (filtered.length === 0) {
+      alert("No records found within the selected date range.");
+      return;
+    }
+
+    let csvContent = "";
+    if (exportReportType === "donations") {
+      csvContent += "ID,Donor Name,Donor Email,Amount (INR),Date,Purpose,Transaction ID,Status\n";
+      filtered.forEach(d => {
+        const row = [
+          `"${d.id || ""}"`,
+          `"${(d.donorName || "Anonymous").replace(/"/g, '""')}"`,
+          `"${(d.donorEmail || "").replace(/"/g, '""')}"`,
+          d.amount || 0,
+          `"${d.createdAt ? d.createdAt.slice(0, 10) : ""}"`,
+          `"${(d.purpose || "General").replace(/"/g, '""')}"`,
+          `"${(d.transactionId || "").replace(/"/g, '""')}"`,
+          `"${d.status || "Completed"}"`
+        ].join(",");
+        csvContent += row + "\n";
+      });
+    } else if (exportReportType === "volunteers") {
+      csvContent += "ID,Allotted Volunteer ID,Name,Email,Phone,City,State,Occupation,Submitted On,Status,Approved On,ID Allotted On\n";
+      filtered.forEach(v => {
+        const row = [
+          `"${v.id || ""}"`,
+          `"${v.tempVolunteerId || v.permanentVolunteerId || ""}"`,
+          `"${(v.name || "").replace(/"/g, '""')}"`,
+          `"${(v.email || "").replace(/"/g, '""')}"`,
+          `"${(v.phone || "").replace(/"/g, '""')}"`,
+          `"${(v.city || "").replace(/"/g, '""')}"`,
+          `"${(v.state || "").replace(/"/g, '""')}"`,
+          `"${(v.occupation || "").replace(/"/g, '""')}"`,
+          `"${v.createdAt ? v.createdAt.slice(0, 10) : ""}"`,
+          `"${v.status || "pending"}"`,
+          `"${v.approvedAt ? v.approvedAt.slice(0, 10) : ""}"`,
+          `"${v.idAllottedAt ? v.idAllottedAt.slice(0, 10) : ""}"`
+        ].join(",");
+        csvContent += row + "\n";
+      });
+    } else {
+      csvContent += "ID,Allotted Intern ID,Name,Email,Mobile,Qualification,Track,Submitted On,Status,Approved On,ID Allotted On\n";
+      filtered.forEach(i => {
+        const row = [
+          `"${i.id || ""}"`,
+          `"${i.tempInternshipId || i.permanentInternshipId || ""}"`,
+          `"${(i.name || "").replace(/"/g, '""')}"`,
+          `"${(i.email || "").replace(/"/g, '""')}"`,
+          `"${(i.mobile || "").replace(/"/g, '""')}"`,
+          `"${(i.qualification || "").replace(/"/g, '""')}"`,
+          `"${(i.track || "").replace(/"/g, '""')}"`,
+          `"${i.createdAt ? i.createdAt.slice(0, 10) : ""}"`,
+          `"${i.status || "pending"}"`,
+          `"${i.approvedAt ? i.approvedAt.slice(0, 10) : ""}"`,
+          `"${i.idAllottedAt ? i.idAllottedAt.slice(0, 10) : ""}"`
+        ].join(",");
+        csvContent += row + "\n";
+      });
+    }
+
+    // Trigger Browser Blob Download
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    const dateRangeStr = exportStartDate && exportEndDate ? `_${exportStartDate}_to_${exportEndDate}` : "_All_Time";
+    link.setAttribute("download", `${filename}${dateRangeStr}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    setShowExportModal(false);
+  };
+
+  // Handler for Manual Subscriber Addition
+  const handleAddSubscriberSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newSubscriberEmail || !newSubscriberEmail.includes('@')) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+    setSubscriberSubmitting(true);
+    try {
+      await subscribeNewsletter(newSubscriberEmail, "Admin Panel", newSubscriberName);
+      alert(`Successfully added ${newSubscriberEmail} to newsletter subscribers!`);
+      setNewSubscriberEmail('');
+      setNewSubscriberName('');
+      setShowAddSubscriberModal(false);
+    } catch (err) {
+      console.error("Error adding subscriber:", err);
+      alert("Failed to add subscriber. Please try again.");
+    } finally {
+      setSubscriberSubmitting(false);
     }
   };
 
@@ -2889,90 +3027,78 @@ export const AdminDashboard: React.FC = () => {
       <main className="admin-content">
         {/* ── Sticky Top Bar (Encrypted Console Header) ── */}
         <div className="admin-header">
-          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+          {/* Left: context — which section you are actually in. */}
+          <div className="adm-hd-left">
             <button
-              className="admin-mobile-toggle"
+              className="admin-mobile-toggle adm-hd-icon"
               onClick={() => setMobileSidebarOpen(!mobileSidebarOpen)}
-              style={{ display: "none" }}
               aria-label="Toggle admin sidebar"
             >
-              {mobileSidebarOpen ? <X size={20} /> : <Menu size={20} />}
+              {mobileSidebarOpen ? <X size={19} /> : <Menu size={19} />}
             </button>
-            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              {/* Encrypted Console label */}
-              <span style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.65rem", color: "#2AA527", letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 700 }}>Encrypted Console</span>
-              <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: "16px", height: "16px", background: "rgba(42,165,39,0.12)", borderRadius: "50%" }}>
-                <span style={{ width: "6px", height: "6px", background: "#2AA527", borderRadius: "50%", animation: "blobFloat 2s ease-in-out infinite" }} />
+            <div className="adm-hd-titleblock">
+              <h1 className="admin-title adm-hd-title">{TAB_LABELS[activeTab] ?? "Console"}</h1>
+              {/* Single consolidated status line — this previously appeared twice,
+                  as "Encrypted Console" here and "Session Verified" on the right. */}
+              <span className="adm-hd-status">
+                <span className="adm-hd-pulse" aria-hidden="true" />
+                Encrypted&nbsp;·&nbsp;Session verified
               </span>
             </div>
           </div>
 
-          {/* Right: search + session + profile */}
-          <div style={{ display: "flex", gap: "0.75rem", alignItems: "center", flexWrap: "wrap" }}>
-            {/* Search */}
-            <div style={{ position: "relative" }}>
+          {/* Right: search + actions + identity */}
+          <div className="adm-hd-right">
+            <div className="adm-hd-search">
+              <Search size={14} aria-hidden="true" />
               <input
                 type="text"
-                placeholder="Search workspace..."
+                placeholder="Search workspace…"
+                aria-label="Search workspace"
                 value={globalSearch}
                 onChange={(e) => setGlobalSearch(e.target.value)}
-                style={{
-                  padding: "0.5rem 1rem 0.5rem 2.5rem",
-                  border: "1.5px solid #d0c5af",
-                  background: "#ffffff",
-                  borderRadius: "9999px",
-                  fontFamily: "'Noto Sans', sans-serif",
-                  fontSize: "0.82rem",
-                  width: "200px",
-                  color: "#1b1c1c",
-                  outline: "none",
-                  transition: "border-color 0.2s, box-shadow 0.2s"
-                }}
               />
-              <Search size={14} style={{ position: "absolute", left: "12px", top: "50%", transform: "translateY(-50%)", color: "#7f7663" }} />
+              {globalSearch && (
+                <button
+                  type="button"
+                  className="adm-hd-search-clear"
+                  aria-label="Clear search"
+                  onClick={() => setGlobalSearch("")}
+                >
+                  <X size={13} />
+                </button>
+              )}
             </div>
 
-            {/* Session Verified badge */}
-            <div style={{ display: "flex", alignItems: "center", gap: "6px", padding: "5px 12px", background: "rgba(42,165,39,0.08)", border: "1px solid rgba(42,165,39,0.2)", borderRadius: "9999px" }}>
-              <Shield size={13} style={{ color: "#2AA527" }} />
-              <span style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.62rem", color: "#2A3D3D", letterSpacing: "0.05em", fontWeight: 700 }}>Session Verified</span>
-            </div>
-
-            {/* Quick icon actions */}
-            <div style={{ display: "flex", gap: "0.35rem" }}>
-              <div style={{ width: "36px", height: "36px", borderRadius: "50%", border: "1px solid #d0c5af", background: "#ffffff", display: "flex", alignItems: "center", justifyContent: "center", color: "#2A3D3D", cursor: "pointer", transition: "border-color 0.2s" }}>
+            <div className="adm-hd-actions">
+              <button
+                type="button"
+                className="adm-hd-icon"
+                aria-label="Broadcast"
+                onClick={() => setActiveTab("broadcast")}
+              >
                 <Megaphone size={15} />
-              </div>
-              <div style={{ width: "36px", height: "36px", borderRadius: "50%", border: "1px solid #d0c5af", background: "#ffffff", display: "flex", alignItems: "center", justifyContent: "center", color: "#2A3D3D", cursor: "pointer" }} onClick={() => setActiveTab("contacts")}>
+              </button>
+              <button
+                type="button"
+                className="adm-hd-icon"
+                aria-label="Messages"
+                onClick={() => setActiveTab("contacts")}
+              >
                 <MessageSquare size={15} />
-              </div>
+              </button>
             </div>
 
-            {/* Profile */}
-            <div style={{ display: "flex", alignItems: "center", gap: "10px", paddingLeft: "0.75rem", borderLeft: "1px solid #d0c5af" }}>
-              <div style={{ textAlign: "right" }}>
-                <div style={{ fontFamily: "'Hanken Grotesk', sans-serif", fontSize: "0.85rem", fontWeight: 800, color: "#0f172a" }}>Om Sen</div>
-                <div style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.62rem", color: "#8a6822", textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 700 }}>Super Admin</div>
+            <div className="adm-hd-profile">
+              <div className="adm-hd-profile-meta">
+                <span className="adm-hd-name">Om Sen</span>
+                <span className="adm-hd-role">Super Admin</span>
               </div>
-              <img
-                src="/assets/teams/om sen.jpeg"
-                alt="Om Sen - Super Admin"
-                style={{
-                  width: "42px",
-                  height: "42px",
-                  borderRadius: "50%",
-                  objectFit: "cover",
-                  border: "2px solid #C5A059",
-                  boxShadow: "0 4px 14px rgba(197,160,89,0.4)"
-                }}
-              />
+              <img className="adm-hd-avatar" src="/assets/teams/om sen.jpeg" alt="Om Sen — Super Admin" />
             </div>
 
             {isSuperAdmin && (
-              <button
-                onClick={handleResetDatabase}
-                style={{ padding: "0.4rem 0.875rem", fontFamily: "'Hanken Grotesk', sans-serif", fontSize: "0.75rem", background: "rgba(186,26,26,0.08)", border: "1px dashed rgba(186,26,26,0.3)", borderRadius: "9999px", color: "#ba1a1a", cursor: "pointer", fontWeight: 700 }}
-              >
+              <button onClick={handleResetDatabase} className="adm-hd-danger">
                 Reset DB
               </button>
             )}
@@ -2998,64 +3124,122 @@ export const AdminDashboard: React.FC = () => {
               {/* === OVERVIEW === */}
               {activeTab === "overview" && (() => {
                 // ── Pure Real Data Analytics Engine ──
-                const months = ["Jan", "Mar", "May", "Jul", "Sep", "Nov"];
-                const monthlyTotals: Record<string, number> = { Jan: 0, Mar: 0, May: 0, Jul: 0, Sep: 0, Nov: 0 };
-                
-                let totalDonationSum = 0;
-                donations.forEach(d => {
-                  const amt = Number(d.amount) || 0;
-                  totalDonationSum += amt;
-                  const dateStr = d.createdAt || (d as any).currentDate || "";
-                  if (dateStr) {
-                    const monthIdx = new Date(dateStr).getMonth();
-                    const monthName = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][monthIdx];
-                    if (monthlyTotals[monthName] !== undefined) {
-                      monthlyTotals[monthName] += amt;
-                    }
-                  }
-                });
+                const currentTotal = donations.filter(d => !d.deleted).reduce((acc, curr) => acc + (Number(curr.amount) || 0), 0) || totalRaised || 0;
 
-                const currentTotal = totalDonationSum || totalRaised || 0;
-                const monthValues = [
-                  monthlyTotals["Jan"] || 0,
-                  monthlyTotals["Mar"] || 0,
-                  monthlyTotals["May"] || 0,
-                  monthlyTotals["Jul"] || totalDonationSum,
-                  monthlyTotals["Sep"] || 0,
-                  monthlyTotals["Nov"] || 0,
-                ];
-
-                const maxVal = Math.max(...monthValues, 1000);
-                const coords = monthValues.map((val, i) => {
-                  const x = 40 + i * 144;
-                  const y = 170 - (val / maxVal) * 130;
-                  return { month: months[i], amount: val, x, y: Math.round(y) };
-                });
-
-                const primaryPath = `M${coords[0].x},${coords[0].y} Q${coords[1].x},${coords[1].y} ${coords[2].x},${coords[2].y} T${coords[3].x},${coords[3].y} T${coords[4].x},${coords[4].y} T${coords[5].x},${coords[5].y}`;
-                const secondaryPath = `M${coords[0].x},${coords[0].y + 10} Q${coords[1].x},${coords[1].y + 10} ${coords[2].x},${coords[2].y + 10} T${coords[3].x},${coords[3].y + 10} T${coords[4].x},${coords[4].y + 10} T${coords[5].x},${coords[5].y + 10}`;
-
-                // ── PURE REAL VOLUNTEER COUNTS (NO FAKE OFFSETS) ──
-                const daysOrder = ["M", "T", "W", "T", "F"];
-                const dayCounts = [0, 0, 0, 0, 0];
-                
-                volunteers.forEach(v => {
-                  const dateStr = v.createdAt || v.currentDate;
-                  if (dateStr) {
-                    const d = new Date(dateStr).getDay();
-                    const mapIdx = [0, 0, 1, 2, 3, 4, 0][d];
-                    dayCounts[mapIdx]++;
+                // Dynamic Multi-Metric Growth Analytics Computation
+                const dynamicGrowthData = (() => {
+                  const now = new Date();
+                  let activeList: any[] = [];
+                  if (selectedGrowthMetric === 'volunteers') {
+                    activeList = volunteers.filter(v => !v.deleted);
+                  } else if (selectedGrowthMetric === 'internships') {
+                    activeList = internships.filter(i => !i.deleted);
                   } else {
-                    dayCounts[0]++;
+                    activeList = donations.filter(d => !d.deleted);
                   }
-                });
 
-                const maxDayCount = Math.max(...dayCounts, 1);
-                const weeklyVolunteers = daysOrder.map((day, idx) => {
-                  const count = dayCounts[idx];
-                  const heightPercent = count > 0 ? Math.max(Math.round((count / maxDayCount) * 100), 22) : 6;
-                  return { day, count, height: `${heightPercent}%` };
-                });
+                  if (selectedGrowthTimeframe === 'weekly') {
+                    const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+                    const result: Array<{ label: string; subLabel: string; value: number; formattedValue: string }> = [];
+                    for (let i = 6; i >= 0; i--) {
+                      const d = new Date(now);
+                      d.setDate(d.getDate() - i);
+                      const dayLabel = dayNames[d.getDay()];
+                      const dateStr = d.toISOString().slice(0, 10);
+                      
+                      let sum = 0;
+                      activeList.forEach(item => {
+                        const itemDate = item.createdAt ? new Date(item.createdAt).toISOString().slice(0, 10) : '';
+                        if (itemDate === dateStr) {
+                          sum += selectedGrowthMetric === 'donations' ? (Number(item.amount) || 0) : 1;
+                        }
+                      });
+
+                      result.push({
+                        label: dayLabel,
+                        subLabel: `${d.getDate()}/${d.getMonth() + 1}`,
+                        value: sum,
+                        formattedValue: selectedGrowthMetric === 'donations' ? `₹${sum.toLocaleString("en-IN")}` : `${sum}`
+                      });
+                    }
+                    return result;
+                  } else if (selectedGrowthTimeframe === 'monthly') {
+                    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                    const currentYear = now.getFullYear();
+                    const result: Array<{ label: string; subLabel: string; value: number; formattedValue: string }> = [];
+
+                    monthNames.forEach((mName, mIdx) => {
+                      let sum = 0;
+                      activeList.forEach(item => {
+                        if (item.createdAt) {
+                          const itemDate = new Date(item.createdAt);
+                          if (itemDate.getFullYear() === currentYear && itemDate.getMonth() === mIdx) {
+                            sum += selectedGrowthMetric === 'donations' ? (Number(item.amount) || 0) : 1;
+                          }
+                        }
+                      });
+
+                      result.push({
+                        label: mName,
+                        subLabel: `${currentYear}`,
+                        value: sum,
+                        formattedValue: selectedGrowthMetric === 'donations' ? `₹${sum.toLocaleString("en-IN")}` : `${sum}`
+                      });
+                    });
+                    return result;
+                  } else {
+                    const currentYear = now.getFullYear();
+                    const startYear = currentYear - 3;
+                    const result: Array<{ label: string; subLabel: string; value: number; formattedValue: string }> = [];
+
+                    for (let yr = startYear; yr <= currentYear; yr++) {
+                      let sum = 0;
+                      activeList.forEach(item => {
+                        if (item.createdAt) {
+                          const itemDate = new Date(item.createdAt);
+                          if (itemDate.getFullYear() === yr) {
+                            sum += selectedGrowthMetric === 'donations' ? (Number(item.amount) || 0) : 1;
+                          }
+                        }
+                      });
+
+                      result.push({
+                        label: `${yr}`,
+                        subLabel: 'Year',
+                        value: sum,
+                        formattedValue: selectedGrowthMetric === 'donations' ? `₹${sum.toLocaleString("en-IN")}` : `${sum}`
+                      });
+                    }
+                    return result;
+                  }
+                })();
+
+                const maxGrowthValue = Math.max(...dynamicGrowthData.map(d => d.value), 0) || 1;
+                const totalGrowthPeriodSum = dynamicGrowthData.reduce((acc, curr) => acc + curr.value, 0);
+
+                // Compute SVG line graph coordinates for Donation growth
+                const lineCoords = (() => {
+                  if (dynamicGrowthData.length === 0) return [];
+                  const paddingX = 40;
+                  const usableW = 800 - paddingX * 2;
+                  const stepX = dynamicGrowthData.length > 1 ? usableW / (dynamicGrowthData.length - 1) : usableW;
+                  return dynamicGrowthData.map((item, i) => {
+                    const x = Math.round(paddingX + i * stepX);
+                    const y = Math.round(165 - (item.value / maxGrowthValue) * 125);
+                    return { ...item, x, y };
+                  });
+                })();
+
+                let linePathString = "";
+                if (lineCoords.length > 0) {
+                  linePathString = `M ${lineCoords[0].x} ${lineCoords[0].y}`;
+                  for (let i = 1; i < lineCoords.length; i++) {
+                    const prev = lineCoords[i - 1];
+                    const curr = lineCoords[i];
+                    const cpX = (prev.x + curr.x) / 2;
+                    linePathString += ` C ${cpX} ${prev.y}, ${cpX} ${curr.y}, ${curr.x} ${curr.y}`;
+                  }
+                }
 
                 const totalVolCount = volunteers.length;
                 const cityCounts: Record<string, number> = {};
@@ -3063,9 +3247,6 @@ export const AdminDashboard: React.FC = () => {
                   const c = v.city || "Indore";
                   cityCounts[c] = (cityCounts[c] || 0) + 1;
                 });
-                
-                const saturationPercent = totalVolCount > 0 ? Math.min(Math.round((totalVolCount / 50) * 100), 100) : 0;
-                const radialDashOffset = Math.round(283 - (283 * saturationPercent) / 100);
 
                 const topCitiesList = Object.keys(cityCounts).length > 0 
                   ? Object.entries(cityCounts).map(([city, count]) => ({
@@ -3078,43 +3259,43 @@ export const AdminDashboard: React.FC = () => {
                   : [
                       { name: "Indore Hub", count: 0, rate: "0%", status: "Offline", color: "#8a6822" },
                       { name: "Jabalpur Hub", count: 0, rate: "0%", status: "Offline", color: "#8a6822" },
-                      { name: "Delhi NCR", count: 0, rate: "0%", status: "Offline", color: "#8a6822" },
+                      { name: "Bhopal Hub", count: 0, rate: "0%", status: "Offline", color: "#8a6822" }
                     ];
 
                 return (
-                  <motion.div key="overview" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                    {/* Floating Particles in Background */}
-                    <div className="doodle-particle" style={{ top: "10px", right: "20%", color: "#C5A059" }}><Sparkles size={28} /></div>
-                    <div className="doodle-particle" style={{ bottom: "80px", right: "5%", color: "#2A3D3D" }}><Shield size={32} /></div>
-
-                    {/* Hero Stats Bento Grid */}
-                    <div className="kpi-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "1.25rem", marginBottom: "1.75rem" }}>
-                      <div className="kpi-card hover-tilt">
-                        <div className="kpi-icon-box" style={{ backgroundColor: "rgba(197,160,89,0.15)", color: "#8a6822" }}><DollarSign size={20} /></div>
-                        <div className="kpi-details">
-                          <span className="kpi-label">Total Donations</span>
-                          <span className="kpi-value">₹{currentTotal.toLocaleString("en-IN")}</span>
-                          <span style={{ fontSize: "0.72rem", color: "#2AA527", fontWeight: 700, display: "flex", alignItems: "center", gap: "3px", marginTop: "3px" }}>
-                            <TrendingUp size={12} /> {donations.length} Real Donations
-                          </span>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "1.75rem" }}>
+                    {/* Top KPI Metric Cards */}
+                    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "1.25rem" }}>
+                      <div className="sketchy-card hover-tilt" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "1.25rem 1.5rem" }}>
+                        <div>
+                          <span className="kpi-label">Volunteers</span>
+                          <h3 className="section-heading" style={{ fontSize: "1.8rem", margin: "4px 0", color: "#0f172a" }}>{volunteers.filter(v => !v.deleted).length}</h3>
+                          <p style={{ fontSize: "0.75rem", color: "#2AA527", margin: 0, fontWeight: 700 }}>● Active Members</p>
+                        </div>
+                        <div style={{ color: "var(--color-primary)" }}>
+                          <Users size={38} />
                         </div>
                       </div>
 
-                      <div className="kpi-card hover-tilt">
-                        <div className="kpi-icon-box" style={{ backgroundColor: "rgba(30,45,45,0.12)", color: "#1E2D2D" }}><Users size={20} /></div>
-                        <div className="kpi-details">
-                          <span className="kpi-label">Active Volunteers</span>
-                          <span className="kpi-value">{totalVolCount}</span>
-                          <span style={{ fontSize: "0.72rem", color: "#4E73B7", fontWeight: 700, marginTop: "3px", display: "block" }}>{totalVolCount === 1 ? "1 Real Submission" : `${totalVolCount} Real Submissions`}</span>
+                      <div className="sketchy-card hover-tilt" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "1.25rem 1.5rem" }}>
+                        <div>
+                          <span className="kpi-label">Internships</span>
+                          <h3 className="section-heading" style={{ fontSize: "1.8rem", margin: "4px 0", color: "#0f172a" }}>{internships.filter(i => !i.deleted).length}</h3>
+                          <p style={{ fontSize: "0.75rem", color: "var(--color-primary)", margin: 0, fontWeight: 700 }}>● Active Applicants</p>
+                        </div>
+                        <div style={{ color: "var(--color-primary)" }}>
+                          <GraduationCap size={38} />
                         </div>
                       </div>
 
-                      <div className="kpi-card hover-tilt">
-                        <div className="kpi-icon-box" style={{ backgroundColor: "rgba(42,165,39,0.12)", color: "#1b7a19" }}><Eye size={20} /></div>
-                        <div className="kpi-details">
-                          <span className="kpi-label">Total Visitors</span>
-                          <span className="kpi-value">{visitorAnalytics.visitors}</span>
-                          <span style={{ fontSize: "0.72rem", color: "#2AA527", fontWeight: 700, marginTop: "3px", display: "block" }}>{visitorAnalytics.reach} Unique Reach</span>
+                      <div className="sketchy-card hover-tilt" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "1.25rem 1.5rem" }}>
+                        <div>
+                          <span className="kpi-label">Total Contributions</span>
+                          <h3 className="section-heading" style={{ fontSize: "1.8rem", margin: "4px 0", color: "#2AA527" }}>₹{currentTotal.toLocaleString("en-IN")}</h3>
+                          <p style={{ fontSize: "0.75rem", color: "#2AA527", margin: 0, fontWeight: 700 }}>● Immutable Ledger</p>
+                        </div>
+                        <div style={{ color: "#2AA527" }}>
+                          <Award size={38} />
                         </div>
                       </div>
 
@@ -3130,174 +3311,16 @@ export const AdminDashboard: React.FC = () => {
                       </div>
                     </div>
 
-                    {/* Section 1: Animated Donation Trends Line Chart & Global Reach Radial Chart */}
-                    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))", gap: "1.5rem", marginBottom: "1.75rem" }}>
-                      
-                      {/* Donation Trends: Interactive Animated Line Chart */}
-                      <div className="glass-card hover-tilt stagger-item stagger-1" style={{ display: "flex", flexDirection: "column", position: "relative" }}>
-                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "1.25rem" }}>
-                          <div>
-                            <h3 className="section-heading" style={{ margin: "0 0 4px", fontSize: "1.2rem", color: "#0f172a" }}>Donation Trends</h3>
-                            <p style={{ fontSize: "0.78rem", color: "#334155", margin: 0, fontWeight: 500 }}>Hover near graph line for exact monthly amounts</p>
-                          </div>
-                          <div style={{ textAlign: "right" }}>
-                            <div style={{ fontFamily: "var(--font-display)", fontSize: "1.3rem", fontWeight: 800, color: "#2AA527" }}>
-                              ₹{(hoveredGraphPoint ? hoveredGraphPoint.amount : currentTotal).toLocaleString("en-IN")}
-                            </div>
-                            <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.62rem", color: "#334155", fontWeight: 700, textTransform: "uppercase" }}>
-                              {hoveredGraphPoint ? `${hoveredGraphPoint.month} Selected` : "Real-time Total"}
-                            </div>
-                          </div>
-                        </div>
+                    {/* Analytics: donations / volunteers / internships over time.
+                        Derived from the live-subscription state already held above,
+                        so this adds no additional database reads. */}
+                    <AnalyticsCharts
+                      donations={donations}
+                      volunteers={volunteers}
+                      internships={internships}
+                    />
 
-                        {/* Interactive SVG Line Graph Driven by Real Data & Cursor Tracking */}
-                        <div style={{ position: "relative", height: "180px", width: "100%", marginTop: "auto" }}>
-                          <svg
-                            viewBox="0 0 800 200"
-                            style={{ width: "100%", height: "100%", overflow: "visible" }}
-                            onMouseMove={(e) => {
-                              const rect = e.currentTarget.getBoundingClientRect();
-                              const mouseX = e.clientX - rect.left;
-                              const svgX = (mouseX / rect.width) * 800;
-                              let closest = coords[0];
-                              let minDistance = Math.abs(svgX - coords[0].x);
-                              for (let i = 1; i < coords.length; i++) {
-                                const dist = Math.abs(svgX - coords[i].x);
-                                if (dist < minDistance) {
-                                  minDistance = dist;
-                                  closest = coords[i];
-                                }
-                              }
-                              if (minDistance < 130) {
-                                setHoveredGraphPoint(closest);
-                              } else {
-                                setHoveredGraphPoint(null);
-                              }
-                            }}
-                            onMouseLeave={() => setHoveredGraphPoint(null)}
-                          >
-                            <path d="M40,20 L40,180" stroke="rgba(208,197,175,0.4)" strokeDasharray="4 4" strokeWidth="2" />
-                            <path d="M40,180 L780,180" stroke="rgba(208,197,175,0.4)" strokeDasharray="4 4" strokeWidth="2" />
-                            
-                            {/* Primary Animated Line Path */}
-                            <path className="animate-draw" d={primaryPath} fill="none" stroke="#C5A059" strokeWidth="4" strokeLinecap="round" />
-                            
-                            {/* Secondary Dashed Line Path */}
-                            <path className="animate-draw" d={secondaryPath} fill="none" stroke="#2A3D3D" strokeWidth="2" strokeDasharray="8 4" opacity="0.45" style={{ animationDelay: "0.4s" }} />
-
-                            {/* Vertical Guideline on Hover */}
-                            {hoveredGraphPoint && (
-                              <line
-                                x1={hoveredGraphPoint.x}
-                                y1="15"
-                                x2={hoveredGraphPoint.x}
-                                y2="185"
-                                stroke="#C5A059"
-                                strokeDasharray="4 4"
-                                strokeWidth="2"
-                              />
-                            )}
-
-                            {/* Interactive Data Nodes */}
-                            {coords.map((pt, i) => {
-                              const isHovered = hoveredGraphPoint?.month === pt.month;
-                              return (
-                                <g key={i} onMouseEnter={() => setHoveredGraphPoint(pt)} style={{ cursor: "pointer" }}>
-                                  <circle
-                                    cx={pt.x}
-                                    cy={pt.y}
-                                    r={isHovered ? "9" : "5"}
-                                    fill={isHovered ? "#ffe088" : "#C5A059"}
-                                    stroke="#1E2D2D"
-                                    strokeWidth={isHovered ? "3.5" : "2"}
-                                    style={{ transition: "all 0.2s ease" }}
-                                  />
-                                  {/* Hit area for smooth proximity hover */}
-                                  <circle cx={pt.x} cy={pt.y} r="35" fill="transparent" />
-                                </g>
-                              );
-                            })}
-
-                            {!hoveredGraphPoint && (
-                              <circle cx={coords[coords.length - 1].x} cy={coords[coords.length - 1].y} r="7" fill="#C5A059" className="secure-pulse" />
-                            )}
-                          </svg>
-
-                          {/* Floating Glassmorphism Tooltip Popover */}
-                          {hoveredGraphPoint && (
-                            <div
-                              style={{
-                                position: "absolute",
-                                left: `${(hoveredGraphPoint.x / 800) * 100}%`,
-                                top: `${(hoveredGraphPoint.y / 200) * 100}%`,
-                                transform: "translate(-50%, -125%)",
-                                background: "#1E2D2D",
-                                color: "#ffffff",
-                                border: "1.5px solid #C5A059",
-                                padding: "0.55rem 0.95rem",
-                                borderRadius: "12px",
-                                boxShadow: "0 12px 28px rgba(0,0,0,0.35)",
-                                zIndex: 40,
-                                pointerEvents: "none",
-                                whiteSpace: "nowrap",
-                                animation: "slideUpFade 0.2s ease-out"
-                              }}
-                            >
-                              <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.65rem", color: "#ffe088", textTransform: "uppercase", fontWeight: 700 }}>
-                                {hoveredGraphPoint.month} Total
-                              </div>
-                              <div style={{ fontFamily: "var(--font-display)", fontSize: "1.15rem", fontWeight: 800, color: "#ffffff", margin: "2px 0" }}>
-                                ₹{hoveredGraphPoint.amount.toLocaleString("en-IN")}
-                              </div>
-                              <div style={{ fontSize: "0.65rem", color: "#2AA527", fontWeight: 800, display: "flex", alignItems: "center", gap: "4px" }}>
-                                ● Real Data Node
-                              </div>
-                            </div>
-                          )}
-
-                          <div style={{ display: "flex", justifyContent: "space-between", paddingInline: "1.5rem", fontFamily: "var(--font-mono)", fontSize: "0.65rem", color: "#334155", fontWeight: 700, textTransform: "uppercase", marginTop: "4px" }}>
-                            {months.map((m, i) => (
-                              <span
-                                key={i}
-                                style={{
-                                  color: hoveredGraphPoint?.month === m ? "#C5A059" : "#334155",
-                                  fontWeight: hoveredGraphPoint?.month === m ? 800 : 700,
-                                  transition: "color 0.2s ease"
-                                }}
-                              >
-                                {m}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Global Reach Radial Progress Chart Driven by Real Data */}
-                      <div className="glass-card hover-tilt stagger-item stagger-2" style={{ background: "#1B2929", color: "#ffffff", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", position: "relative" }}>
-                        <div style={{ textAlign: "center", marginBottom: "1rem" }}>
-                          <h3 className="section-heading" style={{ color: "#ffe088", margin: "0 0 4px", fontSize: "1.2rem" }}>Global Reach</h3>
-                          <p style={{ fontSize: "0.78rem", color: "rgba(253,251,247,0.92)", margin: 0, fontWeight: 500 }}>Network Hub Saturation ({totalVolCount} Members)</p>
-                        </div>
-
-                        <div style={{ position: "relative", width: "160px", height: "160px" }}>
-                          <svg viewBox="0 0 100 100" style={{ width: "100%", height: "100%" }}>
-                            <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="8" />
-                            <circle className="radial-chart-progress" cx="50" cy="50" r="45" fill="none" stroke="#ffe088" strokeWidth="8" strokeDasharray="283" strokeDashoffset={radialDashOffset} strokeLinecap="round" transform="rotate(-90 50 50)" />
-                          </svg>
-                          <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-                            <span style={{ fontFamily: "var(--font-display)", fontSize: "2.2rem", fontWeight: 800, color: "#ffe088" }}>{saturationPercent}%</span>
-                            <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.62rem", textTransform: "uppercase", letterSpacing: "0.1em", color: "#ffffff", fontWeight: 700 }}>Saturation</span>
-                          </div>
-                        </div>
-
-                        <div style={{ display: "flex", gap: "1.5rem", marginTop: "1rem", fontFamily: "var(--font-mono)", fontSize: "0.72rem", color: "#ffffff" }}>
-                          <div style={{ display: "flex", alignItems: "center", gap: "6px" }}><span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#ffe088" }} /> Active ({topCitiesList.length} Hubs)</div>
-                          <div style={{ display: "flex", alignItems: "center", gap: "6px" }}><span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "rgba(255,255,255,0.5)" }} /> Pipeline</div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Section 2: Live Feed & Volunteer Growth */}
+                    {/* Section 2: Live Feed & Interactive Dynamic Growth Analytics */}
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))", gap: "1.5rem", marginBottom: "1.75rem" }}>
                       
                       {/* Live Feed / Recent Activity Driven by Real Submissions */}
@@ -3346,35 +3369,195 @@ export const AdminDashboard: React.FC = () => {
                         </div>
                       </div>
 
-                      {/* PURE REAL Volunteer Growth Bar Chart Driven by Real Counts (No offsets) */}
+                      {/* DYNAMIC MULTI-METRIC GROWTH ANALYTICS (LINE GRAPH FOR DONATION, BAR GRAPH FOR VOLUNTEER & INTERNSHIP) */}
                       <div className="glass-card hover-tilt stagger-item stagger-4" style={{ display: "flex", flexDirection: "column" }}>
-                        <div style={{ marginBottom: "1.25rem" }}>
-                          <h3 className="section-heading" style={{ margin: "0 0 4px", fontSize: "1.1rem", color: "#0f172a" }}>Volunteer Growth</h3>
-                          <p style={{ fontSize: "0.78rem", color: "#334155", margin: 0, fontWeight: 500 }}>Real weekly recruitment snapshot ({totalVolCount} total)</p>
-                        </div>
-
-                        <div style={{ flex: 1, display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: "0.875rem", paddingInline: "0.5rem", minHeight: "130px" }}>
-                          {weeklyVolunteers.map((item, i) => (
-                            <div key={i} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: "6px", height: "100%", justifyContent: "flex-end" }}>
-                              <div className="bar-grow" style={{ width: "100%", height: item.height, background: item.count > 0 ? "var(--adm-muted-gold)" : "rgba(197,160,89,0.2)", borderRadius: "10px 10px 0 0", position: "relative", animationDelay: `${0.1 * i}s` }}>
-                                <span style={{ position: "absolute", top: "-22px", left: "50%", transform: "translateX(-50%)", fontSize: "0.68rem", fontWeight: 800, color: "#0f172a", fontFamily: "var(--font-mono)" }}>{item.count}</span>
-                              </div>
-                              <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.7rem", fontWeight: 700, color: "#0f172a" }}>{item.day}</span>
-                            </div>
-                          ))}
-                        </div>
-
-                        <div style={{ marginTop: "1.25rem", padding: "0.75rem 1rem", background: "rgba(197,160,89,0.16)", border: "1px dashed rgba(197,160,89,0.45)", borderRadius: "14px", display: "flex", alignItems: "center", gap: "10px" }}>
-                          <TrendingUp size={20} style={{ color: "#8a6822" }} />
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "0.75rem", marginBottom: "1rem" }}>
                           <div>
-                            <p style={{ margin: 0, fontSize: "0.825rem", fontWeight: 800, color: "#0f172a" }}>{totalVolCount} Total Registered Volunteer{totalVolCount === 1 ? "" : "s"}</p>
-                            <p style={{ margin: 0, fontSize: "0.7rem", color: "#334155", fontWeight: 600 }}>Pure real database record counts</p>
+                            <h3 className="section-heading" style={{ margin: "0 0 4px", fontSize: "1.15rem", color: "#0f172a", display: "flex", alignItems: "center", gap: "6px" }}>
+                              <TrendingUp size={18} style={{ color: "var(--color-primary)" }} /> Growth Analytics
+                            </h3>
+                            <p style={{ fontSize: "0.75rem", color: "#334155", margin: 0, fontWeight: 500 }}>
+                              {selectedGrowthMetric === 'donations' ? 'Line Graph Visualization' : 'Bar Graph Visualization'}
+                            </p>
                           </div>
+
+                          {/* Dropdown Select Controls */}
+                          <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+                            {/* Metric Select */}
+                            <select
+                              value={selectedGrowthMetric}
+                              onChange={(e) => setSelectedGrowthMetric(e.target.value as any)}
+                              className="form-select"
+                              style={{ fontSize: "0.78rem", padding: "0.35rem 0.65rem", borderRadius: "8px", fontWeight: 700, borderColor: "var(--color-border-light)", color: "var(--color-primary)", backgroundColor: "#ffffff" }}
+                            >
+                              <option value="donations">💰 Donation Growth (Line Graph)</option>
+                              <option value="volunteers">👥 Volunteer Growth (Bar Graph)</option>
+                              <option value="internships">🎓 Internship Growth (Bar Graph)</option>
+                            </select>
+
+                            {/* Timeframe Select */}
+                            <select
+                              value={selectedGrowthTimeframe}
+                              onChange={(e) => setSelectedGrowthTimeframe(e.target.value as any)}
+                              className="form-select"
+                              style={{ fontSize: "0.78rem", padding: "0.35rem 0.65rem", borderRadius: "8px", fontWeight: 700, borderColor: "var(--color-border-light)", color: "var(--color-text-dark)", backgroundColor: "#ffffff" }}
+                            >
+                              <option value="weekly">📅 Weekly (7 Days)</option>
+                              <option value="monthly">🗓️ Monthly (12 Months)</option>
+                              <option value="yearly">🏆 Yearly Growth</option>
+                            </select>
+                          </div>
+                        </div>
+
+                        {/* GRAPH BODY AREA */}
+                        {selectedGrowthMetric === 'donations' ? (
+                          /* === LINE GRAPH FOR DONATIONS === */
+                          <div style={{ position: "relative", height: "170px", width: "100%", marginTop: "0.5rem" }}>
+                            <svg
+                              viewBox="0 0 800 200"
+                              style={{ width: "100%", height: "100%", overflow: "visible" }}
+                              onMouseMove={(e) => {
+                                const rect = e.currentTarget.getBoundingClientRect();
+                                const mouseX = e.clientX - rect.left;
+                                const svgX = (mouseX / rect.width) * 800;
+                                let closest = lineCoords[0];
+                                let minDistance = Math.abs(svgX - (lineCoords[0]?.x || 0));
+                                for (let i = 1; i < lineCoords.length; i++) {
+                                  const dist = Math.abs(svgX - lineCoords[i].x);
+                                  if (dist < minDistance) {
+                                    minDistance = dist;
+                                    closest = lineCoords[i];
+                                  }
+                                }
+                                if (minDistance < 100) setHoveredLinePoint(closest);
+                                else setHoveredLinePoint(null);
+                              }}
+                              onMouseLeave={() => setHoveredLinePoint(null)}
+                            >
+                              {/* Grid lines */}
+                              <line x1="40" y1="20" x2="40" y2="180" stroke="rgba(208,197,175,0.4)" strokeDasharray="4 4" strokeWidth="2" />
+                              <line x1="40" y1="180" x2="760" y2="180" stroke="rgba(208,197,175,0.4)" strokeDasharray="4 4" strokeWidth="2" />
+                              
+                              {/* Primary Line Path */}
+                              {linePathString && (
+                                <path d={linePathString} fill="none" stroke="#2AA527" strokeWidth="4" strokeLinecap="round" />
+                              )}
+
+                              {/* Hover Vertical Guideline */}
+                              {hoveredLinePoint && (
+                                <line x1={hoveredLinePoint.x} y1="15" x2={hoveredLinePoint.x} y2="185" stroke="#2AA527" strokeDasharray="4 4" strokeWidth="2" />
+                              )}
+
+                              {/* Interactive Data Nodes */}
+                              {lineCoords.map((pt, i) => {
+                                const isHovered = hoveredLinePoint?.label === pt.label;
+                                return (
+                                  <g key={i} onMouseEnter={() => setHoveredLinePoint(pt)} style={{ cursor: "pointer" }}>
+                                    <circle
+                                      cx={pt.x}
+                                      cy={pt.y}
+                                      r={isHovered ? "8" : "5"}
+                                      fill={isHovered ? "#2AA527" : "#1E2D2D"}
+                                      stroke="#2AA527"
+                                      strokeWidth={isHovered ? "3.5" : "2"}
+                                      style={{ transition: "all 0.2s ease" }}
+                                    />
+                                    <circle cx={pt.x} cy={pt.y} r="25" fill="transparent" />
+                                  </g>
+                                );
+                              })}
+                            </svg>
+
+                            {/* Floating Glassmorphism Tooltip */}
+                            {hoveredLinePoint && (
+                              <div
+                                style={{
+                                  position: "absolute",
+                                  left: `${(hoveredLinePoint.x / 800) * 100}%`,
+                                  top: `${(hoveredLinePoint.y / 200) * 100}%`,
+                                  transform: "translate(-50%, -130%)",
+                                  background: "#1E2D2D",
+                                  color: "#ffffff",
+                                  border: "1.5px solid #2AA527",
+                                  padding: "0.45rem 0.8rem",
+                                  borderRadius: "10px",
+                                  boxShadow: "0 10px 25px rgba(0,0,0,0.35)",
+                                  zIndex: 40,
+                                  pointerEvents: "none",
+                                  whiteSpace: "nowrap"
+                                }}
+                              >
+                                <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.62rem", color: "#ffe088", fontWeight: 700 }}>
+                                  {hoveredLinePoint.label} ({hoveredLinePoint.subLabel})
+                                </div>
+                                <div style={{ fontFamily: "var(--font-display)", fontSize: "1.05rem", fontWeight: 800, color: "#2AA527" }}>
+                                  {hoveredLinePoint.formattedValue}
+                                </div>
+                              </div>
+                            )}
+
+                            {/* X-Axis Date Labels */}
+                            <div style={{ display: "flex", justifyContent: "space-between", paddingInline: "1.5rem", fontFamily: "var(--font-mono)", fontSize: selectedGrowthTimeframe === 'monthly' ? "0.6rem" : "0.68rem", color: "#334155", fontWeight: 700, marginTop: "4px" }}>
+                              {lineCoords.map((pt, i) => (
+                                <span key={i} style={{ color: hoveredLinePoint?.label === pt.label ? "#2AA527" : "#334155", fontWeight: hoveredLinePoint?.label === pt.label ? 800 : 700 }}>
+                                  {pt.label}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        ) : (
+                          /* === BAR GRAPH FOR VOLUNTEERS AND INTERNSHIPS === */
+                          <div style={{ flex: 1, display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: selectedGrowthTimeframe === 'monthly' ? "0.3rem" : "0.85rem", paddingInline: "0.25rem", minHeight: "140px" }}>
+                            {dynamicGrowthData.map((item, i) => {
+                              const heightPercent = item.value > 0 ? Math.max(Math.round((item.value / maxGrowthValue) * 100), 18) : 6;
+                              const barColor = selectedGrowthMetric === 'volunteers' ? 'var(--adm-muted-gold)' : 'var(--color-primary)';
+                              return (
+                                <div key={i} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: "4px", height: "100%", justifyContent: "flex-end" }}>
+                                  <div 
+                                    className="bar-grow" 
+                                    style={{ 
+                                      width: "100%", 
+                                      height: `${heightPercent}%`, 
+                                      background: item.value > 0 ? barColor : 'rgba(208,197,175,0.25)', 
+                                      borderRadius: "8px 8px 0 0", 
+                                      position: "relative",
+                                      transition: "all 0.3s ease" 
+                                    }}
+                                  >
+                                    {item.value > 0 && (
+                                      <span style={{ position: "absolute", top: "-22px", left: "50%", transform: "translateX(-50%)", fontSize: selectedGrowthTimeframe === 'monthly' ? "0.58rem" : "0.68rem", fontWeight: 800, color: "#0f172a", fontFamily: "var(--font-mono)", whiteSpace: "nowrap" }}>
+                                        {item.formattedValue}
+                                      </span>
+                                    )}
+                                  </div>
+                                  <span style={{ fontFamily: "var(--font-mono)", fontSize: selectedGrowthTimeframe === 'monthly' ? "0.62rem" : "0.72rem", fontWeight: 700, color: "#0f172a" }}>
+                                    {item.label}
+                                  </span>
+                                  <span style={{ fontSize: "0.58rem", color: "#64748b", fontWeight: 500 }}>
+                                    {item.subLabel}
+                                  </span>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        )}
+
+                        {/* Footer Summary KPI */}
+                        <div style={{ marginTop: "1.25rem", padding: "0.75rem 1rem", background: "rgba(15, 76, 129, 0.04)", border: "1px dashed var(--color-border-light)", borderRadius: "12px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                          <div>
+                            <p style={{ margin: 0, fontSize: "0.72rem", color: "var(--color-text-muted)", fontWeight: 700, textTransform: "uppercase" }}>
+                              Total {selectedGrowthMetric.toUpperCase()} ({selectedGrowthTimeframe.toUpperCase()})
+                            </p>
+                            <p style={{ margin: "2px 0 0", fontSize: "1.1rem", fontWeight: 800, color: selectedGrowthMetric === 'donations' ? '#2AA527' : 'var(--color-primary)' }}>
+                              {selectedGrowthMetric === 'donations' ? `₹${totalGrowthPeriodSum.toLocaleString("en-IN")}` : `${totalGrowthPeriodSum} Record${totalGrowthPeriodSum === 1 ? '' : 's'}`}
+                            </p>
+                          </div>
+                          <span className="badge badge-green" style={{ fontSize: "0.72rem", padding: "4px 8px" }}>
+                            {selectedGrowthMetric === 'donations' ? '📈 LINE GRAPH' : '📊 BAR GRAPH'} ACTIVE
+                          </span>
                         </div>
                       </div>
                     </div>
-
-                    {/* Section 3: Bottom Asymmetric Section (City Hub Status & Security Monitor) */}
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))", gap: "1.5rem" }}>
                       
                       {/* City Hub Status Driven by Pure Real Data */}
@@ -3429,7 +3612,7 @@ export const AdminDashboard: React.FC = () => {
                         </div>
                       </div>
                     </div>
-                  </motion.div>
+                  </div>
                 );
               })()}
 
@@ -4120,7 +4303,10 @@ export const AdminDashboard: React.FC = () => {
               <motion.div key="volunteers" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="admin-table-card" id="volunteers-table">
                 <div style={{ padding: "1.5rem", borderBottom: "1px solid var(--color-border-light)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <h3 style={{ fontSize: "1.25rem", color: "var(--color-primary)" }}>Volunteer Applications</h3>
-                  <div style={{ display: "flex", gap: "0.5rem" }}>
+                  <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+                    <button onClick={() => { setExportReportType("volunteers"); setShowExportModal(true); }} className="btn btn-outline" style={{ borderColor: "var(--color-primary)", color: "var(--color-primary)", fontWeight: 700, display: "inline-flex", alignItems: "center", gap: "5px" }}>
+                      📅 Date-Filtered Export
+                    </button>
                     <button onClick={() => printTable("Volunteers", "volunteers-table")} className="btn btn-outline" style={{ display: "inline-flex", gap: "4px", alignItems: "center" }}><Printer size={13} /> Print</button>
                     <button onClick={() => exportToCSV(volunteers.map(v => ({
                       Name: v.name,
@@ -4152,6 +4338,7 @@ export const AdminDashboard: React.FC = () => {
                         <th>Select</th>
                         <th>Name &amp; City</th>
                         <th>Contact</th>
+                        <th>Submitted On</th>
                         <th>Status</th>
                         <th style={{ textAlign: "right" }}>Actions</th>
                       </tr>
@@ -4188,6 +4375,11 @@ export const AdminDashboard: React.FC = () => {
                               </div>
                             )}
                           </td>
+                          <td>
+                            <small style={{ fontWeight: 600, color: "var(--color-text-dark)" }}>
+                              {v.createdAt ? new Date(v.createdAt).toLocaleString("en-IN", { dateStyle: "short", timeStyle: "short" }) : "N/A"}
+                            </small>
+                          </td>
                           <td><span className={`status-badge status-${v.status}`}>{v.status}</span></td>
                           <td style={{ textAlign: "right" }}>
                             {hasWritePermission && (
@@ -4206,6 +4398,7 @@ export const AdminDashboard: React.FC = () => {
                           </td>
                         </tr>
                       ))}
+                      {volunteers.length === 0 && <tr><td colSpan={6} style={{ textAlign: "center", padding: "2rem", color: "var(--color-text-muted)" }}>No volunteer applications yet.</td></tr>}
                     </tbody>
                   </table>
                 </div>
@@ -4223,7 +4416,10 @@ export const AdminDashboard: React.FC = () => {
               <motion.div key="internships" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="admin-table-card">
                 <div style={{ padding: "1.5rem", borderBottom: "1px solid var(--color-border-light)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <h3 style={{ fontSize: "1.25rem", color: "var(--color-primary)" }}>Internship Applications</h3>
-                  <div style={{ display: "flex", gap: "0.5rem" }}>
+                  <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+                    <button onClick={() => { setExportReportType("internships"); setShowExportModal(true); }} className="btn btn-outline" style={{ borderColor: "var(--color-primary)", color: "var(--color-primary)", fontWeight: 700, display: "inline-flex", alignItems: "center", gap: "5px" }}>
+                      📅 Date-Filtered Export
+                    </button>
                     <button onClick={() => exportToCSV(internships.map(i => ({
                       Name: i.name,
                       Email: i.email,
@@ -4259,6 +4455,7 @@ export const AdminDashboard: React.FC = () => {
                         <th>Select</th>
                         <th>Applicant</th>
                         <th>College &amp; Dept</th>
+                        <th>Submitted On</th>
                         <th>Status</th>
                         <th style={{ textAlign: "right" }}>Actions</th>
                       </tr>
@@ -4295,6 +4492,11 @@ export const AdminDashboard: React.FC = () => {
                               </div>
                             )}
                           </td>
+                          <td>
+                            <small style={{ fontWeight: 600, color: "var(--color-text-dark)" }}>
+                              {v.createdAt ? new Date(v.createdAt).toLocaleString("en-IN", { dateStyle: "short", timeStyle: "short" }) : "N/A"}
+                            </small>
+                          </td>
                           <td><span className={`status-badge status-${v.status}`}>{v.status}</span></td>
                           <td style={{ textAlign: "right" }}>
                             {hasWritePermission && (
@@ -4313,6 +4515,7 @@ export const AdminDashboard: React.FC = () => {
                           </td>
                         </tr>
                       ))}
+                      {internships.length === 0 && <tr><td colSpan={6} style={{ textAlign: "center", padding: "2rem", color: "var(--color-text-muted)" }}>No internship applications yet.</td></tr>}
                     </tbody>
                   </table>
                 </div>
@@ -4331,6 +4534,9 @@ export const AdminDashboard: React.FC = () => {
                 <div style={{ padding: "1.5rem", borderBottom: "1px solid var(--color-border-light)", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem" }}>
                   <h3 style={{ fontSize: "1.25rem", color: "var(--color-primary)", margin: 0 }}>Donations Ledger</h3>
                   <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+                    <button onClick={() => { setExportReportType("donations"); setShowExportModal(true); }} className="btn btn-outline" style={{ borderColor: "var(--color-primary)", color: "var(--color-primary)", fontWeight: 700, display: "inline-flex", alignItems: "center", gap: "5px" }}>
+                      📅 Date-Filtered Export
+                    </button>
                     {hasWritePermission && (
                       <button onClick={() => setShowAddDonationModal(true)} className="btn btn-primary" style={{ fontSize: "0.8rem", padding: "0.4rem 0.8rem" }}>
                         + Add Manual Donation
@@ -4347,7 +4553,6 @@ export const AdminDashboard: React.FC = () => {
                       "Is Anonymous": d.isAnonymous ? "Yes" : "No"
                     })), "Donations")} className="btn btn-outline">Export CSV</button>
                     <button onClick={() => handleExportSelected("donation")} disabled={selectedIds.length === 0} className="btn btn-outline" style={{ opacity: selectedIds.length === 0 ? 0.5 : 1 }}>Export Selected ({selectedIds.length})</button>
-                    {hasWritePermission && <button onClick={() => handleBulkDelete("donation")} className="btn btn-outline" style={{ borderColor: "var(--color-secondary)", color: "var(--color-secondary)" }}>Bulk Delete</button>}
                   </div>
                 </div>
                 <div className="table-wrapper">
@@ -4359,7 +4564,7 @@ export const AdminDashboard: React.FC = () => {
                         <th>Purpose</th>
                         <th>Amount</th>
                         <th>Tx ID</th>
-                        <th>Date</th>
+                        <th>Submitted On</th>
                         <th style={{ textAlign: "right" }}>Actions</th>
                       </tr>
                     </thead>
@@ -4381,14 +4586,14 @@ export const AdminDashboard: React.FC = () => {
                           <td>{d.purpose}</td>
                           <td style={{ color: "var(--color-secondary)", fontWeight: 800 }}>₹{d.amount?.toLocaleString("en-IN")}</td>
                           <td><small style={{ fontFamily: "monospace", color: "var(--color-text-muted)" }}>{d.transactionId}</small></td>
-                          <td><small>{new Date(d.createdAt).toLocaleDateString("en-IN")}</small></td>
+                          <td><small style={{ fontWeight: 600, color: "var(--color-text-dark)" }}>{d.createdAt ? new Date(d.createdAt).toLocaleString("en-IN", { dateStyle: "short", timeStyle: "short" }) : "N/A"}</small></td>
                           <td style={{ textAlign: "right" }}>
                             <div style={{ display: "inline-flex", gap: "6px", alignItems: "center" }}>
                               <button onClick={() => handleToggleVisibility("donations", d)} className="btn btn-outline" style={{ padding: "2px 8px", fontSize: "0.72rem", color: d.hidden ? "#dc2626" : "#16a34a" }} title={d.hidden ? "Click to Show" : "Click to Hide"}>
                                 {d.hidden ? "Show" : "Hide"}
                               </button>
                               <button onClick={() => handleReprintReceipt(d)} className="btn-icon approve" title="Reprint receipt slip"><Printer size={14} /></button>
-                              {hasWritePermission && <button onClick={() => handleDeleteDonation(d.id)} className="btn-icon reject" title="Delete record"><Trash2 size={14} /></button>}
+                              <span title="Donation entries are permanent" style={{ opacity: 0.5, cursor: "not-allowed", padding: "2px 6px", fontSize: "0.7rem", color: "var(--color-text-muted)" }}>🔒 Retained</span>
                             </div>
                           </td>
                         </tr>
@@ -4433,6 +4638,7 @@ export const AdminDashboard: React.FC = () => {
                         <th>Select</th>
                         <th>Sender</th>
                         <th>Subject & Message</th>
+                        <th>Submitted On</th>
                         <th>Status</th>
                         <th style={{ textAlign: "right" }}>Actions</th>
                       </tr>
@@ -4463,6 +4669,11 @@ export const AdminDashboard: React.FC = () => {
                             )}
                           </td>
                           <td>
+                            <small style={{ fontWeight: 600, color: "var(--color-text-dark)" }}>
+                              {c.createdAt ? new Date(c.createdAt).toLocaleString("en-IN", { dateStyle: "short", timeStyle: "short" }) : "N/A"}
+                            </small>
+                          </td>
+                          <td>
                             <span className={`status-badge status-${c.status || "pending"}`}>{c.status || "pending"}</span>
                           </td>
                           <td style={{ textAlign: "right" }}>
@@ -4479,7 +4690,7 @@ export const AdminDashboard: React.FC = () => {
                         </tr>
                       ))}
                       {contactsList.length === 0 && (
-                        <tr><td colSpan={4} style={{ textAlign: "center", padding: "2rem", color: "var(--color-text-muted)" }}>No messages received yet. Messages submitted on the Contact page will appear here.</td></tr>
+                        <tr><td colSpan={6} style={{ textAlign: "center", padding: "2rem", color: "var(--color-text-muted)" }}>No messages received yet. Messages submitted on the Contact page will appear here.</td></tr>
                       )}
                     </tbody>
                   </table>
@@ -5037,7 +5248,14 @@ export const AdminDashboard: React.FC = () => {
                       </p>
                     </div>
 
-                    <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+                    <div style={{ display: "flex", gap: "10px", alignItems: "center", flexWrap: "wrap" }}>
+                      <button
+                        onClick={() => setShowAddSubscriberModal(true)}
+                        className="btn btn-outline"
+                        style={{ fontSize: "0.8rem", padding: "6px 14px", borderColor: "var(--color-primary)", color: "var(--color-primary)", fontWeight: 700, display: "inline-flex", alignItems: "center", gap: "5px" }}
+                      >
+                        + Add Subscriber
+                      </button>
                       <button
                         onClick={() => exportToCSV(newsletterSubscribers.map(s => ({ Email: s.email, Source: s.source || "Website Subscription", SubscribedDate: new Date(s.createdAt).toLocaleDateString() })), "day_newsletter_subscribers.csv")}
                         className="btn btn-outline"
@@ -5511,6 +5729,45 @@ export const AdminDashboard: React.FC = () => {
                 )}
               </div>
 
+              {/* Key History Milestone Dates Grid */}
+              <div style={{ backgroundColor: "rgba(15, 76, 129, 0.04)", borderRadius: "12px", padding: "1.25rem", border: "1px solid var(--color-border-light)", marginBottom: "1.5rem" }}>
+                <h4 style={{ fontSize: "0.85rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.05em", color: "var(--color-primary)", marginBottom: "0.85rem", display: "flex", alignItems: "center", gap: "6px" }}>
+                  📅 Key Milestone Dates & Status History
+                </h4>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "1rem" }}>
+                  <div style={{ backgroundColor: "#ffffff", padding: "0.75rem", borderRadius: "8px", border: "1px solid var(--color-border-light)" }}>
+                    <span style={{ fontSize: "0.72rem", color: "var(--color-text-muted)", display: "block", fontWeight: 600 }}>📝 SUBMITTED ON</span>
+                    <strong style={{ fontSize: "0.85rem", color: "var(--color-text-dark)" }}>
+                      {selectedSubmission.data.createdAt ? new Date(selectedSubmission.data.createdAt).toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" }) : "N/A"}
+                    </strong>
+                  </div>
+                  <div style={{ backgroundColor: "#ffffff", padding: "0.75rem", borderRadius: "8px", border: "1px solid var(--color-border-light)" }}>
+                    <span style={{ fontSize: "0.72rem", color: "var(--color-text-muted)", display: "block", fontWeight: 600 }}>✅ APPROVED ON</span>
+                    <strong style={{ fontSize: "0.85rem", color: selectedSubmission.data.approvedAt ? "#16a34a" : "var(--color-text-dark)" }}>
+                      {selectedSubmission.data.approvedAt 
+                        ? new Date(selectedSubmission.data.approvedAt).toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" }) 
+                        : (selectedSubmission.data.status === 'approved' ? "Approved (Legacy Record)" : "Pending")}
+                    </strong>
+                  </div>
+                  <div style={{ backgroundColor: "#ffffff", padding: "0.75rem", borderRadius: "8px", border: "1px solid var(--color-border-light)" }}>
+                    <span style={{ fontSize: "0.72rem", color: "var(--color-text-muted)", display: "block", fontWeight: 600 }}>❌ REJECTED ON</span>
+                    <strong style={{ fontSize: "0.85rem", color: selectedSubmission.data.rejectedAt ? "#dc2626" : "var(--color-text-dark)" }}>
+                      {selectedSubmission.data.rejectedAt 
+                        ? new Date(selectedSubmission.data.rejectedAt).toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" }) 
+                        : (selectedSubmission.data.status === 'rejected' ? "Rejected" : "N/A")}
+                    </strong>
+                  </div>
+                  <div style={{ backgroundColor: "#ffffff", padding: "0.75rem", borderRadius: "8px", border: "1px solid var(--color-border-light)" }}>
+                    <span style={{ fontSize: "0.72rem", color: "var(--color-text-muted)", display: "block", fontWeight: 600 }}>🆔 ALLOTTED ID DATE</span>
+                    <strong style={{ fontSize: "0.85rem", color: "var(--color-primary)" }}>
+                      {selectedSubmission.data.idAllottedAt 
+                        ? new Date(selectedSubmission.data.idAllottedAt).toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" }) 
+                        : (selectedSubmission.data.permanentInternshipId || selectedSubmission.data.permanentVolunteerId ? "ID Active" : "Not Allotted")}
+                    </strong>
+                  </div>
+                </div>
+              </div>
+
               {/* Textareas */}
               {selectedSubmission.data.motivation && (
                 <div style={{ marginBottom: "1.5rem" }}>
@@ -5539,32 +5796,84 @@ export const AdminDashboard: React.FC = () => {
                 </div>
               )}
 
-              {/* Remarks */}
-              {selectedSubmission.type !== 'donation' && (
-                <div style={{ borderTop: "1px solid var(--color-border-light)", paddingTop: "1.5rem", marginTop: "1.5rem" }}>
-                  <strong style={{ display: "block", marginBottom: "0.8rem" }}>Administrative Comments & History:</strong>
-                  
-                  {selectedSubmission.data.comments && selectedSubmission.data.comments.length > 0 ? (
-                    <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem", marginBottom: "1rem" }}>
-                      {selectedSubmission.data.comments.map((entry: any, index: number) => (
-                        <div key={index} style={{ padding: "0.8rem", backgroundColor: "rgba(15, 76, 129, 0.03)", borderLeft: "3px solid var(--color-primary)", borderRadius: "4px" }}>
-                          <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.75rem", color: "var(--color-text-muted)", marginBottom: "4px" }}>
-                            <span><strong>{entry.author || "Admin"}</strong></span>
-                            <span>{entry.date ? new Date(entry.date).toLocaleString() : ""}</span>
+              {/* Lifecycle & Event History Timeline */}
+              {selectedSubmission.type !== 'donation' && (() => {
+                const sub = selectedSubmission.data;
+                const events: Array<{ event: string; date: string; details?: string; by?: string }> = sub.history && sub.history.length > 0 ? [...sub.history] : [];
+
+                if (events.length === 0) {
+                  if (sub.createdAt) {
+                    events.push({
+                      event: "Application Submitted",
+                      date: sub.createdAt,
+                      details: `Submitted via online registration portal (Ticket: ${sub.ticketNo || sub.tempInternshipId || 'N/A'})`,
+                      by: "Applicant"
+                    });
+                  }
+                  if (sub.approvedAt || sub.status === 'approved') {
+                    events.push({
+                      event: "Application Approved",
+                      date: sub.approvedAt || sub.createdAt,
+                      details: `Status set to Approved. Permanent ID: ${sub.permanentInternshipId || sub.permanentVolunteerId || 'N/A'}`,
+                      by: "Admin"
+                    });
+                  }
+                  if (sub.rejectedAt || sub.status === 'rejected') {
+                    events.push({
+                      event: "Application Rejected",
+                      date: sub.rejectedAt || sub.createdAt,
+                      details: "Application status changed to Rejected",
+                      by: "Admin"
+                    });
+                  }
+                  if (sub.permanentInternshipId || sub.permanentVolunteerId) {
+                    events.push({
+                      event: "Permanent ID Allotted",
+                      date: sub.idAllottedAt || sub.approvedAt || sub.createdAt,
+                      details: `Assigned permanent ID: ${sub.permanentInternshipId || sub.permanentVolunteerId}`,
+                      by: "Admin"
+                    });
+                  }
+                  if (sub.comments && sub.comments.length > 0) {
+                    sub.comments.forEach((c: any) => {
+                      events.push({
+                        event: "Admin Comment Added",
+                        date: c.date || sub.createdAt,
+                        details: c.text,
+                        by: c.author || "Admin"
+                      });
+                    });
+                  }
+                }
+                
+                // Sort chronologically
+                events.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+                return (
+                  <div style={{ borderTop: "1px solid var(--color-border-light)", paddingTop: "1.5rem", marginTop: "1.5rem" }}>
+                    <strong style={{ display: "block", marginBottom: "1rem", fontSize: "1rem", color: "var(--color-primary)" }}>
+                      📜 Full Event & Audit History Timeline:
+                    </strong>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "0.85rem", position: "relative", paddingLeft: "1.25rem", borderLeft: "2px solid var(--color-primary-light)" }}>
+                      {events.map((item, idx) => (
+                        <div key={idx} style={{ position: "relative" }}>
+                          <div style={{ position: "absolute", left: "-1.6rem", top: "0.35rem", width: "10px", height: "10px", borderRadius: "50%", backgroundColor: "var(--color-primary)", border: "2px solid var(--color-bg-white)" }} />
+                          <div style={{ backgroundColor: "rgba(15, 76, 129, 0.03)", padding: "0.75rem 0.9rem", borderRadius: "6px", border: "1px solid var(--color-border-light)" }}>
+                            <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "0.5rem", marginBottom: "2px" }}>
+                              <strong style={{ fontSize: "0.85rem", color: "var(--color-primary)" }}>{item.event}</strong>
+                              <span style={{ fontSize: "0.75rem", color: "var(--color-text-muted)", fontWeight: 600 }}>
+                                {item.date ? new Date(item.date).toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" }) : "N/A"}
+                              </span>
+                            </div>
+                            {item.details && <p style={{ margin: "2px 0 0", fontSize: "0.82rem", color: "var(--color-text-dark)" }}>{item.details}</p>}
+                            {item.by && <span style={{ fontSize: "0.7rem", color: "var(--color-text-muted)", display: "block", marginTop: "3px" }}>By: {item.by}</span>}
                           </div>
-                          <p style={{ margin: 0, fontSize: "0.85rem", color: "var(--color-text-dark)", whiteSpace: "pre-line" }}>{entry.text}</p>
                         </div>
                       ))}
                     </div>
-                  ) : selectedSubmission.data.adminComment ? (
-                    <div style={{ padding: "1rem", backgroundColor: "rgba(15, 76, 129, 0.04)", borderLeft: "4px solid var(--color-primary)", borderRadius: "4px", fontSize: "0.875rem", fontStyle: "italic", color: "var(--color-text-dark)", marginBottom: "1rem" }}>
-                      💬 {selectedSubmission.data.adminComment}
-                    </div>
-                  ) : (
-                    <div style={{ fontSize: "0.875rem", color: "var(--color-text-muted)", marginBottom: "1rem" }}>No comments written yet.</div>
-                  )}
-                </div>
-              )}
+                  </div>
+                );
+              })()}
 
               {/* AI Response Drafting Assistant */}
               {hasWritePermission && selectedSubmission.type !== 'donation' && (
@@ -6039,6 +6348,123 @@ export const AdminDashboard: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* Date-to-Date CSV Report Export Modal */}
+      <AnimatePresence>
+        {showExportModal && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="modal-overlay" style={{ position: "fixed", inset: 0, backgroundColor: "rgba(11, 18, 31, 0.6)", backdropFilter: "blur(6px)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 99999, padding: "1.5rem" }} onClick={() => setShowExportModal(false)}>
+            <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }} className="premium-card" style={{ backgroundColor: "#ffffff", border: "1px solid var(--color-border-light)", maxWidth: "520px", width: "100%", padding: "1.75rem", borderRadius: "16px" }} onClick={(e) => e.stopPropagation()}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.25rem", borderBottom: "1px solid var(--color-border-light)", paddingBottom: "0.75rem" }}>
+                <h3 style={{ margin: 0, fontSize: "1.25rem", color: "var(--color-primary)", display: "flex", alignItems: "center", gap: "8px" }}>
+                  <Printer size={20} /> Date-to-Date CSV Export
+                </h3>
+                <button onClick={() => setShowExportModal(false)} className="btn-icon reject"><X size={16} /></button>
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: "1.1rem" }}>
+                <div className="form-group">
+                  <label className="form-label" style={{ fontWeight: 700, fontSize: "0.85rem", marginBottom: "6px", display: "block" }}>Select Report Category</label>
+                  <select
+                    value={exportReportType}
+                    onChange={(e) => setExportReportType(e.target.value as any)}
+                    className="form-select"
+                    style={{ width: "100%", padding: "0.55rem 0.75rem", borderRadius: "8px", border: "1px solid #cbd5e1" }}
+                  >
+                    <option value="donations">💰 Donations Ledger</option>
+                    <option value="volunteers">👥 Volunteer Applications</option>
+                    <option value="internships">🎓 Internship Applications</option>
+                  </select>
+                </div>
+
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+                  <div className="form-group">
+                    <label className="form-label" style={{ fontWeight: 700, fontSize: "0.85rem", marginBottom: "6px", display: "block" }}>Start Date (From)</label>
+                    <input
+                      type="date"
+                      value={exportStartDate}
+                      onChange={(e) => setExportStartDate(e.target.value)}
+                      className="form-input"
+                      style={{ width: "100%", padding: "0.55rem 0.75rem", borderRadius: "8px", border: "1px solid #cbd5e1" }}
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label" style={{ fontWeight: 700, fontSize: "0.85rem", marginBottom: "6px", display: "block" }}>End Date (To)</label>
+                    <input
+                      type="date"
+                      value={exportEndDate}
+                      onChange={(e) => setExportEndDate(e.target.value)}
+                      className="form-input"
+                      style={{ width: "100%", padding: "0.55rem 0.75rem", borderRadius: "8px", border: "1px solid #cbd5e1" }}
+                    />
+                  </div>
+                </div>
+
+                <div style={{ padding: "0.75rem 1rem", background: "rgba(42, 165, 39, 0.08)", border: "1px dashed #2AA527", borderRadius: "10px", fontSize: "0.8rem", color: "#166534" }}>
+                  ℹ️ Leave dates empty to export <strong>All Time</strong> data for {exportReportType}.
+                </div>
+
+                <div style={{ display: "flex", justifyContent: "flex-end", gap: "0.75rem", marginTop: "0.5rem" }}>
+                  <button onClick={() => setShowExportModal(false)} className="btn btn-outline" style={{ padding: "0.5rem 1.25rem" }}>Cancel</button>
+                  <button onClick={handleExportCSV} className="btn btn-primary" style={{ padding: "0.5rem 1.25rem", fontWeight: 700, background: "#2AA527", borderColor: "#2AA527" }}>
+                    📥 Download CSV Report
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Manual Newsletter Subscriber Modal */}
+      <AnimatePresence>
+        {showAddSubscriberModal && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="modal-overlay" style={{ position: "fixed", inset: 0, backgroundColor: "rgba(11, 18, 31, 0.6)", backdropFilter: "blur(6px)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 99999, padding: "1.5rem" }} onClick={() => setShowAddSubscriberModal(false)}>
+            <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }} className="premium-card" style={{ backgroundColor: "#ffffff", border: "1px solid var(--color-border-light)", maxWidth: "480px", width: "100%", padding: "1.75rem", borderRadius: "16px" }} onClick={(e) => e.stopPropagation()}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.25rem", borderBottom: "1px solid var(--color-border-light)", paddingBottom: "0.75rem" }}>
+                <h3 style={{ margin: 0, fontSize: "1.25rem", color: "var(--color-primary)", display: "flex", alignItems: "center", gap: "8px" }}>
+                  <Mail size={20} /> Manually Add Email Subscriber
+                </h3>
+                <button onClick={() => setShowAddSubscriberModal(false)} className="btn-icon reject"><X size={16} /></button>
+              </div>
+
+              <form onSubmit={handleAddSubscriberSubmit} style={{ display: "flex", flexDirection: "column", gap: "1.1rem" }}>
+                <div className="form-group">
+                  <label className="form-label" style={{ fontWeight: 700, fontSize: "0.85rem", marginBottom: "6px", display: "block" }}>Subscriber Email Address *</label>
+                  <input
+                    type="email"
+                    required
+                    placeholder="e.g. subscriber@example.com"
+                    value={newSubscriberEmail}
+                    onChange={(e) => setNewSubscriberEmail(e.target.value)}
+                    className="form-input"
+                    style={{ width: "100%", padding: "0.55rem 0.75rem", borderRadius: "8px", border: "1px solid #cbd5e1" }}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label className="form-label" style={{ fontWeight: 700, fontSize: "0.85rem", marginBottom: "6px", display: "block" }}>Subscriber Name (Optional)</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Rahul Sharma"
+                    value={newSubscriberName}
+                    onChange={(e) => setNewSubscriberName(e.target.value)}
+                    className="form-input"
+                    style={{ width: "100%", padding: "0.55rem 0.75rem", borderRadius: "8px", border: "1px solid #cbd5e1" }}
+                  />
+                </div>
+
+                <div style={{ display: "flex", justifyContent: "flex-end", gap: "0.75rem", marginTop: "0.5rem" }}>
+                  <button type="button" onClick={() => setShowAddSubscriberModal(false)} className="btn btn-outline" style={{ padding: "0.5rem 1.25rem" }}>Cancel</button>
+                  <button type="submit" disabled={subscriberSubmitting} className="btn btn-primary" style={{ padding: "0.5rem 1.25rem", fontWeight: 700 }}>
+                    {subscriberSubmitting ? "Adding..." : "+ Save Subscriber"}
+                  </button>
+                </div>
+              </form>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Manual Donation Modal */}
       <AnimatePresence>

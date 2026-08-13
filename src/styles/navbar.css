@@ -27,13 +27,26 @@
   -webkit-backdrop-filter: blur(32px) saturate(1.9);
 }
 
-body.dark-mode .header-nav {
+/* Dark mode navbar.
+   NOTE: glass.css sets `.header-nav { background: rgba(242,234,216,.88) !important }`
+   for the light glass effect. Both `background` (shorthand) and `background-color`
+   are set here so the shorthand cannot re-introduce the light value, otherwise the
+   bar renders light-tan in dark mode and the white nav text becomes unreadable. */
+body.dark-mode .header-nav,
+body.dark-mode header.header-nav,
+body.layout-alternative.dark-mode .header-nav,
+body.layout-alternative.dark-mode header.header-nav {
+  background: #181716 !important;
   background-color: #181716 !important;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
 }
 
-body.dark-mode .header-nav.scrolled {
-  background-color: #181716 !important;
+body.dark-mode .header-nav.scrolled,
+body.dark-mode header.header-nav.scrolled,
+body.layout-alternative.dark-mode .header-nav.scrolled,
+body.layout-alternative.dark-mode header.header-nav.scrolled {
+  background: rgba(24, 23, 22, 0.97) !important;
+  background-color: rgba(24, 23, 22, 0.97) !important;
 }
 
 .nav-container {

@@ -66,6 +66,31 @@ export const fallbackSEOMap: Record<string, SEOMetadata> = {
     title: "Track Internship Application Status | DAY Foundation",
     description: "Enter your ticket number to track the live review status of your internship application with DAY Foundation.",
     keywords: "internship tracking, ticket status check, application status, track application"
+  },
+  "/privacy": {
+    title: "Privacy Policy - Data Protection & Privacy | DAY Foundation",
+    description: "Read the official Privacy Policy of BHTDAY Welfare Foundation (DAY Foundation). Learn how we protect your personal and financial information.",
+    keywords: "privacy policy, data protection, ngo privacy, donor data security, tax receipt privacy"
+  },
+  "/terms": {
+    title: "Terms & Conditions - Legal Guidelines | DAY Foundation",
+    description: "Review the Terms and Conditions for accessing the DAY Foundation website, donating online, and volunteering in our welfare programs.",
+    keywords: "terms and conditions, legal guidelines, ngo terms, donation rules, volunteer terms"
+  },
+  "/refund": {
+    title: "Refund & Cancellation Policy | DAY Foundation",
+    description: "Read our Refund and Cancellation Policy regarding online donations, payment gateway errors, and Section 80G tax receipt compliance.",
+    keywords: "refund policy, cancellation policy, donation refund, payment gateway error, 80G tax receipt"
+  },
+  "/thank-you": {
+    title: "Thank You for Making a Difference | DAY Foundation",
+    description: "Thank you for supporting DAY Foundation. Your contribution directly funds education, healthcare, and youth empowerment initiatives across India.",
+    keywords: "thank you, donation confirmed, volunteer confirmed, social impact, day foundation"
+  },
+  "/404": {
+    title: "404 - Page Not Found | DAY Foundation",
+    description: "The page you are looking for does not exist on DAY Foundation website. Return to our homepage to explore our welfare programs.",
+    keywords: "404 not found, page missing, day foundation"
   }
 };
 

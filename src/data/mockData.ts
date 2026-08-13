@@ -50,6 +50,13 @@ export interface GalleryItem {
   hidden?: boolean;
 }
 
+export interface HistoryEvent {
+  event: string;
+  date: string;
+  details?: string;
+  by?: string;
+}
+
 export interface Volunteer {
   id: string;
   name: string;
@@ -60,6 +67,10 @@ export interface Volunteer {
   motivation: string;
   status: 'pending' | 'approved' | 'rejected' | 'hold';
   createdAt: string;
+  approvedAt?: string;
+  rejectedAt?: string;
+  idAllottedAt?: string;
+  history?: HistoryEvent[];
   // new fields
   type?: 'volunteer' | 'internship';
   college?: string;

@@ -1,0 +1,793 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   AURORA GLASS — premium design layer for the admin console
+   Loaded AFTER dashboard.css. Purely presentational: it re-skins the
+   existing class hooks and adds no new markup requirements, so every
+   dashboard feature keeps working exactly as before.
+
+   Design rationale
+   ────────────────
+   Glassmorphism only reads as glass when there is something behind it to
+   refract. The base theme applies backdrop-filter over a flat cream page,
+   so the effect was invisible. This layer therefore establishes:
+     1. an ambient depth field (mesh gradient + film grain) to refract
+     2. a 3-tier elevation system with specular edges
+     3. a spring-based motion system with entrance choreography
+     4. a full dark theme (the console previously had none)
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.admin-layout {
+  /* ── Palette ── */
+  --aur-gold:        #C5A059;
+  --aur-gold-lift:   #E3C67F;
+  --aur-teal:        #1B2929;
+  --aur-green:       #2AA527;
+  --aur-blue:        #4E73B7;
+
+  /* ── Surfaces (light) ── */
+  --aur-page:        #F6F2EA;
+  --aur-surface:     rgba(255, 255, 255, 0.72);
+  --aur-surface-hi:  rgba(255, 255, 255, 0.86);
+  --aur-rim:         rgba(255, 255, 255, 0.85);
+  --aur-edge:        rgba(30, 45, 45, 0.10);
+  --aur-edge-warm:   rgba(197, 160, 89, 0.42);
+
+  /* ── Ink ── */
+  --aur-ink:         #232B2B;
+  --aur-ink-soft:    #5A6363;
+  --aur-ink-faint:   #8B9391;
+
+  /* ── Elevation. Layered shadows read as depth; a single blur reads as a smudge. ── */
+  --aur-e1: 0 1px 2px rgba(24,35,35,.05), 0 4px 12px rgba(24,35,35,.05);
+  --aur-e2: 0 2px 4px rgba(24,35,35,.05), 0 10px 28px rgba(24,35,35,.08);
+  --aur-e3: 0 4px 8px rgba(24,35,35,.06), 0 24px 56px rgba(24,35,35,.13);
+
+  /* ── Motion. Springs for interaction, glides for entrances. ── */
+  --aur-spring: cubic-bezier(.34, 1.56, .64, 1);
+  --aur-glide:  cubic-bezier(.22, 1, .36, 1);
+
+  /* Brand gold measures ~2.2:1 on cream — decorative only.
+     This is the accessible text-weight gold. */
+  --aur-gold-text:   #856320;
+
+  --aur-blur: saturate(180%) blur(22px);
+
+  background: var(--aur-page);
+  color: var(--aur-ink);
+}
+
+/* ───────────────────────────────────────────────────────────
+   1 · AMBIENT DEPTH FIELD
+   Fixed mesh of colour pools + film grain. This is what the
+   glass surfaces actually refract.
+   ─────────────────────────────────────────────────────────── */
+.admin-layout::before {
+  content: '';
+  position: fixed;
+  inset: -20%;
+  z-index: 0;
+  pointer-events: none;
+  filter: none;
+  border-radius: 0;
+  animation: aurDrift 26s ease-in-out infinite alternate;
+  background:
+    radial-gradient(46% 38% at 14% 12%, rgba(197,160,89,.26), transparent 62%),
+    radial-gradient(40% 34% at 86% 8%,  rgba(78,115,183,.16), transparent 60%),
+    radial-gradient(48% 40% at 78% 88%, rgba(42,165,39,.13),  transparent 62%),
+    radial-gradient(36% 32% at 26% 82%, rgba(27,41,41,.14),   transparent 60%);
+}
+
+/* Film grain — breaks up gradient banding and adds a tactile, printed feel. */
+.admin-layout::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: .32;
+  mix-blend-mode: soft-light;
+  width: auto; height: auto;
+  border-radius: 0;
+  filter: none;
+  animation: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+}
+
+@keyframes aurDrift {
+  0%   { transform: translate3d(0,0,0)        scale(1); }
+  50%  { transform: translate3d(2%, -1.5%, 0) scale(1.05); }
+  100% { transform: translate3d(-1.5%, 1%, 0) scale(1.02); }
+}
+
+/* Content must sit above the field. */
+.admin-content,
+.admin-sidebar { z-index: 2; }
+
+/* ───────────────────────────────────────────────────────────
+   2 · GLASS ELEVATION SYSTEM
+   Specular top edge + inner rim light is what separates real
+   glass from a translucent rectangle.
+   ─────────────────────────────────────────────────────────── */
+/* NOTE ON !important — the public site's variables.css / index.css declare
+   UNSCOPED `.premium-card`, `.kpi-card`, `.btn-primary`, `.btn-outline`
+   rules using !important, which bleed into the admin console and were
+   overriding dashboard.css as well. Since !important beats specificity,
+   these declarations must match it. Everything stays scoped under
+   .admin-layout so the public site is unaffected. */
+.admin-layout .premium-card.premium-card,
+.admin-layout .glass-card.glass-card,
+.admin-layout .sneat-chart-container,
+.admin-layout .kpi-card,
+.admin-layout .admin-table-card,
+.admin-layout .admin-table-wrap,
+.admin-layout .sketchy-card {
+  position: relative;
+  background: var(--aur-surface) !important;
+  backdrop-filter: var(--aur-blur);
+  -webkit-backdrop-filter: var(--aur-blur);
+  border: 1px solid var(--aur-edge) !important;
+  border-radius: 20px !important;
+  box-shadow: var(--aur-e2), inset 0 1px 0 var(--aur-rim) !important;
+  transition:
+    transform .5s var(--aur-glide),
+    box-shadow .5s var(--aur-glide),
+    border-color .5s var(--aur-glide),
+    background .5s var(--aur-glide);
+}
+
+/* Specular sweep across the top edge — the "lit rim" of a glass pane. */
+.premium-card::before,
+.glass-card::before,
+.kpi-card::before,
+.admin-table-card::before,
+.sketchy-card::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 1px;
+  border-radius: 20px 20px 0 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.95) 18%, rgba(255,255,255,.95) 82%, transparent);
+  opacity: .9;
+  pointer-events: none;
+}
+
+.admin-layout .premium-card.premium-card:hover,
+.admin-layout .glass-card.glass-card:hover,
+.admin-layout .sneat-chart-container:hover,
+.admin-layout .kpi-card:hover,
+.admin-layout .admin-table-card:hover,
+.admin-layout .admin-table-wrap:hover,
+.admin-layout .sketchy-card:hover {
+  background: var(--aur-surface-hi) !important;
+  border-color: var(--aur-edge-warm) !important;
+  box-shadow: var(--aur-e3), inset 0 1px 0 var(--aur-rim) !important;
+  transform: translateY(-4px);
+}
+
+/* ───────────────────────────────────────────────────────────
+   3 · KPI CARDS — the dashboard's hero graphic
+   ─────────────────────────────────────────────────────────── */
+.kpi-card { overflow: hidden; padding: 1.5rem 1.6rem; }
+
+/* Accent orb bleeding in from the corner: colour without clutter. */
+.kpi-card::after {
+  content: '';
+  position: absolute;
+  top: -55px; right: -55px;
+  width: 150px; height: 150px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(197,160,89,.30), transparent 68%);
+  transition: transform .6s var(--aur-glide), opacity .6s var(--aur-glide);
+  pointer-events: none;
+  opacity: .85;
+}
+.kpi-card:hover::after { transform: scale(1.35); opacity: 1; }
+
+.kpi-icon-box {
+  border-radius: 15px;
+  box-shadow: 0 6px 16px rgba(24,35,35,.10), inset 0 1px 0 rgba(255,255,255,.65);
+  transition: transform .55s var(--aur-spring);
+}
+.kpi-card:hover .kpi-icon-box { transform: scale(1.1) rotate(-5deg); }
+
+.kpi-value {
+  font-size: 1.7rem;
+  background: linear-gradient(135deg, var(--aur-ink) 30%, var(--aur-gold));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.kpi-label { color: var(--aur-ink-soft); letter-spacing: .1em; }
+
+/* ───────────────────────────────────────────────────────────
+   4 · SIDEBAR — smoked-glass console
+   ─────────────────────────────────────────────────────────── */
+.admin-sidebar {
+  background: linear-gradient(175deg, rgba(30,45,45,.93), rgba(18,28,28,.96));
+  backdrop-filter: saturate(160%) blur(20px);
+  -webkit-backdrop-filter: saturate(160%) blur(20px);
+  border-right: 1px solid rgba(255,255,255,.09);
+  box-shadow: 1px 0 0 rgba(255,255,255,.05) inset, 12px 0 40px rgba(12,20,20,.28);
+  border-radius: 0 26px 26px 0;
+}
+
+.admin-sidebar-btn {
+  border-radius: 13px;
+  font-weight: 600;
+  transition:
+    background .38s var(--aur-glide),
+    transform .38s var(--aur-spring),
+    color .38s var(--aur-glide);
+}
+
+/* Active rail — a lit edge marker rather than a heavy filled pill. */
+.admin-sidebar-btn::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 50%;
+  width: 3px; height: 0;
+  border-radius: 0 4px 4px 0;
+  background: linear-gradient(180deg, var(--aur-gold-lift), var(--aur-gold));
+  box-shadow: 0 0 14px rgba(227,198,127,.85);
+  transform: translateY(-50%);
+  transition: height .42s var(--aur-spring);
+}
+.admin-sidebar-btn:hover::before  { height: 42%; }
+.admin-sidebar-btn.active::before { height: 66%; }
+
+.admin-sidebar-btn:hover {
+  background: rgba(255,255,255,.07);
+  border-color: transparent;
+  transform: translateX(5px);
+  box-shadow: none;
+}
+.admin-sidebar-btn.active {
+  background: linear-gradient(90deg, rgba(197,160,89,.24), rgba(197,160,89,.05));
+  border-color: transparent;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.10);
+  transform: translateX(3px);
+}
+
+/* ───────────────────────────────────────────────────────────
+   5 · HEADER
+   ─────────────────────────────────────────────────────────── */
+.admin-header {
+  background: rgba(246, 242, 234, .68);
+  backdrop-filter: var(--aur-blur);
+  -webkit-backdrop-filter: var(--aur-blur);
+  border-bottom: 1px solid var(--aur-edge);
+  box-shadow: 0 1px 0 rgba(255,255,255,.6) inset, 0 8px 28px rgba(24,35,35,.05);
+}
+.admin-title {
+  color: var(--aur-ink);
+  letter-spacing: -.025em;
+}
+
+/* ───────────────────────────────────────────────────────────
+   5b · HEADER BAR
+   Previously every colour here was hardcoded inline (#ffffff,
+   #d0c5af, #0f172a…), so the bar ignored the token system and
+   broke outright in dark mode. Now fully tokenised.
+   ─────────────────────────────────────────────────────────── */
+.admin-header { padding: .8rem 1.6rem; gap: 1rem; }
+
+.adm-hd-left  { display: flex; align-items: center; gap: .85rem; min-width: 0; }
+.adm-hd-right { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; }
+
+.adm-hd-titleblock { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.adm-hd-title {
+  font-size: 1.15rem !important;
+  font-weight: 800;
+  line-height: 1.15;
+  margin: 0 !important;
+  color: var(--aur-ink) !important;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.adm-hd-status {
+  display: inline-flex; align-items: center; gap: .4rem;
+  font-family: var(--font-mono);
+  font-size: .6rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  /* ink-faint measures 2.82:1 on the cream page — too low for 10px text. */
+  color: var(--aur-ink-soft);
+  white-space: nowrap;
+}
+.adm-hd-pulse {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--aur-green);
+  box-shadow: 0 0 0 0 rgba(42,165,39,.55);
+  animation: admPulse 2.4s ease-out infinite;
+  flex-shrink: 0;
+}
+@keyframes admPulse {
+  0%   { box-shadow: 0 0 0 0 rgba(42,165,39,.5) }
+  70%  { box-shadow: 0 0 0 7px rgba(42,165,39,0) }
+  100% { box-shadow: 0 0 0 0 rgba(42,165,39,0) }
+}
+
+/* Search — expands on focus instead of sitting at a fixed 200px. */
+.adm-hd-search { position: relative; display: flex; align-items: center; }
+.adm-hd-search > svg {
+  position: absolute; left: 12px;
+  color: var(--aur-ink-faint);
+  pointer-events: none;
+}
+.adm-hd-search input {
+  width: 210px;
+  padding: .5rem 2rem .5rem 2.2rem;
+  border-radius: 999px;
+  border: 1px solid var(--aur-edge);
+  background: var(--aur-surface);
+  color: var(--aur-ink);
+  font-family: var(--font-body);
+  font-size: .82rem;
+  outline: none;
+  transition: width .45s var(--aur-glide), background .3s var(--aur-glide),
+              border-color .3s var(--aur-glide), box-shadow .3s var(--aur-glide);
+}
+.adm-hd-search input::placeholder { color: var(--aur-ink-faint); }
+.adm-hd-search input:focus {
+  width: 280px;
+  border-color: var(--aur-gold);
+  background: rgba(255,255,255,.95);
+  box-shadow: 0 0 0 3px rgba(197,160,89,.18);
+}
+.adm-hd-search-clear {
+  position: absolute; right: 8px;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 20px; height: 20px;
+  border: none; border-radius: 50%;
+  background: transparent;
+  color: var(--aur-ink-faint);
+  cursor: pointer;
+  transition: background .2s var(--aur-glide), color .2s var(--aur-glide);
+}
+.adm-hd-search-clear:hover { background: rgba(24,35,35,.08); color: var(--aur-ink); }
+
+/* Icon buttons — previously bare circles with no hover feedback. */
+.adm-hd-actions { display: flex; gap: .35rem; }
+.adm-hd-icon {
+  width: 36px; height: 36px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  border: 1px solid var(--aur-edge);
+  background: var(--aur-surface);
+  color: var(--aur-ink-soft);
+  cursor: pointer;
+  transition: transform .35s var(--aur-spring), background .3s var(--aur-glide),
+              border-color .3s var(--aur-glide), color .3s var(--aur-glide);
+}
+.adm-hd-icon:hover {
+  background: rgba(197,160,89,.14);
+  border-color: var(--aur-edge-warm);
+  color: var(--aur-ink);
+  transform: translateY(-2px);
+}
+.adm-hd-icon:active { transform: translateY(0) scale(.94); }
+
+/* Identity */
+.adm-hd-profile {
+  display: flex; align-items: center; gap: .6rem;
+  padding-left: .8rem;
+  border-left: 1px solid var(--aur-edge);
+}
+.adm-hd-profile-meta { display: flex; flex-direction: column; align-items: flex-end; line-height: 1.2; }
+.adm-hd-name { font-family: var(--font-display); font-size: .84rem; font-weight: 800; color: var(--aur-ink); }
+.adm-hd-role {
+  font-family: var(--font-mono); font-size: .58rem; font-weight: 700;
+  letter-spacing: .07em; text-transform: uppercase; color: var(--aur-gold-text);
+}
+.adm-hd-avatar {
+  width: 40px; height: 40px; border-radius: 50%; object-fit: cover;
+  border: 2px solid transparent;
+  background: linear-gradient(var(--aur-surface), var(--aur-surface)) padding-box,
+              linear-gradient(135deg, var(--aur-gold-lift), var(--aur-gold)) border-box;
+  box-shadow: 0 4px 14px rgba(197,160,89,.32);
+  transition: transform .4s var(--aur-spring);
+}
+.adm-hd-avatar:hover { transform: scale(1.07); }
+
+/* Destructive action stays quiet until deliberately hovered. */
+.adm-hd-danger {
+  padding: .4rem .9rem;
+  border-radius: 999px;
+  font-family: var(--font-display); font-size: .74rem; font-weight: 700;
+  color: #B0433A;
+  background: rgba(186,26,26,.07);
+  border: 1px dashed rgba(186,26,26,.32);
+  cursor: pointer;
+  opacity: .72;
+  transition: opacity .3s var(--aur-glide), background .3s var(--aur-glide), transform .3s var(--aur-spring);
+}
+.adm-hd-danger:hover { opacity: 1; background: rgba(186,26,26,.14); transform: translateY(-1px); }
+
+/* The toggle is hidden on desktop and revealed under 768px. */
+.admin-mobile-toggle { display: none; }
+@media (max-width: 767px) {
+  .admin-mobile-toggle { display: inline-flex !important; }
+  .adm-hd-search input { width: 150px; }
+  .adm-hd-search input:focus { width: 190px; }
+  .adm-hd-profile-meta { display: none; }
+  .adm-hd-status { display: none; }
+  .admin-header { padding: .7rem 1rem; }
+}
+@media (max-width: 520px) {
+  .adm-hd-actions, .adm-hd-danger { display: none; }
+}
+
+body.dark-mode .admin-layout .adm-hd-search input {
+  background: rgba(255,255,255,.06) !important;
+  border-color: rgba(255,255,255,.13) !important;
+  color: var(--aur-ink) !important;
+}
+body.dark-mode .admin-layout .adm-hd-search input:focus {
+  background: rgba(255,255,255,.11) !important;
+  border-color: var(--aur-gold) !important;
+}
+body.dark-mode .adm-hd-search input::placeholder { color: var(--aur-ink-faint) !important; }
+body.dark-mode .adm-hd-search-clear:hover { background: rgba(255,255,255,.12); }
+body.dark-mode .adm-hd-danger { color: #F08A80; background: rgba(240,138,128,.10); border-color: rgba(240,138,128,.3); }
+
+/* ───────────────────────────────────────────────────────────
+   6 · BUTTONS — sheen sweep on hover
+   ─────────────────────────────────────────────────────────── */
+.btn {
+  isolation: isolate;
+  transition:
+    transform .4s var(--aur-spring),
+    box-shadow .4s var(--aur-glide),
+    background .4s var(--aur-glide),
+    color .4s var(--aur-glide);
+}
+.btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,.5) 50%, transparent 70%);
+  transform: translateX(-120%);
+  transition: transform .7s var(--aur-glide);
+}
+.btn:hover::after { transform: translateX(120%); }
+.btn:hover  { transform: translateY(-2px); }
+.btn:active { transform: translateY(0) scale(.975); }
+
+.admin-layout .btn-primary.btn-primary {
+  background: linear-gradient(135deg, var(--aur-gold-lift), var(--aur-gold) 55%, #A8833F) !important;
+  color: #1A2424 !important;
+  border: none !important;
+  box-shadow: 0 4px 16px rgba(197,160,89,.42), inset 0 1px 0 rgba(255,255,255,.5) !important;
+}
+.admin-layout .btn-primary.btn-primary:hover {
+  box-shadow: 0 10px 28px rgba(197,160,89,.55), inset 0 1px 0 rgba(255,255,255,.6) !important;
+}
+
+.admin-layout .btn-outline.btn-outline {
+  background: rgba(255,255,255,.6) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--aur-edge) !important;
+  color: var(--aur-ink) !important;
+}
+.admin-layout .btn-outline.btn-outline:hover {
+  background: rgba(255,255,255,.92) !important;
+  border-color: var(--aur-edge-warm) !important;
+  box-shadow: var(--aur-e2) !important;
+}
+
+/* ───────────────────────────────────────────────────────────
+   7 · FORMS
+   ─────────────────────────────────────────────────────────── */
+.admin-layout .form-input.form-input,
+.admin-layout .form-select.form-select,
+.admin-layout .form-textarea.form-textarea,
+.admin-layout .admin-search input {
+  background: rgba(255,255,255,.72) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--aur-edge) !important;
+  border-radius: 13px !important;
+  color: var(--aur-ink) !important;
+  box-shadow: inset 0 1px 2px rgba(24,35,35,.04);
+  transition: border-color .35s var(--aur-glide), box-shadow .35s var(--aur-glide), background .35s var(--aur-glide);
+}
+.admin-layout .form-input.form-input:focus,
+.admin-layout .form-select.form-select:focus,
+.admin-layout .form-textarea.form-textarea:focus,
+.admin-layout .admin-search input:focus {
+  background: #fff !important;
+  border-color: var(--aur-gold) !important;
+  box-shadow: 0 0 0 3px rgba(197,160,89,.20), 0 6px 18px rgba(197,160,89,.14);
+  transform: none;                     /* base theme nudged inputs on focus — jittery while typing */
+}
+.form-label { color: var(--aur-ink-soft); }
+
+/* ───────────────────────────────────────────────────────────
+   8 · TABLES
+   ─────────────────────────────────────────────────────────── */
+.admin-table-card,
+.admin-table-wrap { overflow: hidden; }
+
+/* Tables are scanned, not admired — lifting them on hover fights the eye. */
+.admin-table-card:hover,
+.admin-table-wrap:hover { transform: none; }
+
+.admin-table thead {
+  background: linear-gradient(180deg, rgba(255,255,255,.85), rgba(255,255,255,.6));
+  border-bottom: 1px solid var(--aur-edge);
+}
+.admin-table th {
+  color: var(--aur-ink-soft);
+  letter-spacing: .1em;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.admin-table td {
+  color: var(--aur-ink);
+  border-bottom: 1px solid rgba(24,35,35,.055);
+}
+.admin-table tbody tr { transition: background .28s var(--aur-glide), box-shadow .28s var(--aur-glide); }
+.admin-table tbody tr:hover {
+  background: linear-gradient(90deg, rgba(197,160,89,.10), rgba(197,160,89,.02));
+  box-shadow: inset 3px 0 0 var(--aur-gold);
+}
+
+/* ───────────────────────────────────────────────────────────
+   9 · BADGES
+   ─────────────────────────────────────────────────────────── */
+.status-badge,
+.badge {
+  border: 1px solid currentColor;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  font-weight: 700;
+  letter-spacing: .01em;
+}
+.badge:hover,
+.status-badge:hover { transform: translateY(-1px) scale(1.04); }
+
+/* ───────────────────────────────────────────────────────────
+   10 · MODALS
+   ─────────────────────────────────────────────────────────── */
+.modal-overlay,
+.modal-backdrop {
+  background: rgba(20, 30, 30, .5);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  animation: aurFade .3s var(--aur-glide) both;
+}
+.modal-card,
+.modal-content {
+  background: rgba(255,255,255,.9);
+  backdrop-filter: saturate(180%) blur(28px);
+  -webkit-backdrop-filter: saturate(180%) blur(28px);
+  border: 1px solid rgba(255,255,255,.7);
+  border-radius: 24px;
+  box-shadow: var(--aur-e3), inset 0 1px 0 rgba(255,255,255,.9);
+  animation: aurModalIn .5s var(--aur-spring) both;
+}
+@keyframes aurFade    { from { opacity: 0 } to { opacity: 1 } }
+@keyframes aurModalIn { from { opacity: 0; transform: translateY(18px) scale(.96) } to { opacity: 1; transform: none } }
+
+/* ───────────────────────────────────────────────────────────
+   11 · ENTRANCE CHOREOGRAPHY
+   ─────────────────────────────────────────────────────────── */
+@keyframes aurRise { from { opacity: 0; transform: translateY(16px) } to { opacity: 1; transform: none } }
+
+.kpi-grid > *,
+.stagger-item {
+  animation: aurRise .6s var(--aur-glide) both;
+}
+.kpi-grid > *:nth-child(1) { animation-delay: .04s }
+.kpi-grid > *:nth-child(2) { animation-delay: .10s }
+.kpi-grid > *:nth-child(3) { animation-delay: .16s }
+.kpi-grid > *:nth-child(4) { animation-delay: .22s }
+.kpi-grid > *:nth-child(5) { animation-delay: .28s }
+.kpi-grid > *:nth-child(6) { animation-delay: .34s }
+
+/* Shimmer for loading placeholders. */
+.aur-skeleton {
+  border-radius: 10px;
+  background: linear-gradient(90deg, rgba(24,35,35,.06) 25%, rgba(24,35,35,.11) 37%, rgba(24,35,35,.06) 63%);
+  background-size: 400% 100%;
+  animation: aurShimmer 1.4s ease-in-out infinite;
+}
+@keyframes aurShimmer { from { background-position: 100% 50% } to { background-position: 0 50% } }
+
+/* FAB */
+.admin-fab {
+  background: linear-gradient(135deg, var(--aur-gold-lift), var(--aur-gold));
+  box-shadow: 0 10px 28px rgba(197,160,89,.5), inset 0 1px 0 rgba(255,255,255,.5);
+  transition: transform .5s var(--aur-spring), box-shadow .5s var(--aur-glide);
+}
+.admin-fab:hover { transform: scale(1.1) rotate(90deg); }
+
+/* ───────────────────────────────────────────────────────────
+   12 · DARK THEME
+   The console previously had none, so a public-site dark toggle
+   leaked light surfaces into it. Both hooks are supported.
+   ─────────────────────────────────────────────────────────── */
+body.dark-mode .admin-layout,
+.admin-layout.admin-theme-dark {
+  --aur-page:       #12100E;
+  --aur-surface:    rgba(42, 39, 35, .66);
+  --aur-surface-hi: rgba(52, 48, 43, .80);
+  --aur-rim:        rgba(255, 255, 255, .09);
+  --aur-edge:       rgba(255, 255, 255, .10);
+  --aur-edge-warm:  rgba(227, 198, 127, .40);
+  --aur-gold-text:  #E3C67F;
+
+  --aur-ink:        #EDE6D6;
+  --aur-ink-soft:   #B3AA99;
+  --aur-ink-faint:  #8A8274;
+
+  --aur-e1: 0 1px 2px rgba(0,0,0,.35), 0 4px 12px rgba(0,0,0,.30);
+  --aur-e2: 0 2px 6px rgba(0,0,0,.40), 0 12px 30px rgba(0,0,0,.42);
+  --aur-e3: 0 6px 14px rgba(0,0,0,.45), 0 28px 60px rgba(0,0,0,.55);
+}
+
+body.dark-mode .admin-layout::before,
+.admin-layout.admin-theme-dark::before {
+  background:
+    radial-gradient(46% 38% at 14% 12%, rgba(197,160,89,.20), transparent 62%),
+    radial-gradient(40% 34% at 86% 8%,  rgba(78,115,183,.16), transparent 60%),
+    radial-gradient(48% 40% at 78% 88%, rgba(42,165,39,.11),  transparent 62%);
+}
+body.dark-mode .admin-layout::after,
+.admin-layout.admin-theme-dark::after { opacity: .20; }
+
+body.dark-mode .admin-header,
+.admin-theme-dark .admin-header {
+  background: rgba(18, 16, 14, .72);
+  box-shadow: 0 1px 0 rgba(255,255,255,.05) inset, 0 8px 28px rgba(0,0,0,.4);
+}
+
+body.dark-mode .admin-title,
+body.dark-mode .section-heading,
+body.dark-mode .kpi-value,
+.admin-theme-dark .admin-title,
+.admin-theme-dark .section-heading {
+  color: var(--aur-ink);
+  -webkit-text-fill-color: currentColor;   /* cancels the light-mode gradient clip */
+  background: none;
+}
+
+body.dark-mode .admin-table thead,
+.admin-theme-dark .admin-table thead {
+  background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+}
+body.dark-mode .admin-table td,
+.admin-theme-dark .admin-table td {
+  color: var(--aur-ink);
+  border-bottom-color: rgba(255,255,255,.07);
+}
+body.dark-mode .admin-table tbody tr:hover,
+.admin-theme-dark .admin-table tbody tr:hover {
+  background: linear-gradient(90deg, rgba(197,160,89,.14), rgba(197,160,89,.03));
+}
+
+/* Must out-specify the light-mode form rule above (0,3,0); otherwise the
+   field keeps a near-white background while global dark rules force the
+   text white — i.e. invisible input. */
+body.dark-mode .admin-layout .form-input.form-input,
+body.dark-mode .admin-layout .form-select.form-select,
+body.dark-mode .admin-layout .form-textarea.form-textarea,
+body.dark-mode .admin-layout .admin-search input,
+.admin-theme-dark .form-input.form-input,
+.admin-theme-dark .form-select.form-select,
+.admin-theme-dark .form-textarea.form-textarea {
+  background: rgba(255,255,255,.06) !important;
+  border-color: rgba(255,255,255,.13) !important;
+  color: var(--aur-ink) !important;
+}
+body.dark-mode .admin-layout .form-input.form-input:focus,
+body.dark-mode .admin-layout .form-select.form-select:focus,
+body.dark-mode .admin-layout .form-textarea.form-textarea:focus,
+body.dark-mode .admin-layout .admin-search input:focus {
+  background: rgba(255,255,255,.10) !important;
+  border-color: var(--aur-gold) !important;
+}
+body.dark-mode .admin-layout ::placeholder { color: var(--aur-ink-faint) !important; }
+
+body.dark-mode .btn-outline,
+.admin-theme-dark .btn-outline {
+  background: rgba(255,255,255,.06);
+  border-color: rgba(255,255,255,.13);
+  color: var(--aur-ink) !important;
+}
+body.dark-mode .btn-outline:hover { background: rgba(255,255,255,.12); }
+
+body.dark-mode .modal-card,
+body.dark-mode .modal-content,
+.admin-theme-dark .modal-card {
+  background: rgba(34, 31, 28, .92);
+  border-color: rgba(255,255,255,.12);
+  color: var(--aur-ink);
+}
+
+body.dark-mode .kpi-card::after,
+.admin-theme-dark .kpi-card::after {
+  background: radial-gradient(circle, rgba(197,160,89,.24), transparent 68%);
+}
+
+/* `body.layout-alternative.dark-mode .premium-card` (0,3,1) outranks the
+   light-mode card rule, forcing an opaque public-site surface into the
+   console. Restated here at (0,4,1) so the glass survives in dark mode. */
+body.dark-mode .admin-layout .premium-card.premium-card,
+body.dark-mode .admin-layout .glass-card.glass-card,
+body.dark-mode .admin-layout .kpi-card,
+body.dark-mode .admin-layout .admin-table-card,
+body.dark-mode .admin-layout .admin-table-wrap,
+body.dark-mode .admin-layout .sketchy-card,
+body.dark-mode .admin-layout .sneat-chart-container {
+  background: var(--aur-surface) !important;
+  border-color: var(--aur-edge) !important;
+  box-shadow: var(--aur-e2), inset 0 1px 0 var(--aur-rim) !important;
+  color: var(--aur-ink);
+}
+body.dark-mode .admin-layout .premium-card.premium-card:hover,
+body.dark-mode .admin-layout .glass-card.glass-card:hover,
+body.dark-mode .admin-layout .kpi-card:hover,
+body.dark-mode .admin-layout .admin-table-card:hover,
+body.dark-mode .admin-layout .admin-table-wrap:hover {
+  background: var(--aur-surface-hi) !important;
+  border-color: var(--aur-edge-warm) !important;
+  box-shadow: var(--aur-e3), inset 0 1px 0 var(--aur-rim) !important;
+}
+
+/* Specular rim is a light effect — it must not glow white on dark glass. */
+body.dark-mode .premium-card::before,
+body.dark-mode .glass-card::before,
+body.dark-mode .kpi-card::before,
+body.dark-mode .admin-table-card::before,
+.admin-theme-dark .premium-card::before,
+.admin-theme-dark .kpi-card::before {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.16) 18%, rgba(255,255,255,.16) 82%, transparent);
+}
+
+/* ───────────────────────────────────────────────────────────
+   13 · ACCESSIBILITY & PERFORMANCE
+   ─────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .admin-layout::before,
+  .kpi-grid > *,
+  .stagger-item,
+  .modal-card,
+  .modal-content,
+  .modal-overlay,
+  .aur-skeleton {
+    animation: none !important;
+  }
+  .btn::after { display: none; }
+  .premium-card, .glass-card, .kpi-card, .btn, .admin-sidebar-btn {
+    transition-duration: .01ms !important;
+  }
+  .premium-card:hover, .glass-card:hover, .kpi-card:hover, .btn:hover { transform: none; }
+}
+
+/* Stacked backdrop-filters are expensive on small devices; keep the
+   ambient field but drop per-card blur below tablet width. */
+@media (max-width: 767px) {
+  .premium-card,
+  .glass-card,
+  .kpi-card,
+  .admin-table-card,
+  .admin-table-wrap,
+  .btn-outline,
+  .form-input,
+  .form-select,
+  .form-textarea {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  .premium-card, .glass-card, .kpi-card,
+  .admin-table-card, .admin-table-wrap { background: rgba(255,255,255,.93); }
+
+  body.dark-mode .premium-card,
+  body.dark-mode .glass-card,
+  body.dark-mode .kpi-card,
+  body.dark-mode .admin-table-card,
+  body.dark-mode .admin-table-wrap { background: rgba(42,39,35,.95); }
+}

@@ -10,8 +10,12 @@
    both rules tie on specificity and whichever wins the cascade coin-flip
    can leave dark-mode surfaces stuck with light backgrounds/text. */
 body.layout-alternative:not(.dark-mode) {
-  --color-primary: #E68952 !important;
-  --color-primary-dark: #c4643a !important;
+  /* Deepened from #E68952: that tone is used widely as TEXT on cream surfaces
+     (#fff8f5 / #ffeada / #F3D5BA) where it only reached 1.9-2.5:1 contrast and
+     read as washed out. #A85A2A keeps the warm terracotta identity while
+     clearing 4.5:1 on cream, and also improves white-on-primary buttons. */
+  --color-primary: #A85A2A !important;
+  --color-primary-dark: #8E4A20 !important;
   --color-primary-light: #F3D5BA !important;
 
   --color-secondary: #834a68 !important;

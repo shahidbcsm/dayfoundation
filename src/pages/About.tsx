@@ -73,6 +73,40 @@ export const About: React.FC = () => {
   const [team, setTeam] = useState<TeamMember[]>([]);
   const [cityMembers, setCityMembers] = useState<CityMember[]>([]);
   const [activeMilestone, setActiveMilestone] = useState<number>(0);
+  const [slideDirection, setSlideDirection] = useState<number>(1);
+
+  const selectMilestone = (idx: number) => {
+    if (idx === activeMilestone) return;
+    setSlideDirection(idx > activeMilestone ? 1 : -1);
+    setActiveMilestone(idx);
+  };
+
+  const prevMilestone = () => {
+    if (activeMilestone > 0) {
+      setSlideDirection(-1);
+      setActiveMilestone((prev) => prev - 1);
+    }
+  };
+
+  const nextMilestone = () => {
+    if (activeMilestone < milestones.length - 1) {
+      setSlideDirection(1);
+      setActiveMilestone((prev) => prev + 1);
+    }
+  };
+
+  const handleMilestoneDragEnd = (
+    _: any,
+    info: { offset: { x: number; y: number }; velocity: { x: number; y: number } }
+  ) => {
+    const swipeThreshold = 30;
+    const velocityThreshold = 100;
+    if (info.offset.x < -swipeThreshold || info.velocity.x < -velocityThreshold) {
+      nextMilestone();
+    } else if (info.offset.x > swipeThreshold || info.velocity.x > velocityThreshold) {
+      prevMilestone();
+    }
+  };
 
   useEffect(() => {
     const unsub = subscribeTeam((data) => {
@@ -193,10 +227,10 @@ export const About: React.FC = () => {
       </section>
 
       {/* Origin Details: How It All Began */}
-      <section className="milestone-nexus-section origin-details-section" style={{ position: "relative", overflow: "hidden", padding: "4.5rem 0 5rem" }}>
+      <section className="milestone-nexus-section origin-details-section" style={{ position: "relative", overflow: "hidden" }}>
         <div className="nexus-bg-glow glow-1"></div>
         <div className="container-custom" style={{ position: "relative", zIndex: 5 }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "3rem", alignItems: "center" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "2rem", alignItems: "center" }}>
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -249,7 +283,7 @@ export const About: React.FC = () => {
       </section>
 
       {/* ══ INTERACTIVE MILESTONE TIMELINE SHOWCASE SECTION ══ */}
-      <section className="milestone-nexus-section" style={{ position: "relative", overflow: "hidden", padding: "5rem 0 6rem" }}>
+      <section className="milestone-nexus-section" style={{ position: "relative", overflow: "hidden" }}>
         
         {/* Background Decorative Ambient Glow Orbs */}
         <div className="nexus-bg-glow glow-1"></div>
@@ -258,7 +292,7 @@ export const About: React.FC = () => {
         <div className="container-custom" style={{ position: "relative", zIndex: 5 }}>
           
           {/* Section Header */}
-          <div style={{ textAlign: "center", maxWidth: "720px", margin: "0 auto 3rem auto" }}>
+          <div style={{ textAlign: "center", maxWidth: "720px", margin: "0 auto 1rem auto" }}>
             <span className="badge-custom">
               <Sparkles size={14} style={{ color: "var(--color-secondary)", marginRight: "6px" }} />
               OUR EVOLUTIONARY JOURNEY
@@ -275,7 +309,7 @@ export const About: React.FC = () => {
           <div className="nexus-nav-bar">
             <button 
               className="nexus-nav-arrow" 
-              onClick={() => setActiveMilestone(prev => Math.max(0, prev - 1))}
+              onClick={prevMilestone}
               disabled={activeMilestone === 0}
               aria-label="Previous Milestone"
             >
@@ -297,7 +331,7 @@ export const About: React.FC = () => {
                   <button
                     key={idx}
                     className={`nexus-nav-node ${isActive ? 'active' : ''} ${isPassed ? 'passed' : ''}`}
-                    onClick={() => setActiveMilestone(idx)}
+                    onClick={() => selectMilestone(idx)}
                   >
                     <div className="nexus-nav-node-dot">
                       {isPassed ? <CheckCircle2 size={12} /> : <span>{idx + 1}</span>}
@@ -313,7 +347,7 @@ export const About: React.FC = () => {
 
             <button 
               className="nexus-nav-arrow" 
-              onClick={() => setActiveMilestone(prev => Math.min(milestones.length - 1, prev + 1))}
+              onClick={nextMilestone}
               disabled={activeMilestone === milestones.length - 1}
               aria-label="Next Milestone"
             >
@@ -329,18 +363,50 @@ export const About: React.FC = () => {
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeMilestone}
-                  initial={{ opacity: 0, x: -30, scale: 0.98 }}
+                  drag="x"
+                  dragConstraints={{ left: 0, right: 0 }}
+                  dragElastic={0.2}
+                  dragSnapToOrigin={true}
+                  onDragEnd={handleMilestoneDragEnd}
+                  initial={{ opacity: 0, x: slideDirection * 40, scale: 0.98 }}
                   animate={{ opacity: 1, x: 0, scale: 1 }}
-                  exit={{ opacity: 0, x: 30, scale: 0.98 }}
-                  transition={{ duration: 0.4, ease: "easeOut" }}
+                  exit={{ opacity: 0, x: slideDirection * -40, scale: 0.98 }}
+                  transition={{ duration: 0.35, ease: "easeOut" }}
                   className="nexus-spotlight-card"
+                  style={{ touchAction: "pan-y", cursor: "grab" }}
+                  whileTap={{ cursor: "grabbing" }}
                 >
+                  {/* Floating Side Action Arrows on Card */}
+                  {activeMilestone > 0 && (
+                    <button 
+                      type="button"
+                      className="nexus-card-side-nav prev"
+                      onClick={(e) => { e.stopPropagation(); prevMilestone(); }}
+                      aria-label="Previous card"
+                    >
+                      <ChevronLeft size={18} />
+                    </button>
+                  )}
+                  {activeMilestone < milestones.length - 1 && (
+                    <button 
+                      type="button"
+                      className="nexus-card-side-nav next"
+                      onClick={(e) => { e.stopPropagation(); nextMilestone(); }}
+                      aria-label="Next card"
+                    >
+                      <ChevronRight size={18} />
+                    </button>
+                  )}
+
                   {/* Top Tag & Index */}
                   <div className="nexus-spotlight-top">
                     <span className="nexus-spotlight-tag">{milestones[activeMilestone].tag}</span>
                     <span className="nexus-spotlight-location">
                       <Globe size={13} /> {milestones[activeMilestone].location}
                     </span>
+                    <div className="nexus-mobile-swipe-badge">
+                      <span>← Slide Card →</span>
+                    </div>
                     <span className="nexus-spotlight-index">
                       STEP {String(activeMilestone + 1).padStart(2, '0')} / {String(milestones.length).padStart(2, '0')}
                     </span>
@@ -386,17 +452,17 @@ export const About: React.FC = () => {
                         <span 
                           key={dotIdx} 
                           className={`nexus-footer-dot ${dotIdx === activeMilestone ? 'active' : ''}`}
-                          onClick={() => setActiveMilestone(dotIdx)}
+                          onClick={(e) => { e.stopPropagation(); selectMilestone(dotIdx); }}
                         />
                       ))}
                     </div>
 
                     <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", alignItems: "center", marginTop: "1rem" }}>
-                      <Link to="/donate" className="nexus-spotlight-btn nexus-donate-btn" style={{ padding: "11px 24px", fontSize: "0.92rem" }}>
+                      <Link to="/donate" className="nexus-spotlight-btn nexus-donate-btn" style={{ padding: "11px 24px", fontSize: "0.92rem" }} onClick={(e) => e.stopPropagation()}>
                         <span>Donate</span>
                         <ArrowRight size={16} />
                       </Link>
-                      <Link to="/volunteer" className="nexus-spotlight-btn nexus-join-us-btn" style={{ padding: "11px 24px", fontSize: "0.92rem" }}>
+                      <Link to="/volunteer" className="nexus-spotlight-btn nexus-join-us-btn" style={{ padding: "11px 24px", fontSize: "0.92rem" }} onClick={(e) => e.stopPropagation()}>
                         <span>Join Us</span>
                         <ArrowRight size={16} />
                       </Link>
@@ -418,7 +484,7 @@ export const About: React.FC = () => {
                       key={idx}
                       whileHover={{ scale: 1.02, x: 6 }}
                       className={`nexus-stack-item ${isActive ? 'active' : ''}`}
-                      onClick={() => setActiveMilestone(idx)}
+                      onClick={() => selectMilestone(idx)}
                     >
                       <div className="nexus-stack-item-icon">
                         {ms.icon}
@@ -449,8 +515,7 @@ export const About: React.FC = () => {
         className="milestone-nexus-section founders-message-section" 
         style={{ 
           position: "relative",
-          overflow: "hidden",
-          padding: "4.5rem 0 5rem"
+          overflow: "hidden"
         }}
       >
         <div className="nexus-bg-glow glow-2"></div>

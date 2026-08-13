@@ -1,6 +1,19 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+
+    // Super-admin allowlist. Emails are not secrets; keeping the check here
+    // means role changes cannot be made from the client by a normal user.
+    function isSuperAdmin() {
+      return request.auth != null
+             && request.auth.token.email != null
+             && request.auth.token.email.lower() in [
+                  'owner@dayfoundation.com',
+                  'mrshahidbabu@dayfoundation.in',
+                  'info@dayfoundation.in'
+                ];
+    }
+
     match /blogs/{document} {
       allow read: if true;
       allow write: if request.auth != null;
@@ -19,7 +32,8 @@ service cloud.firestore {
     }
     match /donations/{document} {
       allow create: if true;
-      allow read, update, delete: if request.auth != null;
+      allow read, update: if request.auth != null;
+      allow delete: if false;
     }
     match /contacts/{document} {
       allow create: if true;
@@ -41,11 +55,19 @@ service cloud.firestore {
       allow read: if true;
       allow write: if request.auth != null;
     }
+    // Admin roster: readable by any signed-in admin, but writable ONLY by the
+    // super-admin accounts. Without this, any authenticated user could grant
+    // themselves an admin role (privilege escalation).
     match /admins/{document} {
-      allow read, write: if request.auth != null;
+      allow read: if request.auth != null;
+      allow write: if isSuperAdmin();
     }
+    // Append-only: logs may be created but never edited or deleted, so a
+    // compromised account cannot erase its own trail.
     match /audit_logs/{document} {
-      allow read, write: if request.auth != null;
+      allow read: if request.auth != null;
+      allow create: if request.auth != null;
+      allow update, delete: if false;
     }
     match /newsletter/{document} {
       allow create: if true;
@@ -55,8 +77,12 @@ service cloud.firestore {
       allow read: if true;
       allow write: if request.auth != null;
     }
+    // Anonymous visitors must be able to register a push token, so create stays
+    // open. Update is closed so an existing visitor's token cannot be hijacked
+    // or overwritten by someone else.
     match /notification_tokens/{document} {
-      allow create, update: if true;
+      allow create: if true;
+      allow update: if request.auth != null;
       allow read, delete: if request.auth != null;
     }
     match /broadcasts/{document} {

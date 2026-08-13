@@ -124,15 +124,23 @@ p, span, li, dt, dd, td, label, legend, blockquote {
 body.dark-mode {
   background-color: var(--color-bg-dark);
   color: var(--color-text-white);
-  --color-bg-gray: hsl(var(--hue-primary), 35%, 8%);
-  --color-bg-white: hsl(var(--hue-primary), 30%, 12%);
-  --color-border: rgba(255, 255, 255, 0.08);
-  --color-border-light: rgba(255, 255, 255, 0.04);
-  --color-text-dark: hsl(0, 0%, 95%);
-  --color-text-muted: hsl(215, 12%, 70%);
-  --color-text-light: hsl(215, 12%, 55%);
-  --glass-bg: rgba(14, 31, 56, 0.65);
+  --color-bg-gray: #1E1D1B;
+  --color-bg-white: #181716;
+  --color-border: rgba(255, 255, 255, 0.12);
+  --color-border-light: rgba(255, 255, 255, 0.06);
+  --color-text-dark: #F8FAFC;
+  --color-text-muted: #E2E8F0;
+  --color-text-light: #CBD5E1;
+  --color-primary-text: #FB923C;
+  --glass-bg: rgba(24, 23, 22, 0.88);
   --glass-border: rgba(255, 255, 255, 0.08);
+}
+
+body.dark-mode .text-muted,
+body.dark-mode p.text-muted,
+body.dark-mode span.text-muted,
+body.dark-mode small {
+  color: #CBD5E1 !important;
 }
 
 body.dark-mode .section-badge,

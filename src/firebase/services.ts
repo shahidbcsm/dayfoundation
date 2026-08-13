@@ -423,13 +423,16 @@ export const getInternshipByTempId = async (tempId: string): Promise<Volunteer |
 export const createVolunteer = async (volunteer: Omit<Volunteer, "id" | "status" | "createdAt">): Promise<Volunteer> => {
   const isInternship = volunteer.type === 'internship';
   const tNo = generateTicketNo(isInternship ? 'INT' : 'VOL');
+  const now = new Date().toISOString();
+  const initialHistory = [{ event: "Application Submitted", date: now, details: "Submitted via online portal", by: "Applicant" }];
 
   const fullVolunteer = {
     ...volunteer,
     status: "pending" as const,
-    createdAt: new Date().toISOString(),
+    createdAt: now,
     ticketNo: tNo,
     adminComment: "",
+    history: initialHistory,
     ...(isInternship ? { tempInternshipId: tNo } : {})
   };
 
@@ -451,7 +454,19 @@ export const createVolunteer = async (volunteer: Omit<Volunteer, "id" | "status"
   return { id: docRef.id, ...fullVolunteer } as Volunteer;
 };
 
-export const updateVolunteerStatus = async (id: string, status: 'approved' | 'rejected' | 'pending' | 'hold'): Promise<void> => {
+export const updateVolunteerStatus = async (id: string, status: 'approved' | 'rejected' | 'pending' | 'hold', operatorEmail?: string): Promise<void> => {
+  const now = new Date().toISOString();
+  const historyEvent = {
+    event: `Status Updated to ${status.toUpperCase()}`,
+    date: now,
+    details: `Application status changed to ${status}`,
+    by: operatorEmail || "Admin"
+  };
+
+  const updateFields: any = { status };
+  if (status === 'approved') updateFields.approvedAt = now;
+  if (status === 'rejected') updateFields.rejectedAt = now;
+
   if (isMockEnabled) {
     await delay(300);
     const data = localStorage.getItem("day_volunteers");
@@ -459,18 +474,25 @@ export const updateVolunteerStatus = async (id: string, status: 'approved' | 're
     const index = volunteers.findIndex(v => v.id === id);
     if (index !== -1) {
       volunteers[index].status = status;
+      if (status === 'approved') volunteers[index].approvedAt = now;
+      if (status === 'rejected') volunteers[index].rejectedAt = now;
+      const history = volunteers[index].history || [];
+      volunteers[index].history = [...history, historyEvent];
       localStorage.setItem("day_volunteers", JSON.stringify(volunteers));
     }
     return;
   }
 
   const docRef = doc(db, "volunteers", id);
-  await updateDoc(docRef, { status });
+  await updateDoc(docRef, updateFields);
   await set(ref(rtdb, `volunteers/${id}/status`), status);
+  if (status === 'approved') await set(ref(rtdb, `volunteers/${id}/approvedAt`), now);
+  if (status === 'rejected') await set(ref(rtdb, `volunteers/${id}/rejectedAt`), now);
 };
 
 // Approve an internship: sets status = approved AND assigns permanent ID
-export const approveInternship = async (id: string, customId?: string): Promise<string> => {
+export const approveInternship = async (id: string, customId?: string, operatorEmail?: string): Promise<string> => {
+  const now = new Date().toISOString();
   if (isMockEnabled) {
     await delay(400);
     const data = localStorage.getItem("day_volunteers");
@@ -479,7 +501,15 @@ export const approveInternship = async (id: string, customId?: string): Promise<
     const index = volunteers.findIndex(v => v.id === id);
     if (index !== -1) {
       volunteers[index].status = 'approved';
+      volunteers[index].approvedAt = now;
       volunteers[index].permanentInternshipId = permId;
+      volunteers[index].idAllottedAt = now;
+      const history = volunteers[index].history || [];
+      volunteers[index].history = [
+        ...history,
+        { event: "Application Approved", date: now, details: "Status updated to Approved", by: operatorEmail || "Admin" },
+        { event: "Permanent Intern ID Allotted", date: now, details: `Assigned ID: ${permId}`, by: operatorEmail || "Admin" }
+      ];
       localStorage.setItem("day_volunteers", JSON.stringify(volunteers));
     }
     return permId;
@@ -488,14 +518,17 @@ export const approveInternship = async (id: string, customId?: string): Promise<
   const allVols = await getVolunteers();
   const permId = customId || generatePermanentId(allVols);
   const docRef = doc(db, "volunteers", id);
-  await updateDoc(docRef, { status: 'approved', permanentInternshipId: permId });
+  await updateDoc(docRef, { status: 'approved', approvedAt: now, permanentInternshipId: permId, idAllottedAt: now });
   await set(ref(rtdb, `volunteers/${id}/status`), 'approved');
+  await set(ref(rtdb, `volunteers/${id}/approvedAt`), now);
   await set(ref(rtdb, `volunteers/${id}/permanentInternshipId`), permId);
+  await set(ref(rtdb, `volunteers/${id}/idAllottedAt`), now);
   return permId;
 };
 
 // Allow editing permanent internship ID directly
-export const updateInternshipId = async (id: string, permanentInternshipId: string): Promise<void> => {
+export const updateInternshipId = async (id: string, permanentInternshipId: string, operatorEmail?: string): Promise<void> => {
+  const now = new Date().toISOString();
   if (isMockEnabled) {
     await delay(300);
     const data = localStorage.getItem("day_volunteers");
@@ -503,18 +536,26 @@ export const updateInternshipId = async (id: string, permanentInternshipId: stri
     const index = volunteers.findIndex(v => v.id === id);
     if (index !== -1) {
       volunteers[index].permanentInternshipId = permanentInternshipId;
+      volunteers[index].idAllottedAt = now;
+      const history = volunteers[index].history || [];
+      volunteers[index].history = [
+        ...history,
+        { event: "Permanent Intern ID Updated", date: now, details: `Updated ID to: ${permanentInternshipId}`, by: operatorEmail || "Admin" }
+      ];
       localStorage.setItem("day_volunteers", JSON.stringify(volunteers));
     }
     return;
   }
 
   const docRef = doc(db, "volunteers", id);
-  await updateDoc(docRef, { permanentInternshipId });
+  await updateDoc(docRef, { permanentInternshipId, idAllottedAt: now });
   await set(ref(rtdb, `volunteers/${id}/permanentInternshipId`), permanentInternshipId);
+  await set(ref(rtdb, `volunteers/${id}/idAllottedAt`), now);
 };
 
 // Approve a volunteer: sets status = approved AND assigns customized permanent volunteer ID
-export const approveVolunteer = async (id: string, customId?: string): Promise<string> => {
+export const approveVolunteer = async (id: string, customId?: string, operatorEmail?: string): Promise<string> => {
+  const now = new Date().toISOString();
   const defaultId = `DAY-VOL-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
   const permId = customId || defaultId;
   
@@ -525,21 +566,32 @@ export const approveVolunteer = async (id: string, customId?: string): Promise<s
     const index = volunteers.findIndex(v => v.id === id);
     if (index !== -1) {
       volunteers[index].status = 'approved';
+      volunteers[index].approvedAt = now;
       volunteers[index].permanentVolunteerId = permId;
+      volunteers[index].idAllottedAt = now;
+      const history = volunteers[index].history || [];
+      volunteers[index].history = [
+        ...history,
+        { event: "Application Approved", date: now, details: "Status updated to Approved", by: operatorEmail || "Admin" },
+        { event: "Permanent Volunteer ID Allotted", date: now, details: `Assigned ID: ${permId}`, by: operatorEmail || "Admin" }
+      ];
       localStorage.setItem("day_volunteers", JSON.stringify(volunteers));
     }
     return permId;
   }
 
   const docRef = doc(db, "volunteers", id);
-  await updateDoc(docRef, { status: 'approved', permanentVolunteerId: permId });
+  await updateDoc(docRef, { status: 'approved', approvedAt: now, permanentVolunteerId: permId, idAllottedAt: now });
   await set(ref(rtdb, `volunteers/${id}/status`), 'approved');
+  await set(ref(rtdb, `volunteers/${id}/approvedAt`), now);
   await set(ref(rtdb, `volunteers/${id}/permanentVolunteerId`), permId);
+  await set(ref(rtdb, `volunteers/${id}/idAllottedAt`), now);
   return permId;
 };
 
 // Allow editing permanent volunteer ID directly
-export const updateVolunteerId = async (id: string, permanentVolunteerId: string): Promise<void> => {
+export const updateVolunteerId = async (id: string, permanentVolunteerId: string, operatorEmail?: string): Promise<void> => {
+  const now = new Date().toISOString();
   if (isMockEnabled) {
     await delay(300);
     const data = localStorage.getItem("day_volunteers");
@@ -547,14 +599,21 @@ export const updateVolunteerId = async (id: string, permanentVolunteerId: string
     const index = volunteers.findIndex(v => v.id === id);
     if (index !== -1) {
       volunteers[index].permanentVolunteerId = permanentVolunteerId;
+      volunteers[index].idAllottedAt = now;
+      const history = volunteers[index].history || [];
+      volunteers[index].history = [
+        ...history,
+        { event: "Permanent Volunteer ID Updated", date: now, details: `Updated ID to: ${permanentVolunteerId}`, by: operatorEmail || "Admin" }
+      ];
       localStorage.setItem("day_volunteers", JSON.stringify(volunteers));
     }
     return;
   }
 
   const docRef = doc(db, "volunteers", id);
-  await updateDoc(docRef, { permanentVolunteerId });
+  await updateDoc(docRef, { permanentVolunteerId, idAllottedAt: now });
   await set(ref(rtdb, `volunteers/${id}/permanentVolunteerId`), permanentVolunteerId);
+  await set(ref(rtdb, `volunteers/${id}/idAllottedAt`), now);
 };
 
 // Delete volunteer or internship registration record
@@ -574,21 +633,9 @@ export const deleteVolunteerRecord = async (id: string): Promise<void> => {
   await set(ref(rtdb, `volunteers/${id}/deletedAt`), new Date().toISOString());
 };
 
-// Delete donation ledger record
-export const deleteDonationRecord = async (id: string): Promise<void> => {
-  if (isMockEnabled) {
-    await delay(300);
-    const data = localStorage.getItem("day_donations");
-    const donations: Donation[] = data ? JSON.parse(data) : [];
-    const updated = donations.map(d => d.id === id ? { ...d, deleted: true, deletedAt: new Date().toISOString() } as any : d);
-    localStorage.setItem("day_donations", JSON.stringify(updated));
-    return;
-  }
-
-  const docRef = doc(db, "donations", id);
-  await updateDoc(docRef, { deleted: true, deletedAt: new Date().toISOString() });
-  await set(ref(rtdb, `donations/${id}/deleted`), true);
-  await set(ref(rtdb, `donations/${id}/deletedAt`), new Date().toISOString());
+// Delete donation ledger record - PERMANENTLY PROHIBITED FOR FINANCIAL AUDIT INTEGRITY
+export const deleteDonationRecord = async (_id: string): Promise<void> => {
+  throw new Error("Deletion of donation ledger records is strictly prohibited for financial compliance and audit integrity.");
 };
 
 // ==========================================
@@ -670,7 +717,7 @@ export const subscribeBlogs = (callback: (blogs: Blog[]) => void) => {
           seeding = false;
         }
       }
-      callback([]);
+      callback(defaultBlogs);
       return;
     }
     const data = Object.entries(val)
@@ -722,7 +769,7 @@ export const subscribeEvents = (callback: (events: Event[]) => void) => {
           seeding = false;
         }
       }
-      callback([]);
+      callback(defaultEvents);
       return;
     }
     const data = Object.entries(val)
@@ -835,10 +882,26 @@ export const subscribeGallery = (callback: (gallery: GalleryItem[]) => void) => 
   }
 
   const galleryRef = ref(rtdb, "gallery");
-  return onValue(galleryRef, (snapshot) => {
+  let seeding = false;
+  return onValue(galleryRef, async (snapshot) => {
     const val = snapshot.val();
     if (!val) {
-      callback([]);
+      if (!seeding) {
+        seeding = true;
+        console.log("Firebase Gallery is empty. Auto-seeding default gallery...");
+        try {
+          for (const item of defaultGallery) {
+            const { id, ...itemData } = item;
+            await setDoc(doc(db, "gallery", id), itemData);
+            await set(ref(rtdb, `gallery/${id}`), itemData);
+          }
+        } catch (err) {
+          console.error("Auto-seeding gallery failed:", err);
+        } finally {
+          seeding = false;
+        }
+      }
+      callback(defaultGallery);
       return;
     }
     const data = Object.entries(val)
@@ -1097,7 +1160,7 @@ export const subscribeTeam = (callback: (team: TeamMember[]) => void) => {
           seeding = false;
         }
       }
-      callback([]);
+      callback(defaultTeam);
       return;
     }
     const data = Object.entries(val)
@@ -1202,7 +1265,7 @@ export const subscribeCityMembers = (callback: (team: CityMember[]) => void) => 
           seeding = false;
         }
       }
-      callback([]);
+      callback(defaultCityTeam);
       return;
     }
     const data = Object.entries(val)
@@ -1694,7 +1757,7 @@ export const subscribeTestimonials = (callback: (testimonials: Testimonial[]) =>
   });
 };
 
-export const subscribeNewsletter = async (email: string, source: string = "Website Subscription"): Promise<void> => {
+export const subscribeNewsletter = async (email: string, source: string = "Website Subscription", name?: string): Promise<void> => {
   const cleanEmail = email.toLowerCase().trim();
   if (!cleanEmail || !cleanEmail.includes('@')) return;
   const dateStr = new Date().toISOString();
@@ -1705,15 +1768,17 @@ export const subscribeNewsletter = async (email: string, source: string = "Websi
     const list: any[] = data ? JSON.parse(data) : [];
     const existingIdx = list.findIndex(x => x.email === cleanEmail);
     if (existingIdx >= 0) {
-      list[existingIdx] = { ...list[existingIdx], source: source || list[existingIdx].source };
+      list[existingIdx] = { ...list[existingIdx], name: name || list[existingIdx].name, source: source || list[existingIdx].source };
     } else {
-      list.push({ email: cleanEmail, source, createdAt: dateStr });
+      list.push({ email: cleanEmail, name: name || "", source, createdAt: dateStr });
     }
     localStorage.setItem("day_newsletter", JSON.stringify(list));
     return;
   }
 
-  const payload = { email: cleanEmail, source, createdAt: dateStr };
+  const payload: any = { email: cleanEmail, source, createdAt: dateStr };
+  if (name) payload.name = name;
+
   try {
     const docRef = doc(db, "newsletter", cleanEmail);
     await setDoc(docRef, payload, { merge: true });

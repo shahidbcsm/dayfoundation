@@ -43,9 +43,9 @@ const auth = getAuth(app);
 // Auth
 console.log("Authenticating...");
 try {
-  await signInWithEmailAndPassword(auth, "owner@dayfoundation.com", "DAY@19019");
+  await signInWithEmailAndPassword(auth, env.SEED_ADMIN_EMAIL, env.SEED_ADMIN_PASSWORD);
 } catch (e) {
-  await signInWithEmailAndPassword(auth, "mrshahidbabu@dayfoundation.in", "Shahid@19019");
+  await signInWithEmailAndPassword(auth, env.SEED_ADMIN2_EMAIL, env.SEED_ADMIN2_PASSWORD);
 }
 console.log("Authenticated as:", auth.currentUser?.email);
 

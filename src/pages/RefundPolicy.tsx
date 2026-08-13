@@ -35,7 +35,7 @@ export const RefundPolicy: React.FC = () => {
                   <HelpCircle size={20} />
                   <h3 style={{ fontSize: "1rem", margin: 0 }}>Refund Status</h3>
                 </div>
-                <p style={{ fontSize: "0.85rem", color: "var(--color-text-muted)", margin: 0 }}>
+                <p style={{ fontSize: "0.85rem", margin: 0 }}>
                   Donations are generally non-refundable as they are deployed immediately to fund our social welfare programs.
                 </p>
               </div>
@@ -45,7 +45,7 @@ export const RefundPolicy: React.FC = () => {
                   <RefreshCcw size={20} />
                   <h3 style={{ fontSize: "1rem", margin: 0 }}>Gateway Errors</h3>
                 </div>
-                <p style={{ fontSize: "0.85rem", color: "var(--color-text-muted)", margin: 0 }}>
+                <p style={{ fontSize: "0.85rem", margin: 0 }}>
                   Accidental double deductions or payment gateway errors are fully refundable if reported within 7 days.
                 </p>
               </div>
@@ -55,63 +55,63 @@ export const RefundPolicy: React.FC = () => {
                   <Landmark size={20} />
                   <h3 style={{ fontSize: "1rem", margin: 0 }}>Tax Receipts</h3>
                 </div>
-                <p style={{ fontSize: "0.85rem", color: "var(--color-text-muted)", margin: 0 }}>
+                <p style={{ fontSize: "0.85rem", margin: 0 }}>
                   Refunds cannot be processed if an official tax exemption certificate (Section 80G receipt) has been issued.
                 </p>
               </div>
             </div>
 
             {/* Terms Details */}
-            <div className="font-serif-heading" style={{ display: "flex", flexDirection: "column", gap: "2rem", lineHeight: "1.8", color: "var(--color-text-dark)" }}>
+            <div className="policy-doc-content font-serif-heading" style={{ display: "flex", flexDirection: "column", gap: "2rem", lineHeight: "1.8" }}>
               <div>
                 <h2 style={{ fontSize: "1.5rem", color: "var(--color-primary)", marginBottom: "1rem", display: "flex", alignItems: "center", gap: "10px" }}>
                   <FileText size={22} />
                   1. General Policy on Donations
                 </h2>
-                <p style={{ color: "var(--color-text-muted)", marginBottom: "1rem" }}>
+                <p style={{ marginBottom: "1rem" }}>
                   BHTDAY Welfare Foundation (DAY Foundation) appreciates your generous contributions to our social programs. As a registered Section 8 NGO, we deploy your contributions directly into community welfare drives, digital classrooms, weekend Learning Circles, and medical camps.
                 </p>
-                <p style={{ color: "var(--color-text-muted)" }}>
+                <p>
                   Because resources are committed immediately to these projects to ensure continuity of care, <strong>all donations processed on our website are considered final and non-refundable</strong>, except in the specific circumstances outlined below.
                 </p>
               </div>
 
               <div>
                 <h2 style={{ fontSize: "1.5rem", color: "var(--color-primary)", marginBottom: "1rem" }}>2. Payment Gateway and System Errors</h2>
-                <p style={{ color: "var(--color-text-muted)", marginBottom: "1rem" }}>
+                <p style={{ marginBottom: "1rem" }}>
                   In the event of transaction discrepancies caused by technical difficulties or payment gateway failures, we will gladly reverse the transactions:
                 </p>
-                <ul style={{ paddingLeft: "1.5rem", color: "var(--color-text-muted)", marginBottom: "1rem", display: "flex", flexDirection: "column", gap: "6px" }}>
-                  <li><strong>Duplicate Deductions:</strong> If your bank account or credit card was charged twice for a single donation attempt due to network lag.</li>
-                  <li><strong>Incorrect Amount Deductions:</strong> If the payment processor executed a transaction for an amount different from what you selected on our donation form.</li>
+                <ul style={{ paddingLeft: "1.5rem", marginBottom: "1rem", display: "flex", flexDirection: "column", gap: "8px" }}>
+                  <li><strong className="policy-doc-label">Duplicate Deductions:</strong> If your bank account or credit card was charged twice for a single donation attempt due to network lag.</li>
+                  <li><strong className="policy-doc-label">Incorrect Amount Deductions:</strong> If the payment processor executed a transaction for an amount different from what you selected on our donation form.</li>
                 </ul>
-                <p style={{ color: "var(--color-text-muted)" }}>
+                <p>
                   If you encounter such errors, please email our finance team at <strong>info@dayfoundation.in</strong> within <strong>7 working days</strong> of the transaction date.
                 </p>
               </div>
 
               <div>
                 <h2 style={{ fontSize: "1.5rem", color: "var(--color-primary)", marginBottom: "1rem" }}>3. Refund Evaluation & Timeline</h2>
-                <p style={{ color: "var(--color-text-muted)", marginBottom: "1rem" }}>
+                <p style={{ marginBottom: "1rem" }}>
                   To submit a request, your email must include:
                 </p>
-                <ul style={{ paddingLeft: "1.5rem", color: "var(--color-text-muted)", marginBottom: "1rem", display: "flex", flexDirection: "column", gap: "6px" }}>
+                <ul style={{ paddingLeft: "1.5rem", marginBottom: "1rem", display: "flex", flexDirection: "column", gap: "8px" }}>
                   <li>Your full name, email address, and phone number.</li>
                   <li>Date and exact time of the transaction.</li>
                   <li>The payment method utilized and transaction ID.</li>
                   <li>A screenshot of the deduction notification or bank statement showing the debit.</li>
                 </ul>
-                <p style={{ color: "var(--color-text-muted)" }}>
+                <p>
                   Approved refunds will be processed and returned to the original payment source (credit card, net banking, or digital wallet) within <strong>15 to 20 business days</strong>. Note that processing speeds are partially dependent on bank and card settlement schedules.
                 </p>
               </div>
 
               <div>
                 <h2 style={{ fontSize: "1.5rem", color: "var(--color-primary)", marginBottom: "1rem" }}>4. Tax Receipt Compliance (Section 80G)</h2>
-                <p style={{ color: "var(--color-text-muted)", marginBottom: "1rem" }}>
+                <p style={{ marginBottom: "1rem" }}>
                   Under compliance guidelines set by the Indian Income Tax Department, DAY Foundation issues tax exemption receipts (Section 80G certificates) to donors.
                 </p>
-                <div style={{ display: "flex", gap: "10px", alignItems: "flex-start", backgroundColor: "var(--color-primary-light)", padding: "1rem", borderRadius: "10px", color: "var(--color-primary-dark)", fontSize: "0.9rem", marginBottom: "1rem" }}>
+                <div className="policy-note-box" style={{ display: "flex", gap: "10px", alignItems: "flex-start", backgroundColor: "var(--color-primary-light)", padding: "1rem", borderRadius: "10px", color: "var(--color-primary-dark)", fontSize: "0.9rem", marginBottom: "1rem" }}>
                   <ShieldCheck size={20} style={{ flexShrink: 0, marginTop: "2px" }} />
                   <span>
                     <strong>Important Note:</strong> If an official tax exemption certificate has already been generated and sent to you, the donation cannot be refunded under any circumstances. If a refund is processed prior to issuing the receipt, the corresponding 80G certificate will be rendered void and will not be reported to the IT Department.
@@ -121,7 +121,7 @@ export const RefundPolicy: React.FC = () => {
 
               <div>
                 <h2 style={{ fontSize: "1.5rem", color: "var(--color-primary)", marginBottom: "1rem" }}>5. Recurring Donation Plans</h2>
-                <p style={{ color: "var(--color-text-muted)" }}>
+                <p>
                   If you have signed up for a monthly or recurring donation program and wish to cancel it, you can do so at any time by contacting us at <strong>info@dayfoundation.in</strong>. Upon receipt of your cancellation request, all future automated transactions will be terminated within 3 working days. Past processed payments in the monthly cycle remain non-refundable.
                 </p>
               </div>

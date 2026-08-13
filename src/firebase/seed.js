@@ -351,12 +351,12 @@ async function seed() {
     const auth = getAuth(app);
     console.log("Authenticating admin...");
     try {
-      await signInWithEmailAndPassword(auth, "owner@dayfoundation.com", "DAY@19019");
+      await signInWithEmailAndPassword(auth, env.SEED_ADMIN_EMAIL, env.SEED_ADMIN_PASSWORD);
     } catch (e) {
       if (e.code === 'auth/user-not-found' || e.code === 'auth/invalid-credential') {
         console.log("Owner user not found or invalid credential, attempting to create...");
         try {
-          await createUserWithEmailAndPassword(auth, "owner@dayfoundation.com", "DAY@19019");
+          await createUserWithEmailAndPassword(auth, env.SEED_ADMIN_EMAIL, env.SEED_ADMIN_PASSWORD);
         } catch (createErr) {
           console.log("Owner creation failed:", createErr.message);
         }
@@ -368,12 +368,12 @@ async function seed() {
       if (!auth.currentUser) {
         console.log("Attempting fallback login...");
         try {
-          await signInWithEmailAndPassword(auth, "mrshahidbabu@dayfoundation.in", "Shahid@19019");
+          await signInWithEmailAndPassword(auth, env.SEED_ADMIN2_EMAIL, env.SEED_ADMIN2_PASSWORD);
         } catch (fallbackErr) {
           if (fallbackErr.code === 'auth/user-not-found' || fallbackErr.code === 'auth/invalid-credential') {
             console.log("Fallback user not found or invalid credential, attempting to create...");
             try {
-              await createUserWithEmailAndPassword(auth, "mrshahidbabu@dayfoundation.in", "Shahid@19019");
+              await createUserWithEmailAndPassword(auth, env.SEED_ADMIN2_EMAIL, env.SEED_ADMIN2_PASSWORD);
             } catch (createErr) {
               throw fallbackErr;
             }
@@ -462,12 +462,12 @@ async function seed() {
     console.log("Seeding admin accounts & security settings...");
     await set(ref(rtdb, "admins/owner@dayfoundation_com"), { role: "owner" });
     await set(ref(rtdb, "admins/mrshahidbabu@dayfoundation_in"), { role: "owner" });
-    await set(ref(rtdb, "settings/recycle_bin_password"), "DAY@19019");
+    await set(ref(rtdb, "settings/recycle_bin_password"), env.SEED_ADMIN_PASSWORD);
 
     try {
-      await setDoc(doc(db, "admins", "owner@dayfoundation.com"), { role: "owner" });
-      await setDoc(doc(db, "admins", "mrshahidbabu@dayfoundation.in"), { role: "owner" });
-      await setDoc(doc(db, "settings", "recycle_bin"), { password: "DAY@19019" });
+      await setDoc(doc(db, "admins", env.SEED_ADMIN_EMAIL), { role: "owner" });
+      await setDoc(doc(db, "admins", env.SEED_ADMIN2_EMAIL), { role: "owner" });
+      await setDoc(doc(db, "settings", "recycle_bin"), { password: env.SEED_ADMIN_PASSWORD });
     } catch (fsErr) {
       console.log("Firestore admin/settings rule warning (RTDB updated):", fsErr.message);
     }

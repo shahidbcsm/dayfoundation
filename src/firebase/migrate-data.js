@@ -52,8 +52,13 @@ const collections = [
 
 async function authenticate() {
   console.log("\n--- Authenticating Admin Users ---");
-  const email = "owner@dayfoundation.com";
-  const pass = "DAY@19019";
+  // SECURITY: credentials come from the environment — never hardcode them here.
+  // Run as: SEED_ADMIN_EMAIL=... SEED_ADMIN_PASSWORD=... node src/firebase/migrate-data.js
+  const email = process.env.SEED_ADMIN_EMAIL;
+  const pass = process.env.SEED_ADMIN_PASSWORD;
+  if (!email || !pass) {
+    throw new Error("SEED_ADMIN_EMAIL and SEED_ADMIN_PASSWORD must be set in the environment.");
+  }
   
   // Authenticate Old App
   try {

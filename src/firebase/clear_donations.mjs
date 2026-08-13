@@ -38,7 +38,7 @@ const db = getFirestore(app);
 const rtdb = getDatabase(app);
 
 // Authenticate as admin first
-await signInWithEmailAndPassword(auth, "owner@dayfoundation.com", "DAY@19019");
+await signInWithEmailAndPassword(auth, env.SEED_ADMIN_EMAIL, env.SEED_ADMIN_PASSWORD);
 console.log("Authenticated.");
 
 // Delete all donation documents from Firestore

@@ -78,7 +78,7 @@ export const Events: React.FC = () => {
                 <div className="blog-card-image" style={{ height: "190px", position: "relative" }}>
                   <img 
                     src={camp.image || 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&q=80&w=800'} 
-                    alt={camp.title}
+                    alt={camp.title ? String(camp.title) : "DAY Foundation Flagship Drive"}
                     onError={(ev) => { (ev.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&q=80&w=800'; }}
                     style={{ width: "100%", height: "100%", objectFit: "cover" }}
                   />
@@ -168,7 +168,7 @@ export const Events: React.FC = () => {
                       <div className="blog-card-image" style={{ height: "200px", position: "relative" }}>
                         <img
                           src={item.coverImage || 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800'}
-                          alt={item.title}
+                          alt={item.title ? String(item.title) : "DAY Foundation Welfare Campaign"}
                           onError={(ev) => { (ev.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800'; }}
                           style={{ width: "100%", height: "100%", objectFit: "cover" }}
                         />

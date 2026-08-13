@@ -74,20 +74,21 @@ export const useAuth = () => {
     setError(null);
     try {
       const normalizedInput = email.trim().toLowerCase();
-      const isOwnerCreds = normalizedInput === "owner@dayfoundation.com" && password === "DAY@19019";
 
       if (isMockEnabled) {
         await new Promise(resolve => setTimeout(resolve, 800)); // nice auth loader experience
-        const expectedUser = import.meta.env.VITE_ADMIN_USERNAME || (import.meta.env.DEV ? "mrshahidbabu" : "");
-        const expectedPass = import.meta.env.VITE_ADMIN_PASSWORD || (import.meta.env.DEV ? "Shahid@19019" : "");
+        // SECURITY: never hardcode credentials here — this module is bundled and
+        // served to the browser. Offline/mock login is opt-in via env vars only.
+        const expectedUser = (import.meta.env.VITE_ADMIN_USERNAME || "").trim().toLowerCase();
+        const expectedPass = import.meta.env.VITE_ADMIN_PASSWORD || "";
 
-        const isDefaultCreds = (expectedUser && expectedPass && 
-          (normalizedInput === expectedUser.trim().toLowerCase() || normalizedInput === `${expectedUser.trim().toLowerCase()}@dayfoundation.in`) &&
+        const isDefaultCreds = Boolean(expectedUser && expectedPass &&
+          (normalizedInput === expectedUser || normalizedInput === `${expectedUser}@dayfoundation.in`) &&
           password === expectedPass);
 
-        if (isOwnerCreds || isDefaultCreds) {
-          const mockUser = { 
-            email: isOwnerCreds ? "owner@dayfoundation.com" : `${expectedUser.trim().toLowerCase()}@dayfoundation.in`,
+        if (isDefaultCreds) {
+          const mockUser = {
+            email: normalizedInput.includes("@") ? normalizedInput : `${expectedUser}@dayfoundation.in`,
             role: "Super Admin"
           };
           sessionStorage.setItem("day_admin_session", JSON.stringify(mockUser));

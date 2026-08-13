@@ -9,6 +9,9 @@ import VolunteerInternPopup from "./components/VolunteerInternPopup";
 import { useScrollToTop } from "./hooks/useScrollToTop";
 import { useAutoSEO } from "./hooks/useAutoSEO";
 
+import CookieBanner from "./components/CookieBanner";
+import StickyMobileCTA from "./components/StickyMobileCTA";
+
 // Page View Imports
 import { lazy, Suspense } from "react";
 const HomeAlternative = lazy(() => import("./pages/HomeAlternative"));
@@ -29,6 +32,8 @@ const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const TermsConditions = lazy(() => import("./pages/TermsConditions"));
 const RefundPolicy = lazy(() => import("./pages/RefundPolicy"));
 const InternshipStatus = lazy(() => import("./pages/InternshipStatus"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const ThankYou = lazy(() => import("./pages/ThankYou"));
 
 // Styles
 import "./styles/index.css";
@@ -169,7 +174,12 @@ const AppContent: React.FC = () => {
       {/* Core viewports with glass page transitions */}
       <div style={{ flex: 1 }}>
         <AnimatePresence mode="wait">
-        <Suspense fallback={<div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "100vh", backgroundColor: "var(--color-bg-white)", color: "var(--color-primary)" }}><div className="skeleton-base" style={{ width: "40px", height: "40px", borderRadius: "50%" }}></div></div>}>
+        <Suspense fallback={
+          <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", minHeight: "80vh", gap: "1rem", backgroundColor: "var(--color-bg-white)", color: "var(--color-primary)" }}>
+            <img src="/logo.png" alt="DAY Foundation Loading" style={{ width: "54px", height: "54px", borderRadius: "50%", animation: "iconPulse 2s infinite ease-in-out" }} />
+            <span style={{ fontSize: "0.85rem", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--color-text-muted)" }}>Loading DAY Foundation...</span>
+          </div>
+        }>
           <motion.div
             key={location.pathname}
             variants={pageVariants}
@@ -192,6 +202,7 @@ const AppContent: React.FC = () => {
               <Route path="/internship" element={<Internship />} />
               <Route path="/donate" element={<Donate />} />
               <Route path="/donate/success" element={<DonateSuccess />} />
+              <Route path="/thank-you" element={<ThankYou />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/mrshahidbabu" element={<AdminDashboard />} />
               <Route path="/privacy" element={<PrivacyPolicy />} />
@@ -201,8 +212,8 @@ const AppContent: React.FC = () => {
               <Route path="/find-receipt" element={<InternshipStatus defaultTab="donation" />} />
               <Route path="/reprint-receipt" element={<InternshipStatus defaultTab="donation" />} />
               <Route path="/receipt" element={<InternshipStatus defaultTab="donation" />} />
-              {/* Fallback to home */}
-              <Route path="*" element={<HomeAlternative />} />
+              {/* Custom 404 Fallback */}
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </motion.div>
         </Suspense>
@@ -215,8 +226,14 @@ const AppContent: React.FC = () => {
       {/* Direct quick connect Floating WhatsApp CTA — hidden on admin panel */}
       {!isAdminRoute && <FloatingWhatsApp />}
 
+      {/* Sticky Mobile CTA Bar — hidden on admin panel */}
+      {!isAdminRoute && <StickyMobileCTA />}
+
       {/* Browser push notifications subscriber prompt — hidden on admin panel */}
       {!isAdminRoute && <NotificationPrompt />}
+
+      {/* Cookie consent banner — hidden on admin panel */}
+      {!isAdminRoute && <CookieBanner />}
 
       {/* Landing popup modal — hidden on admin panel */}
       {!isAdminRoute && <VolunteerInternPopup />}

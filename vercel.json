@@ -34,26 +34,29 @@
       ]
     }
   ],
-  "rewrites": [
+  "routes": [
     {
-      "source": "/api/send-email",
-      "destination": "/api/send-email.js"
+      "src": "/api/send-email",
+      "dest": "/api/send-email.js"
     },
     {
-      "source": "/api/send-push",
-      "destination": "/api/send-push.js"
+      "src": "/api/send-push",
+      "dest": "/api/send-push.js"
     },
     {
-      "source": "/api/seed",
-      "destination": "/api/seed.ts"
+      "src": "/api/seed",
+      "dest": "/api/seed.ts"
     },
     {
-      "source": "/api/:path*",
-      "destination": "/api/index.ts"
+      "src": "/api/(.*)",
+      "dest": "/api/index.ts"
     },
     {
-      "source": "/((?!api/).*)",
-      "destination": "/index.html"
+      "handle": "filesystem"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
   ]
 }

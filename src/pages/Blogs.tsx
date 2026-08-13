@@ -155,7 +155,7 @@ export const Blogs: React.FC = () => {
                       <div style={{ flex: "1 1 350px", height: "320px", borderRadius: "16px", overflow: "hidden" }}>
                         <img 
                           src={featuredBlog.coverImage} 
-                          alt={featuredBlog.title} 
+                          alt={featuredBlog.title ? String(featuredBlog.title) : "DAY Foundation Featured Story"} 
                           style={{ width: "100%", height: "100%", objectFit: "cover" }} 
                         />
                       </div>
@@ -200,7 +200,11 @@ export const Blogs: React.FC = () => {
                         transition={{ duration: 0.3 }}
                       >
                         <div className="blog-card-image">
-                          <img src={blog.coverImage} alt={blog.title} />
+                          <img 
+                            src={blog.coverImage} 
+                            alt={blog.title ? String(blog.title) : "DAY Foundation Story"} 
+                            onError={(e) => { (e.currentTarget as HTMLImageElement).src = 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=800'; }}
+                          />
                         </div>
                         <div className="blog-card-content">
                           <span className="blog-card-category">{blog.category}</span>
