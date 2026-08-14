@@ -10,7 +10,6 @@ import { useScrollToTop } from "./hooks/useScrollToTop";
 import { useAutoSEO } from "./hooks/useAutoSEO";
 
 import CookieBanner from "./components/CookieBanner";
-import StickyMobileCTA from "./components/StickyMobileCTA";
 
 // Page View Imports
 import { lazy, Suspense } from "react";
@@ -225,9 +224,6 @@ const AppContent: React.FC = () => {
 
       {/* Direct quick connect Floating WhatsApp CTA — hidden on admin panel */}
       {!isAdminRoute && <FloatingWhatsApp />}
-
-      {/* Sticky Mobile CTA Bar — hidden on admin panel */}
-      {!isAdminRoute && <StickyMobileCTA />}
 
       {/* Browser push notifications subscriber prompt — hidden on admin panel */}
       {!isAdminRoute && <NotificationPrompt />}

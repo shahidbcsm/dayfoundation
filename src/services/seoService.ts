@@ -3,7 +3,20 @@ export interface SEOMetadata {
   title: string;
   description: string;
   keywords: string;
+  /** Absolute or root-relative share image. Falls back to DEFAULT_OG_IMAGE. */
+  image?: string;
 }
+
+export const SITE_ORIGIN = "https://www.dayfoundation.in";
+
+/**
+ * Social share image. Must be 1200x630 — that is the ratio Facebook,
+ * LinkedIn, WhatsApp and X all crop to. A square logo gets centre-cropped
+ * and looks broken in feeds.
+ */
+export const DEFAULT_OG_IMAGE = `${SITE_ORIGIN}/og-image.jpg`;
+export const OG_IMAGE_WIDTH = "1200";
+export const OG_IMAGE_HEIGHT = "630";
 
 // Instant local fallback SEO mappings for SEO crawl efficiency
 export const fallbackSEOMap: Record<string, SEOMetadata> = {
